@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!--
+        自适应图标前景层 - 微光畅行品牌Logo
+        设计理念：
+        - 紫色渐变圆形背景：代表温暖与希望，契合"微光"品牌调性
+        - 光芒射线：从中心向外辐射，象征"光"的散发与照耀
+        - "光"字：白色描边字体，简洁现代，点明品牌核心
+        - 底部波纹弧线：代表声音/信号的无障碍传播，呼应面向视障+言语障碍人群的产品定位
+    -->
+
+    <!-- 1. 圆形渐变背景 - 径向渐变从中心淡紫向外缘深紫过渡 -->
+    <path
+        android:pathData="M54,54m-40,0a40,40 0,1 1,80 0a40,40 0,1 1,-80 0"
+        android:strokeWidth="0">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:type="radial"
+                android:centerX="54"
+                android:centerY="54"
+                android:gradientRadius="40">
+                <item
+                    android:offset="0.0"
+                    android:color="#FFB794FC"/>
+                <item
+                    android:offset="0.5"
+                    android:color="#FF8B6CD6"/>
+                <item
+                    android:offset="1.0"
+                    android:color="#FF6750A4"/>
+            </gradient>
+        </aapt:attr>
+    </path>
+
+    <!-- 2. 光芒射线 - 从中心向8个方向辐射，半透明白色，代表"光"的照耀 -->
+    <group>
+        <!-- 上 -->
+        <path
+            android:pathData="M54,16L54,28"
+            android:strokeWidth="1.8"
+            android:strokeColor="#66FFFFFF"
+            android:fillColor="@android:color/transparent"/>
+        <!-- 下 -->
+        <path
+            android:pathData="M54,92L54,80"
+            android:strokeWidth="1.8"
+            android:strokeColor="#66FFFFFF"
+            android:fillColor="@android:color/transparent"/>
+        <!-- 左 -->
+        <path
+            android:pathData="M16,54L28,54"
+            android:strokeWidth="1.8"
+            android:strokeColor="#66FFFFFF"
+            android:fillColor="@android:color/transparent"/>
+        <!-- 右 -->
+        <path
+            android:pathData="M92,54L80,54"
+            android:strokeWidth="1.8"
+            android:strokeColor="#66FFFFFF"
+            android:fillColor="@android:color/transparent"/>
+        <!-- 左上 -->
+        <path
+            android:pathData="M27,27L36,36"
+            android:strokeWidth="1.8"
+            android:strokeColor="#66FFFFFF"
+            android:fillColor="@android:color/transparent"/>
+        <!-- 右上 -->
+        <path
+            android:pathData="M81,27L72,36"
+            android:strokeWidth="1.8"
+            android:strokeColor="#66FFFFFF"
+            android:fillColor="@android:color/transparent"/>
+        <!-- 左下 -->
+        <path
+            android:pathData="M27,81L36,72"
+            android:strokeWidth="1.8"
+            android:strokeColor="#66FFFFFF"
+            android:fillColor="@android:color/transparent"/>
+        <!-- 右下 -->
+        <path
+            android:pathData="M81,81L72,72"
+            android:strokeWidth="1.8"
+            android:strokeColor="#66FFFFFF"
+            android:fillColor="@android:color/transparent"/>
+    </group>
+
+    <!-- 3. 短射线补充 - 在主要射线之间有4条较短的射线，丰富视觉效果 -->
+    <group>
+        <!-- 上偏左 -->
+        <path
+            android:pathData="M40,20L43,28"
+            android:strokeWidth="1.2"
+            android:strokeColor="#44FFFFFF"
+            android:fillColor="@android:color/transparent"/>
+        <!-- 上偏右 -->
+        <path
+            android:pathData="M68,20L65,28"
+            android:strokeWidth="1.2"
+            android:strokeColor="#44FFFFFF"
+            android:fillColor="@android:color/transparent"/>
+        <!-- 下偏左 -->
+        <path
+            android:pathData="M40,88L43,80"
+            android:strokeWidth="1.2"
+            android:strokeColor="#44FFFFFF"
+            android:fillColor="@android:color/transparent"/>
+        <!-- 下偏右 -->
+        <path
+            android:pathData="M68,88L65,80"
+            android:strokeWidth="1.2"
+            android:strokeColor="#44FFFFFF"
+            android:fillColor="@android:color/transparent"/>
+    </group>
+
+    <!-- 4. "光"字 - 白色描边，简洁现代书法风格 -->
+    <!-- 4a. 上部"⺌"的中间竖 -->
+    <path
+        android:pathData="M52,24L52,40"
+        android:strokeWidth="3.8"
+        android:strokeColor="#FFFFFF"
+        android:fillColor="@android:color/transparent"/>
+    <!-- 4b. 上部"⺌"的左点 -->
+    <path
+        android:pathData="M39,32L39,38"
+        android:strokeWidth="3.8"
+        android:strokeColor="#FFFFFF"
+        android:fillColor="@android:color/transparent"/>
+    <!-- 4c. 上部"⺌"的右撇点 -->
+    <path
+        android:pathData="M65,32L61,39"
+        android:strokeWidth="3.8"
+        android:strokeColor="#FFFFFF"
+        android:fillColor="@android:color/transparent"/>
+    <!-- 4d. 下部"儿"的左撇 -->
+    <path
+        android:pathData="M52,42Q44,50 32,62"
+        android:strokeWidth="3.8"
+        android:strokeColor="#FFFFFF"
+        android:fillColor="@android:color/transparent"/>
+    <!-- 4e. 下部"儿"的右竖弯钩 -->
+    <path
+        android:pathData="M52,42L58,42L58,56Q58,68 70,68L84,68"
+        android:strokeWidth="3.8"
+        android:strokeColor="#FFFFFF"
+        android:fillColor="@android:color/transparent"/>
+
+    <!-- 5. 无障碍波纹 - 底部三条弧线，代表声音/信号传播 -->
+    <group>
+        <!-- 内圈波纹 -->
+        <path
+            android:pathData="M40,74Q54,80 68,74"
+            android:strokeWidth="1.8"
+            android:strokeColor="#AAFFFFFF"
+            android:fillColor="@android:color/transparent"/>
+        <!-- 中圈波纹 -->
+        <path
+            android:pathData="M34,80Q54,88 74,80"
+            android:strokeWidth="1.8"
+            android:strokeColor="#88FFFFFF"
+            android:fillColor="@android:color/transparent"/>
+        <!-- 外圈波纹 -->
+        <path
+            android:pathData="M28,86Q54,96 80,86"
+            android:strokeWidth="1.8"
+            android:strokeColor="#66FFFFFF"
+            android:fillColor="@android:color/transparent"/>
+    </group>
+
+</vector>

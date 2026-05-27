@@ -1,0 +1,10 @@
+drug_id,generic_name,trade_name,approval_no,manufacturer,dosage_form,specification,category_name,pinyin_key,initials_key,search_tokens,source_tag,license_note
+1001,布洛芬缓释胶囊,芬必得,国药准字H10900089,中美天津史克制药有限公司,胶囊,0.3g,解热镇痛药,buluofen huanshi jiaonang,blfhsjn,布洛芬|芬必得|止痛药|退烧药,seed_demo,仅限比赛演示样本 不作为正式商用药品数据库授权证明
+1002,阿莫西林胶囊,阿莫仙,国药准字H44021351,珠海联邦制药股份有限公司中山分公司,胶囊,0.25g,抗生素,amoxilin jiaonang,amxljn,阿莫西林|阿莫仙|消炎药,seed_demo,仅限比赛演示样本 不作为正式商用药品数据库授权证明
+1003,盐酸二甲双胍片,格华止,国药准字H20023370,中美上海施贵宝制药有限公司,片剂,0.5g,降糖药,yansuan erjia shuanggua pian,ysejsgp,二甲双胍|格华止|糖尿病|降糖药,seed_demo,仅限比赛演示样本 不作为正式商用药品数据库授权证明
+1004,对乙酰氨基酚片,泰诺林,国药准字H00001004,演示样本制药有限公司,片剂,0.5g,解热镇痛药,duiyixiananjifen pian,dyxajfp,对乙酰氨基酚|扑热息痛|泰诺林|退烧药|止痛药,seed_demo,仅限比赛演示样本 不作为正式商用药品数据库授权证明
+1005,氯雷他定片,开瑞坦,国药准字H00001005,演示样本制药有限公司,片剂,10mg,抗过敏药,lvleitading pian,lltdp,氯雷他定|开瑞坦|过敏药|抗过敏|鼻炎药,seed_demo,仅限比赛演示样本 不作为正式商用药品数据库授权证明
+1006,蒙脱石散,思密达,国药准字H00001006,演示样本制药有限公司,散剂,3g,消化系统用药,mengtuoshi san,mtss,蒙脱石散|思密达|止泻药|腹泻药,seed_demo,仅限比赛演示样本 不作为正式商用药品数据库授权证明
+1007,氯沙坦钾片,科素亚,国药准字H00001007,演示样本制药有限公司,片剂,50mg,降压药,lvshatanjia pian,lstjp,氯沙坦钾|氯沙坦|科素亚|降压药|高血压药,seed_demo,仅限比赛演示样本 不作为正式商用药品数据库授权证明
+1008,硝苯地平控释片,拜新同,国药准字H00001008,演示样本制药有限公司,片剂,30mg,降压药,xiaobendiping kongshi pian,xbdpksp,硝苯地平控释片|硝苯地平|拜新同|降压药|高血压药,seed_demo,仅限比赛演示样本 不作为正式商用药品数据库授权证明
+1009,阿司匹林肠溶片,拜阿司匹灵,国药准字H00001009,演示样本制药有限公司,肠溶片,100mg,抗血小板药,asipilin changrong pian,aspcrp,阿司匹林肠溶片|阿司匹林|拜阿司匹灵|抗血小板|心脑血管,seed_demo,仅限比赛演示样本 不作为正式商用药品数据库授权证明

@@ -1,0 +1,10 @@
+mapping_id,drug_id,sign_keyword,sign_display_text,video_path,image_seq_path,spelling_mode,priority_no,enabled,updated_at
+1,1001,布洛芬,布洛芬 手语演示,assets://signs/buluofen.mp4,,word,1,1,1715817600
+2,1002,阿莫西林,阿莫西林 手语演示,assets://signs/amoxilin.mp4,,word,1,1,1715817600
+3,1003,二甲双胍,二甲双胍 手语演示,assets://signs/dimethylbiguanide.mp4,,word,1,1,1715817600
+4,1004,对乙酰氨基酚,对乙酰氨基酚 手语演示,assets://signs/duiyixiananjifen.mp4,,word,1,1,1715817600
+5,1005,氯雷他定,氯雷他定 手语演示,assets://signs/lvleitading.mp4,,word,1,1,1715817600
+6,1006,蒙脱石散,蒙脱石散 手语演示,assets://signs/mengtuoshi.mp4,,word,1,1,1715817600
+7,1007,氯沙坦,氯沙坦 手语演示,assets://signs/lvshatan.mp4,,word,1,1,1715817600
+8,1008,硝苯地平,硝苯地平 手语演示,assets://signs/xiaobendiping.mp4,,word,1,1,1715817600
+9,1009,阿司匹林,阿司匹林 手语演示,assets://signs/asipilin.mp4,,word,1,1,1715817600
