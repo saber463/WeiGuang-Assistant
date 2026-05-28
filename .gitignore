@@ -1,15 +1,21 @@
-*.iml
-.gradle
-/local.properties
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
-.DS_Store
-/build
-/captures
-.externalNativeBuild
-.cxx
-local.properties
+# Built APK/AAB  
+*.apk  
+*.aab  
+# Gradle  
+.gradle/  
+build/  
+# IDE  
+.idea/  
+*.iml  
+# Signing  
+*.jks  
+# Debug  
+.dbg/  
+# OS  
+Thumbs.db  
+Desktop.ini  
+# Python  
+__pycache__/  
+*.py[cod]  
+env/  
+venv/ 
