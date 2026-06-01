@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>微光畅行 — 吉祥物互动演示</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #D4893C;
+            --primary-dark: #B87530;
+            --primary-light: #F5E6CC;
+            --warm-bg: #FFFAF5;
+            --warm-dark: #3D2C1E;
+            --warm-gray: #6B5C4F;
+        }
+        body {
+            font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: var(--warm-bg);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+        }
+        .demo-container {
+            text-align: center;
+            padding: 40px 20px;
+        }
+        .demo-container h1 { font-weight: 700; color: var(--warm-dark); margin-bottom: 6px; }
+        .demo-container p { color: var(--warm-gray); margin-bottom: 30px; }
+
+        /* ─── Mascot Component ─── */
+        .mascot-wrapper {
+            position: fixed;
+            bottom: 30px;
+            right: 100px;
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .speech-bubble {
+            position: relative;
+            background: #fff;
+            border-radius: 20px;
+            padding: 16px 22px;
+            min-width: 220px;
+            max-width: 320px;
+            margin-bottom: 14px;
+            box-shadow: 0 6px 28px rgba(61, 44, 30, 0.1), 0 0 0 1px rgba(212, 137, 60, 0.08);
+            opacity: 0;
+            transform: translateY(10px) scale(0.96);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            pointer-events: none;
+            cursor: default;
+        }
+        .speech-bubble.show {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: auto;
+        }
+        .speech-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 12px solid transparent;
+            border-right: 12px solid transparent;
+            border-top: 12px solid #fff;
+            filter: drop-shadow(0 2px 2px rgba(61,44,30,0.04));
+        }
+        .speech-bubble .speech-text {
+            font-size: 0.92rem;
+            line-height: 1.6;
+            color: var(--warm-dark);
+            margin: 0;
+            text-align: center;
+        }
+        .speech-bubble .speech-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid rgba(212, 137, 60, 0.1);
+        }
+        .speech-bubble .speech-indicator {
+            font-size: 0.72rem;
+            color: var(--warm-gray);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .speech-bubble .speech-indicator .dot {
+            display: inline-block;
+            width: 5px; height: 5px;
+            border-radius: 50%;
+            background: var(--primary);
+            opacity: 0.3;
+            animation: typingDot 1.4s infinite;
+        }
+        .speech-bubble .speech-indicator .dot:nth-child(2) { animation-delay: 0.2s; }
+        .speech-bubble .speech-indicator .dot:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes typingDot {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.3); }
+        }
+        .speech-bubble .speech-nav {
+            display: flex;
+            gap: 6px;
+        }
+        .speech-bubble .speech-nav button {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            border: 1px solid rgba(212, 137, 60, 0.15);
+            background: var(--warm-bg);
+            color: var(--primary-dark);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            transition: all 0.25s;
+        }
+        .speech-bubble .speech-nav button:hover {
+            background: var(--primary-light);
+            border-color: var(--primary);
+        }
+
+        /* Mascot image container */
+        .mascot-body {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            cursor: pointer;
+            animation: mascotFloat 3s ease-in-out infinite;
+            filter: drop-shadow(0 4px 12px rgba(61, 44, 30, 0.12));
+            transition: filter 0.3s;
+        }
+        .mascot-body:hover {
+            filter: drop-shadow(0 8px 24px rgba(212, 137, 60, 0.25));
+            animation-duration: 2s;
+        }
+        .mascot-body:active { animation: mascotBounce 0.4s ease; }
+        .mascot-body img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.6);
+            box-shadow: 0 4px 20px rgba(61, 44, 30, 0.08);
+            transition: transform 0.3s;
+        }
+        .mascot-body img:hover { transform: scale(1.05); }
+
+        /* Mascot glow ring */
+        .mascot-glow {
+            position: absolute;
+            inset: -6px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(212,137,60,0.15), rgba(193,112,74,0.08));
+            z-index: -1;
+            animation: glowPulse 3s ease-in-out infinite;
+        }
+        @keyframes glowPulse {
+            0%, 100% { opacity: 0.5; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.06); }
+        }
+
+        /* Floating animation */
+        @keyframes mascotFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        @keyframes mascotBounce {
+            0% { transform: scale(1); }
+            30% { transform: scale(0.92); }
+            60% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* Click ripple effect */
+        .mascot-ripple {
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            border: 2px solid var(--primary);
+            opacity: 0;
+            pointer-events: none;
+        }
+        .mascot-ripple.active {
+            animation: rippleOut 0.6s ease-out;
+        }
+        @keyframes rippleOut {
+            0% { transform: scale(1); opacity: 0.5; }
+            100% { transform: scale(1.5); opacity: 0; }
+        }
+
+        /* Mascot emotion badges */
+        .mascot-emotion {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            width: 32px;
+            height: 32px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            box-shadow: 0 2px 8px rgba(212, 137, 60, 0.3);
+            opacity: 0;
+            transform: scale(0);
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .mascot-emotion.show {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Category badges */
+        .speech-category {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 999px;
+            font-size: 0.65rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+        .speech-category.welcome { background: #dcfce7; color: #166534; }
+        .speech-category.feature { background: #dbeafe; color: #1e40af; }
+        .speech-category.care { background: #fce7f3; color: #9d174d; }
+        .speech-category.tech { background: #fef3c7; color: #92400e; }
+        .speech-category.download { background: #ede9fe; color: #5b21b6; }
+
+        /* Integration guide */
+        .guide-box {
+            background: #fff;
+            border-radius: 20px;
+            padding: 36px;
+            max-width: 700px;
+            margin: 0 auto;
+            box-shadow: 0 8px 32px rgba(61,44,30,0.06);
+            text-align: left;
+        }
+        .guide-box h5 { font-weight: 700; color: var(--warm-dark); margin-bottom: 12px; }
+        .guide-box code {
+            display: block;
+            background: #f5f5f5;
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            color: var(--warm-dark);
+            margin: 8px 0;
+            overflow-x: auto;
+        }
+        .guide-box .step { display: flex; gap: 12px; margin-bottom: 16px; align-items: flex-start; }
+        .guide-box .step-num {
+            width: 28px;
+            height: 28px;
+            background: var(--primary-light);
+            color: var(--primary-dark);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.85rem;
+            flex-shrink: 0;
+        }
+
+        /* Notification dot */
+        .mascot-notification {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            width: 14px;
+            height: 14px;
+            background: #ef4444;
+            border-radius: 50%;
+            border: 2px solid #fff;
+            animation: notifPulse 2s infinite;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .mascot-notification.show { opacity: 1; }
+        @keyframes notifPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
+
+        @media (max-width: 768px) {
+            .mascot-wrapper { right: 20px; bottom: 20px; }
+            .speech-bubble { min-width: 180px; max-width: 260px; padding: 12px 16px; font-size: 0.85rem; }
+            .mascot-body { width: 90px; height: 90px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="demo-container">
+    <h1>🤖 微光畅行 · 吉祥物互动组件</h1>
+    <p>底部会动的吉祥物就是啦！点击它试试 👇</p>
+
+    <div class="guide-box" style="margin-top: 360px;">
+        <h5>📖 如何在网页中集成</h5>
+        <div class="step">
+            <div class="step-num">1</div>
+            <div><strong>复制图片</strong> — 把 <code>吉祥物.png</code> 放到网页同目录</div>
+        </div>
+        <div class="step">
+            <div class="step-num">2</div>
+            <div><strong>粘贴代码</strong> — 把下方 HTML 插入到 <code>&lt;body&gt;</code> 末尾</div>
+        </div>
+        <div class="step">
+            <div class="step-num">3</div>
+            <div><strong>粘贴 CSS</strong> — 把样式合并到您的 <code>&lt;style&gt;</code> 中</div>
+        </div>
+        <div class="step">
+            <div class="step-num">4</div>
+            <div><strong>粘贴 JS</strong> — 把脚本插到 <code>&lt;script&gt;</code> 区域</div>
+        </div>
+    </div>
+</div>
+
+<!-- ════════════════════════════════════════════ -->
+<!--  ███ 吉祥物组件 — 复制这段到您的网页即可 ███  -->
+<!-- ════════════════════════════════════════════ -->
+<div class="mascot-wrapper" id="mascotWrapper">
+    <div class="speech-bubble" id="speechBubble">
+        <span class="speech-category welcome" id="speechCategory">欢迎</span>
+        <p class="speech-text" id="speechText">欢迎来到微光畅行！我是你的小助手 🌟</p>
+        <div class="speech-actions">
+            <div class="speech-indicator">
+                <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+            </div>
+            <div class="speech-nav">
+                <button id="speechPrev" title="上一条"><i class="bi bi-chevron-left"></i></button>
+                <button id="speechNext" title="下一条"><i class="bi bi-chevron-right"></i></button>
+                <button id="speechClose" title="关闭" style="border-color:rgba(239,68,68,0.2);"><i class="bi bi-x" style="color:#ef4444;"></i></button>
+            </div>
+        </div>
+    </div>
+    <div class="mascot-body" id="mascotBody">
+        <div class="mascot-glow"></div>
+        <div class="mascot-ripple" id="mascotRipple"></div>
+        <span class="mascot-emotion" id="mascotEmotion">🌟</span>
+        <span class="mascot-notification" id="mascotNotif"></span>
+        <img src="吉祥物.png" alt="微光畅行吉祥物">
+    </div>
+</div>
+
+<!-- ════════════════════════════════ -->
+<!--  脚本放在 body 末尾             -->
+<!-- ════════════════════════════════ -->
+<script>
+    (function() {
+        // 对话模板库 - 可随意增删改
+        var dialogTemplates = [
+            // 欢迎类
+            { text: "欢迎来到微光畅行！我是你的无障碍出行小助手 🌟", cat: "welcome", label: "欢迎", emoji: "🌟" },
+            { text: "你好呀！有什么我可以帮你的吗？😊", cat: "welcome", label: "欢迎", emoji: "😊" },
+            // 功能推荐
+            { text: "想了解手语翻译功能吗？支持 117 条高频短语哦 🤟", cat: "feature", label: "功能推荐", emoji: "🤟" },
+            { text: "出门前别忘了试试公交报站，到站自动振动提醒 🚌", cat: "feature", label: "功能推荐", emoji: "🚌" },
+            { text: "买药时打开药品识别，扫一扫药盒就知道能不能吃 💊", cat: "feature", label: "功能推荐", emoji: "💊" },
+            { text: "遇到紧急情况别慌！一键 SOS 会发送位置给紧急联系人 🆘", cat: "feature", label: "功能推荐", emoji: "🆘" },
+            // 关怀类
+            { text: "出门注意安全，记得带上我哦 ❤️", cat: "care", label: "暖心关怀", emoji: "❤️" },
+            { text: "今天天气不错，适合出去走走 🌤️", cat: "care", label: "暖心关怀", emoji: "🌤️" },
+            { text: "累了就歇一歇，我随时在这里陪着你 ☕", cat: "care", label: "暖心关怀", emoji: "☕" },
+            // 技术介绍
+            { text: "我用到了 MediaPipe 手部追踪技术，21个关键点实时识别 ✨", cat: "tech", label: "技术介绍", emoji: "✨" },
+            { text: "所有功能都支持离线使用，没网络也不怕 📡", cat: "tech", label: "技术介绍", emoji: "📡" },
+            { text: "Android 5.0 以上都能用，覆盖了绝大多数手机 📱", cat: "tech", label: "技术介绍", emoji: "📱" },
+            // 下载引导
+            { text: "扫码下载 App，让我随时陪在你身边 📥", cat: "download", label: "下载引导", emoji: "📥" },
+        ];
+
+        var currentIndex = 0;
+        var autoTimer = null;
+        var isVisible = true;
+
+        var bubble = document.getElementById('speechBubble');
+        var textEl = document.getElementById('speechText');
+        var catEl = document.getElementById('speechCategory');
+        var emotionEl = document.getElementById('mascotEmotion');
+        var notifEl = document.getElementById('mascotNotif');
+        var rippleEl = document.getElementById('mascotRipple');
+        var mascotBody = document.getElementById('mascotBody');
+
+        function showDialog(index, auto) {
+            var d = dialogTemplates[index];
+            if (!d) return;
+            textEl.textContent = d.text;
+            catEl.textContent = d.label;
+            catEl.className = 'speech-category ' + d.cat;
+            emotionEl.textContent = d.emoji;
+            emotionEl.className = 'mascot-emotion show';
+            if (auto) notifEl.classList.add('show');
+            else notifEl.classList.remove('show');
+            bubble.classList.add('show');
+            clearTimeout(emotionEl._timer);
+            emotionEl._timer = setTimeout(function() { emotionEl.className = 'mascot-emotion'; }, 2000);
+            if (auto) {
+                clearTimeout(bubble._autoHide);
+                bubble._autoHide = setTimeout(function() {
+                    if (bubble.classList.contains('show')) bubble.classList.remove('show');
+                    notifEl.classList.remove('show');
+                }, 6000);
+            }
+        }
+
+        function nextDialog(auto) {
+            currentIndex = (currentIndex + 1) % dialogTemplates.length;
+            showDialog(currentIndex, auto || false);
+        }
+
+        function prevDialog() {
+            currentIndex = (currentIndex - 1 + dialogTemplates.length) % dialogTemplates.length;
+            showDialog(currentIndex, false);
+        }
+
+        function hideDialog() {
+            bubble.classList.remove('show');
+            notifEl.classList.remove('show');
+        }
+
+        // 点击吉祥物
+        mascotBody.addEventListener('click', function(e) {
+            e.stopPropagation();
+            // 点击波纹
+            rippleEl.className = 'mascot-ripple';
+            void rippleEl.offsetWidth;
+            rippleEl.classList.add('active');
+            setTimeout(function() { rippleEl.className = 'mascot-ripple'; }, 600);
+            // 如果气泡在显示，切下一条；否则显示当前
+            if (bubble.classList.contains('show')) {
+                nextDialog(false);
+            } else {
+                showDialog(currentIndex, false);
+            }
+            // 重置自动轮播
+            resetAutoTimer();
+        });
+
+        // 导航按钮
+        document.getElementById('speechNext').addEventListener('click', function(e) { e.stopPropagation(); nextDialog(false); resetAutoTimer(); });
+        document.getElementById('speechPrev').addEventListener('click', function(e) { e.stopPropagation(); prevDialog(); resetAutoTimer(); });
+        document.getElementById('speechClose').addEventListener('click', function(e) { e.stopPropagation(); hideDialog(); resetAutoTimer(); });
+
+        // 点击气泡内部不关闭
+        bubble.addEventListener('click', function(e) { e.stopPropagation(); });
+
+        // 点击页面其他地方关闭气泡
+        document.addEventListener('click', function() {
+            if (bubble.classList.contains('show')) {
+                hideDialog();
+            }
+        });
+
+        // 自动轮播
+        function resetAutoTimer() {
+            clearInterval(autoTimer);
+            autoTimer = setInterval(function() {
+                if (document.visibilityState === 'visible') {
+                    nextDialog(true);
+                }
+            }, 12000);
+        }
+        resetAutoTimer();
+
+        // 首次进入：延迟3秒弹出欢迎
+        setTimeout(function() {
+            showDialog(0, true);
+        }, 2000);
+
+        // 页面可见性变化时自动暂停恢复
+        document.addEventListener('visibilitychange', function() {
+            if (document.hidden) {
+                clearInterval(autoTimer);
+            } else {
+                resetAutoTimer();
+            }
+        });
+
+        // 窗口关闭或刷新时清理
+        window.addEventListener('beforeunload', function() {
+            clearInterval(autoTimer);
+        });
+    })();
+</script>
+
+</body>
+</html>

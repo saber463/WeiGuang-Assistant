@@ -1,0 +1,1440 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>微光畅行 — 无障碍智能沟通助手</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #D4893C;
+            --primary-dark: #B87530;
+            --primary-light: #F5E6CC;
+            --accent: #C1704A;
+            --warm-bg: #FFFAF5;
+            --warm-dark: #3D2C1E;
+            --warm-gray: #6B5C4F;
+            --gradient-warm: linear-gradient(135deg, #FFFAF5 0%, #F5E6CC 50%, #EDD9B5 100%);
+            --gradient-button: linear-gradient(135deg, #D4893C 0%, #C1704A 100%);
+            --shadow-warm: 0 8px 32px rgba(212, 137, 60, 0.16);
+            --shadow-strong: 0 12px 48px rgba(212, 137, 60, 0.22);
+            --radius-card: 20px;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: var(--warm-bg);
+            color: var(--warm-dark);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+        ::selection { background: var(--primary); color: #fff; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--warm-bg); }
+        ::-webkit-scrollbar-thumb { background: var(--primary-light); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
+
+        /* ─── Navbar ─── */
+        .navbar {
+            background: rgba(255, 250, 245, 0.88);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border-bottom: 1px solid rgba(212, 137, 60, 0.06);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .navbar.scrolled { background: rgba(255, 250, 245, 0.96); box-shadow: 0 4px 30px rgba(61, 44, 30, 0.08); }
+        .navbar-brand {
+            font-weight: 800;
+            font-size: 1.35rem;
+            color: var(--primary-dark) !important;
+            letter-spacing: -0.3px;
+            transition: transform 0.3s;
+        }
+        .navbar-brand:hover { transform: scale(1.03); }
+        .navbar-brand .brand-icon {
+            display: inline-flex;
+            width: 34px;
+            height: 34px;
+            background: var(--gradient-button);
+            border-radius: 9px;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            color: #fff;
+            font-size: 1rem;
+            box-shadow: 0 3px 10px rgba(212, 137, 60, 0.25);
+        }
+        .nav-link {
+            color: var(--warm-gray) !important;
+            font-weight: 550;
+            font-size: 0.92rem;
+            padding: 0.5rem 1.1rem !important;
+            position: relative;
+            transition: color 0.3s;
+            border-radius: 8px;
+        }
+        .nav-link:hover, .nav-link.active { color: var(--primary-dark) !important; background: rgba(212, 137, 60, 0.06); }
+        .navbar .btn-download-nav {
+            padding: 8px 22px;
+            border-radius: 999px;
+            background: var(--gradient-button);
+            color: #fff !important;
+            font-weight: 600;
+            font-size: 0.88rem;
+            box-shadow: 0 4px 14px rgba(212, 137, 60, 0.2);
+            transition: all 0.3s;
+        }
+        .navbar .btn-download-nav:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(212, 137, 60, 0.3); }
+
+        /* ─── Floating Particles ─── */
+        .particles {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        .particle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: rgba(212, 137, 60, 0.12);
+            border-radius: 50%;
+            animation: floatParticle 12s infinite ease-in-out;
+        }
+        .particle:nth-child(1) { left: 10%; top: 20%; animation-delay: 0s; width: 8px; height: 8px; }
+        .particle:nth-child(2) { left: 25%; top: 60%; animation-delay: 2s; }
+        .particle:nth-child(3) { left: 45%; top: 10%; animation-delay: 4s; width: 10px; height: 10px; }
+        .particle:nth-child(4) { left: 65%; top: 50%; animation-delay: 1s; }
+        .particle:nth-child(5) { left: 80%; top: 30%; animation-delay: 3s; width: 7px; height: 7px; }
+        .particle:nth-child(6) { left: 90%; top: 70%; animation-delay: 5s; }
+        .particle:nth-child(7) { left: 35%; top: 80%; animation-delay: 2.5s; width: 5px; height: 5px; }
+        .particle:nth-child(8) { left: 55%; top: 40%; animation-delay: 3.5s; }
+        @keyframes floatParticle {
+            0%, 100% { transform: translateY(0) scale(1); opacity: 0.4; }
+            50% { transform: translateY(-60px) scale(1.6); opacity: 1; }
+        }
+
+        /* ─── Hero ─── */
+        .hero {
+            min-height: 96vh;
+            display: flex;
+            align-items: center;
+            background: var(--gradient-warm);
+            position: relative;
+            overflow: hidden;
+            padding-top: 80px;
+        }
+        .hero-glow {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            pointer-events: none;
+        }
+        .hero-glow.g1 {
+            width: 500px; height: 500px;
+            background: rgba(212, 137, 60, 0.07);
+            top: -100px; right: -100px;
+            animation: glowFloat 10s ease-in-out infinite;
+        }
+        .hero-glow.g2 {
+            width: 400px; height: 400px;
+            background: rgba(193, 112, 74, 0.05);
+            bottom: -150px; left: -100px;
+            animation: glowFloat 12s ease-in-out infinite reverse;
+        }
+        .hero-glow.g3 {
+            width: 300px; height: 300px;
+            background: rgba(245, 230, 204, 0.4);
+            top: 40%; left: 50%;
+            transform: translate(-50%, -50%);
+            animation: glowFloat 8s ease-in-out infinite;
+        }
+        @keyframes glowFloat {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(30px, -20px) scale(1.08); }
+        }
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 18px;
+            background: rgba(212, 137, 60, 0.12);
+            color: var(--primary-dark);
+            border-radius: 999px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            margin-bottom: 1.4rem;
+            border: 1px solid rgba(212, 137, 60, 0.12);
+            opacity: 0;
+            animation: fadeUp 0.7s 0.15s forwards;
+        }
+        .hero h1 {
+            font-size: clamp(2.4rem, 5.5vw, 3.8rem);
+            font-weight: 800;
+            line-height: 1.15;
+            color: var(--warm-dark);
+            opacity: 0;
+            animation: fadeUp 0.7s 0.3s forwards;
+        }
+        .hero h1 .gradient-text {
+            background: var(--gradient-button);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero p {
+            font-size: 1.12rem;
+            color: var(--warm-gray);
+            max-width: 560px;
+            line-height: 1.75;
+            opacity: 0;
+            animation: fadeUp 0.7s 0.45s forwards;
+        }
+        .hero-actions {
+            opacity: 0;
+            animation: fadeUp 0.7s 0.6s forwards;
+        }
+        .hero-actions .btn {
+            padding: 15px 34px;
+            border-radius: 999px;
+            font-weight: 650;
+            font-size: 1rem;
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+        .btn-primary-custom {
+            background: var(--gradient-button);
+            border: none;
+            color: #fff;
+            box-shadow: var(--shadow-warm);
+        }
+        .btn-primary-custom:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-strong);
+            color: #fff;
+        }
+        .btn-primary-custom:active { transform: translateY(0); }
+        .btn-outline-custom {
+            border: 2px solid var(--primary);
+            color: var(--primary-dark);
+            background: transparent;
+        }
+        .btn-outline-custom:hover {
+            background: var(--primary-light);
+            color: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-warm);
+        }
+        .hero-status {
+            opacity: 0;
+            animation: fadeUp 0.7s 0.75s forwards;
+        }
+        .hero-phone {
+            opacity: 0;
+            animation: fadeUp 0.9s 0.5s forwards;
+        }
+        .hero-phone .phone-frame {
+            width: 280px;
+            height: 560px;
+            background: linear-gradient(160deg, #3D2C1E, #5C3A21);
+            border-radius: 40px;
+            padding: 12px;
+            box-shadow: 0 24px 64px rgba(61, 44, 30, 0.18), 0 0 0 1px rgba(255, 255, 255, 0.06);
+            position: relative;
+            margin: 0 auto;
+        }
+        .hero-phone .phone-screen {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, #FFFAF5, #F5E6CC);
+            border-radius: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 24px 20px;
+            text-align: center;
+            overflow: hidden;
+            position: relative;
+        }
+        .phone-screen .app-icon {
+            width: 68px;
+            height: 68px;
+            background: var(--gradient-button);
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 14px;
+            box-shadow: 0 6px 20px rgba(212, 137, 60, 0.3);
+        }
+        .phone-screen .app-icon i { font-size: 1.8rem; color: #fff; }
+        .phone-screen .phone-title { font-weight: 700; color: var(--warm-dark); margin-bottom: 2px; }
+        .phone-screen .phone-sub { font-size: 0.78rem; color: var(--warm-gray); margin-bottom: 14px; }
+        .phone-screen .phone-features {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5px;
+            width: 100%;
+        }
+        .phone-screen .phone-features span {
+            font-size: 0.68rem;
+            padding: 5px 6px;
+            background: rgba(212, 137, 60, 0.08);
+            border-radius: 8px;
+            color: var(--primary-dark);
+            font-weight: 550;
+            transition: background 0.3s;
+        }
+        .phone-screen .phone-features span:hover { background: rgba(212, 137, 60, 0.18); }
+        .phone-notch {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90px;
+            height: 20px;
+            background: #3D2C1E;
+            border-radius: 0 0 12px 12px;
+        }
+        .pulse-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #22c55e;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(0.85); } }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(28px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ─── Sections ─── */
+        section { padding: 90px 0; }
+        .section-tag {
+            display: inline-block;
+            padding: 5px 18px;
+            background: rgba(212, 137, 60, 0.1);
+            color: var(--primary-dark);
+            border-radius: 999px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+            margin-bottom: 0.8rem;
+            border: 1px solid rgba(212, 137, 60, 0.1);
+        }
+        .section-title {
+            font-weight: 750;
+            font-size: clamp(1.7rem, 3.2vw, 2.3rem);
+            color: var(--warm-dark);
+            letter-spacing: -0.5px;
+        }
+        .section-subtitle {
+            color: var(--warm-gray);
+            font-size: 1.05rem;
+            max-width: 620px;
+            line-height: 1.7;
+        }
+
+        /* ─── Tech Cards ─── */
+        .tech-card {
+            background: #fff;
+            border-radius: var(--radius-card);
+            padding: 30px 24px 40px;
+            border: 1px solid rgba(212, 137, 60, 0.06);
+            box-shadow: 0 4px 20px rgba(61, 44, 30, 0.04);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            height: 100%;
+            position: relative;
+            cursor: pointer;
+        }
+        .tech-card::after {
+            content: '💡 点击查看原理';
+            position: absolute;
+            bottom: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.7rem;
+            color: var(--primary);
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .tech-card:hover::after { opacity: 1; }
+        @media (max-width: 576px) { .tech-card::after { display: none; } }
+        .tech-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-warm);
+            border-color: var(--primary-light);
+        }
+        .tech-icon-box {
+            width: 54px;
+            height: 54px;
+            background: var(--primary-light);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+            transition: all 0.4s;
+        }
+        .tech-card:hover .tech-icon-box { background: var(--primary); }
+        .tech-icon-box i { font-size: 1.5rem; color: var(--primary); transition: color 0.4s; }
+        .tech-card:hover .tech-icon-box i { color: #fff; }
+        .tech-card h6 { font-weight: 700; font-size: 0.98rem; }
+        .tech-card p { font-size: 0.85rem; color: var(--warm-gray); margin-bottom: 0; line-height: 1.6; }
+
+        /* ─── Feature Cards ─── */
+        .feature-card {
+            background: #fff;
+            border-radius: var(--radius-card);
+            padding: 26px 22px;
+            border: 1px solid rgba(212, 137, 60, 0.05);
+            box-shadow: 0 4px 16px rgba(61, 44, 30, 0.03);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+            cursor: default;
+        }
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: var(--gradient-button);
+            transform: scaleX(0);
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-origin: left;
+        }
+        .feature-card:hover::before { transform: scaleX(1); }
+        .feature-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-warm);
+        }
+        .feature-card .feat-icon { font-size: 2rem; margin-bottom: 10px; display: block; }
+        .feature-card h6 { font-weight: 700; font-size: 0.93rem; }
+        .feature-card p { font-size: 0.82rem; color: var(--warm-gray); margin-bottom: 10px; line-height: 1.55; }
+        .feature-card .status-badge {
+            display: inline-block;
+            padding: 3px 12px;
+            border-radius: 999px;
+            font-size: 0.7rem;
+            font-weight: 650;
+        }
+        .status-badge.online { background: #dcfce7; color: #166534; }
+        .status-badge.soon { background: #fef9c3; color: #854d0e; }
+
+        /* ─── Architecture ─── */
+        .arch-section { background: linear-gradient(180deg, #fff 0%, var(--warm-bg) 100%); }
+        .arch-layer {
+            background: #fff;
+            border-radius: 18px;
+            padding: 24px;
+            border: 1px solid rgba(212, 137, 60, 0.08);
+            box-shadow: 0 4px 16px rgba(61, 44, 30, 0.04);
+            transition: all 0.35s;
+        }
+        .arch-layer:hover { border-color: var(--primary-light); box-shadow: var(--shadow-warm); transform: translateY(-2px); }
+        .arch-layer .layer-label { font-size: 0.88rem; font-weight: 700; color: var(--primary-dark); margin-bottom: 12px; letter-spacing: 0.2px; }
+        .arch-layer .layer-items { display: flex; flex-wrap: wrap; gap: 7px; }
+        .arch-layer .layer-items span {
+            padding: 5px 14px;
+            background: var(--primary-light);
+            border-radius: 999px;
+            font-size: 0.78rem;
+            font-weight: 530;
+            color: var(--warm-dark);
+            transition: all 0.3s;
+        }
+        .arch-layer .layer-items span:hover { background: var(--primary); color: #fff; }
+        .arch-arrow { text-align: center; padding: 4px 0; color: var(--primary); font-size: 1.3rem; opacity: 0.6; }
+
+        /* ─── Stats ─── */
+        .stats-section {
+            background: linear-gradient(135deg, #2C1F14 0%, #3D2C1E 50%, #5C3A21 100%);
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+        .stats-section::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle at 30% 50%, rgba(212, 137, 60, 0.04) 0%, transparent 50%);
+            animation: statGlow 12s ease-in-out infinite;
+        }
+        @keyframes statGlow { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(5%, 5%); } }
+        .stats-section .stat-item { position: relative; z-index: 1; padding: 20px 0; }
+        .stats-section .stat-icon { font-size: 2rem; color: var(--primary); margin-bottom: 10px; }
+        .stats-section .stat-number { font-size: clamp(2.2rem, 4vw, 3.2rem); font-weight: 800; color: #fff; line-height: 1.1; }
+        .stats-section .stat-label { color: rgba(255, 255, 255, 0.65); font-size: 0.92rem; font-weight: 450; margin-top: 4px; }
+        .stats-section .stat-divider { width: 30px; height: 2px; background: var(--primary); margin: 8px auto; border-radius: 2px; }
+
+        /* ─── Download ─── */
+        .download-section { background: #fff; padding-bottom: 100px; }
+        .download-card {
+            background: var(--gradient-warm);
+            border-radius: 28px;
+            padding: 52px 48px;
+            border: 1px solid rgba(212, 137, 60, 0.1);
+            box-shadow: 0 12px 48px rgba(212, 137, 60, 0.08);
+            position: relative;
+            overflow: hidden;
+        }
+        .download-card::before {
+            content: '';
+            position: absolute;
+            top: -100px; right: -100px;
+            width: 300px; height: 300px;
+            background: radial-gradient(circle, rgba(212, 137, 60, 0.05), transparent 70%);
+            border-radius: 50%;
+        }
+        .qr-wrap {
+            width: 210px;
+            margin: 0 auto;
+            position: relative;
+        }
+        .qr-box {
+            width: 210px;
+            height: 210px;
+            background: #fff;
+            border-radius: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 32px rgba(61, 44, 30, 0.06), 0 0 0 1px rgba(212, 137, 60, 0.06);
+            transition: all 0.4s;
+            position: relative;
+        }
+        .qr-box::after {
+            content: '';
+            position: absolute;
+            inset: -3px;
+            border-radius: 26px;
+            background: linear-gradient(135deg, rgba(212,137,60,0.1), transparent, rgba(193,112,74,0.1));
+            z-index: -1;
+            animation: qrGlow 3s ease-in-out infinite;
+        }
+        @keyframes qrGlow { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
+        .qr-box:hover { transform: scale(1.03); box-shadow: 0 12px 40px rgba(61, 44, 30, 0.1); }
+        .qr-box img, .qr-box .qr-fallback { width: 180px; height: 180px; border-radius: 12px; }
+        .qr-scan-line {
+            width: 160px;
+            height: 2px;
+            background: var(--gradient-button);
+            border-radius: 2px;
+            position: absolute;
+            top: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0.4;
+            animation: scanLine 3s ease-in-out infinite;
+            pointer-events: none;
+        }
+        @keyframes scanLine {
+            0%, 100% { top: 15px; opacity: 0.3; }
+            50% { top: 180px; opacity: 0.6; }
+        }
+        .qr-note { font-size: 0.82rem; color: var(--warm-gray); margin-top: 12px; font-weight: 500; }
+        .download-info h4 { font-weight: 750; font-size: 1.5rem; }
+        .download-info .check-item { font-size: 0.88rem; color: var(--warm-gray); display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+
+        /* ─── Footer ─── */
+        footer {
+            background: #2C1F14;
+            color: rgba(255, 255, 255, 0.65);
+            padding: 50px 0 28px;
+        }
+        footer h6 { color: #fff; font-weight: 650; font-size: 0.88rem; margin-bottom: 16px; letter-spacing: 0.2px; }
+        footer a { color: rgba(255, 255, 255, 0.55); text-decoration: none; font-size: 0.88rem; transition: all 0.3s; display: inline-block; }
+        footer a:hover { color: var(--primary); transform: translateX(3px); }
+        footer .footer-link-item { margin-bottom: 8px; }
+        footer .social-icons { display: flex; gap: 10px; }
+        footer .social-icons a {
+            display: inline-flex;
+            width: 42px;
+            height: 42px;
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 50%;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            transition: all 0.35s;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+        }
+        footer .social-icons a:hover {
+            background: var(--primary);
+            color: #fff;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(212, 137, 60, 0.3);
+        }
+        footer hr { border-color: rgba(255, 255, 255, 0.06); margin: 24px 0; }
+
+        /* ─── Utility ─── */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 48px;
+            height: 48px;
+            background: var(--gradient-button);
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 999;
+            box-shadow: var(--shadow-warm);
+        }
+        .back-to-top.show { opacity: 1; visibility: visible; }
+        .back-to-top:hover { transform: translateY(-4px); box-shadow: var(--shadow-strong); }
+        .reveal { opacity: 0; transform: translateY(35px); transition: all 0.75s cubic-bezier(0.4, 0, 0.2, 1); }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        @media (max-width: 992px) {
+            .hero { min-height: auto; padding: 120px 0 60px; }
+            .hero-phone .phone-frame { width: 220px; height: 440px; margin-top: 30px; }
+            .phone-screen .phone-features span { font-size: 0.6rem; padding: 4px; }
+        }
+        @media (max-width: 768px) {
+            section { padding: 60px 0; }
+            .download-card { padding: 30px 20px; border-radius: 20px; }
+            .qr-wrap { width: 170px; }
+            .qr-box { width: 170px; height: 170px; }
+            .qr-box img, .qr-box .qr-fallback { width: 150px; height: 150px; }
+            @keyframes scanLine { 0%, 100% { top: 12px; } 50% { top: 145px; } }
+        }
+        @media (max-width: 576px) {
+            .hero h1 { font-size: 1.9rem; }
+            .btn-download-nav { display: none !important; }
+        }
+
+        /* ─── Mascot Component (无对话,纯吉祥物) ─── */
+        .mascot-wrapper {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 999;
+        }
+        .mascot-body {
+            width: 80px;
+            height: 80px;
+            cursor: pointer;
+            animation: mascotFloat 3s ease-in-out infinite;
+            filter: drop-shadow(0 4px 12px rgba(61,44,30,0.12));
+            transition: filter 0.3s;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            box-shadow: 0 4px 20px rgba(212,137,60,0.25);
+        }
+        .mascot-body img.mascot-img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            display: block;
+        }
+        .mascot-body:hover { filter: drop-shadow(0 8px 24px rgba(212,137,60,0.35)); transform: scale(1.08); }
+        .mascot-body:active { animation: mascotBounce 0.4s ease; }
+        .mascot-glow {
+            position: absolute;
+            inset: -5px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(212,137,60,0.2), rgba(193,112,74,0.1));
+            z-index: -1;
+            animation: glowPulse 3s ease-in-out infinite;
+        }
+        .mascot-ripple {
+            position: absolute; inset: 0; border-radius: 50%;
+            border: 2px solid var(--primary); opacity: 0; pointer-events: none;
+        }
+        .mascot-ripple.active { animation: rippleOut 0.6s ease-out; }
+        .mascot-tour-hint {
+            position: absolute;
+            bottom: -28px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.7rem;
+            color: var(--warm-gray);
+            white-space: nowrap;
+            opacity: 0.6;
+        }
+        @keyframes mascotFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+        @keyframes mascotBounce { 0% { transform: scale(1); } 30% { transform: scale(0.92); } 60% { transform: scale(1.05); } 100% { transform: scale(1); } }
+        @keyframes rippleOut { 0% { transform: scale(1); opacity: 0.5; } 100% { transform: scale(1.5); opacity: 0; } }
+        @keyframes glowPulse { 0%,100% { opacity: 0.5; transform: scale(1); } 50% { opacity: 1; transform: scale(1.06); } }
+
+        /* ─── Mouse Trail ─── */
+        .trail-emoji {
+            position: fixed;
+            pointer-events: none;
+            z-index: 9998;
+            font-size: 1.4rem;
+            animation: trailFade 1.6s ease-out forwards;
+        }
+        @keyframes trailFade {
+            0% { opacity: 1; transform: translateY(0) scale(1) rotate(0deg); }
+            60% { opacity: 0.8; transform: translateY(-20px) scale(1.1) rotate(15deg); }
+            100% { opacity: 0; transform: translateY(-40px) scale(0.8) rotate(-10deg); }
+        }
+
+        /* ─── Guided Tour Overlay ─── */
+        .tour-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 99999;
+            background: rgba(0, 0, 0, 0.85);
+            opacity: 0;
+            transition: opacity 0.4s;
+            pointer-events: none;
+        }
+        .tour-overlay.active { opacity: 1; pointer-events: auto; }
+        .tour-highlight {
+            position: absolute;
+            border-radius: 16px;
+            box-shadow: 0 0 0 8px rgba(212, 137, 60, 0.3), 0 0 0 9999px rgba(0, 0, 0, 0.85);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0;
+            pointer-events: none;
+            z-index: 100000;
+        }
+        .tour-highlight.active { opacity: 1; }
+        .tour-highlight::after {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 20px;
+            border: 2px solid rgba(212, 137, 60, 0.4);
+            animation: tourBorderPulse 2s ease-in-out infinite;
+        }
+        @keyframes tourBorderPulse { 0%,100% { border-color: rgba(212,137,60,0.3); } 50% { border-color: rgba(212,137,60,0.7); } }
+        .tour-tooltip {
+            position: fixed;
+            z-index: 100001;
+            background: #fff;
+            border-radius: 16px;
+            padding: 18px 22px;
+            max-width: 380px;
+            box-shadow: 0 12px 48px rgba(0,0,0,0.3);
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.34,1.56,0.64,1);
+            transform: translateY(10px);
+            pointer-events: none;
+        }
+        .tour-tooltip.active { opacity: 1; transform: translateY(0); pointer-events: auto; }
+        .tour-tooltip .tour-msg { font-size: 0.92rem; line-height: 1.6; color: var(--warm-dark); margin-bottom: 12px; }
+        .tour-tooltip .tour-actions { display: flex; gap: 8px; justify-content: flex-end; }
+        .tour-tooltip .tour-actions button {
+            padding: 6px 18px;
+            border-radius: 999px;
+            border: none;
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .tour-tooltip .tour-btn-next { background: var(--gradient-button); color: #fff; }
+        .tour-tooltip .tour-btn-next:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(212,137,60,0.3); }
+        .tour-tooltip .tour-btn-prev { background: var(--warm-bg); color: var(--warm-dark); border: 1px solid rgba(212,137,60,0.15); }
+        .tour-tooltip .tour-btn-prev:hover { background: var(--primary-light); }
+        .tour-tooltip .tour-btn-exit { background: transparent; color: var(--warm-gray); font-weight: 500; }
+        .tour-tooltip .tour-btn-exit:hover { color: #ef4444; }
+        .tour-progress {
+            display: flex;
+            gap: 6px;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+        .tour-progress .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(212,137,60,0.2);
+            transition: all 0.3s;
+        }
+        .tour-progress .dot.active { background: var(--primary); transform: scale(1.3); }
+        .tour-progress .dot.done { background: rgba(212,137,60,0.5); }
+
+        /* ─── Tech Detail Modal ─── */
+        .tech-modal-overlay {
+            position: fixed; inset: 0; z-index: 200000;
+            background: rgba(0,0,0,0.6);
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; pointer-events: none;
+            transition: opacity 0.35s ease;
+            padding: 20px;
+        }
+        .tech-modal-overlay.active { opacity: 1; pointer-events: auto; }
+        .tech-modal-card {
+            background: #fff; border-radius: 20px;
+            max-width: 520px; width: 100%;
+            padding: 32px 28px 28px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+            transform: translateY(30px) scale(0.96);
+            transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
+            position: relative;
+            max-height: 85vh; overflow-y: auto;
+        }
+        .tech-modal-overlay.active .tech-modal-card { transform: translateY(0) scale(1); }
+        .tech-modal-close {
+            position: absolute; top: 14px; right: 18px;
+            width: 32px; height: 32px; border-radius: 50%;
+            border: none; background: var(--warm-bg);
+            font-size: 1.1rem; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--warm-gray); transition: all 0.2s;
+        }
+        .tech-modal-close:hover { background: #fee; color: #ef4444; }
+        .tech-modal-icon {
+            width: 52px; height: 52px; border-radius: 14px;
+            background: var(--gradient-warm);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem; margin-bottom: 14px;
+            color: var(--primary-dark);
+        }
+        .tech-modal-title {
+            font-size: 1.2rem; font-weight: 700;
+            color: var(--warm-dark); margin-bottom: 6px;
+        }
+        .tech-modal-tag {
+            display: inline-block; padding: 3px 12px;
+            border-radius: 999px; font-size: 0.75rem; font-weight: 600;
+            background: var(--primary-light); color: var(--primary-dark);
+            margin-bottom: 16px;
+        }
+        .tech-modal-body {
+            font-size: 0.92rem; line-height: 1.8;
+            color: #4a3f35;
+        }
+        .tech-modal-body p { margin-bottom: 12px; }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg fixed-top" id="mainNav">
+    <div class="container">
+        <a class="navbar-brand d-flex align-items-center" href="#home">
+            <span class="brand-icon"><i class="bi bi-sun-fill"></i></span>微光畅行
+        </a>
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navMenu">
+            <ul class="navbar-nav ms-auto align-items-lg-center gap-1">
+                <li class="nav-item"><a class="nav-link active" href="#tech">核心技术</a></li>
+                <li class="nav-item"><a class="nav-link" href="#features">功能模块</a></li>
+                <li class="nav-item"><a class="nav-link" href="#arch">技术架构</a></li>
+                <li class="nav-item"><a class="nav-link" href="#download">下载App</a></li>
+                <li class="nav-item ms-lg-2"><a class="nav-link btn-download-nav" href="#download"><i class="bi bi-download me-1"></i>立即下载</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero" id="home">
+    <div class="particles">
+        <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+        <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+        <div class="particle"></div><div class="particle"></div>
+    </div>
+    <div class="hero-glow g1"></div>
+    <div class="hero-glow g2"></div>
+    <div class="hero-glow g3"></div>
+    <div class="container position-relative">
+        <div class="row align-items-center gy-5">
+            <div class="col-lg-7">
+                <div class="hero-badge"><i class="bi bi-shield-check"></i> 面向听障与言语障碍人群 · 完全免费</div>
+                <h1>为每一位<br><span class="gradient-text">无法听见</span>的人<br>点亮沟通的<span class="gradient-text">微光</span></h1>
+                <p>微光畅行是一款专为听障与言语障碍人群打造的智能沟通助手。融合手语翻译、语音转文字、文字播报等前沿技术，让无声的世界也能畅快交流。</p>
+                <div class="hero-actions d-flex flex-wrap gap-3 mt-4">
+                    <a href="#download" class="btn btn-primary-custom"><i class="bi bi-download me-2"></i>下载 App</a>
+                    <a href="#features" class="btn btn-outline-custom"><i class="bi bi-grid-3x3-gap me-2"></i>探索功能</a>
+                </div>
+                <div class="hero-status d-flex align-items-center gap-3 mt-4">
+                    <span class="pulse-dot"></span>
+                    <span style="font-size:0.88rem; color:var(--warm-gray);">Android 5.0+ 全兼容 · 已编译验证通过</span>
+                </div>
+            </div>
+            <div class="col-lg-5 text-center hero-phone">
+                <div class="phone-frame">
+                    <div class="phone-notch"></div>
+                    <div class="phone-screen">
+                        <div class="app-icon"><i class="bi bi-sun-fill"></i></div>
+                        <div class="phone-title">微光畅行</div>
+                        <div class="phone-sub">无障碍沟通助手</div>
+                        <div class="phone-features">
+                            <span>🤟 手语翻译</span><span>🚌 公交报站</span>
+                            <span>💊 药品识别</span><span>🆘 一键应急</span>
+                            <span>🔔 强提醒</span><span>🗣️ 语音助手</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Tech Stack -->
+<section id="tech">
+    <div class="container">
+        <div class="text-center mb-5 reveal">
+            <div class="section-tag">✨ 核心技术栈</div>
+            <h2 class="section-title">前沿技术，为无障碍而生</h2>
+            <p class="section-subtitle mx-auto">融合 Android 平台最前沿的 AI 与感知技术，每一行代码都为无障碍场景精心打磨。</p>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-4 col-lg-3 col-6 reveal"><div class="tech-card text-center" onclick="openTechCard(this)"><div class="tech-icon-box mx-auto"><i class="bi bi-camera-video"></i></div><h6>CameraX + ML Kit OCR</h6><p>实时药盒识别，中文文字提取与药品名称匹配，无需联网</p></div></div>
+            <div class="col-md-4 col-lg-3 col-6 reveal"><div class="tech-card text-center" onclick="openTechCard(this)"><div class="tech-icon-box mx-auto"><i class="bi bi-hand-index-thumb"></i></div><h6>MediaPipe Hands</h6><p>21个手部关键点实时追踪，117条高频手语短语精准识别</p></div></div>
+            <div class="col-md-4 col-lg-3 col-6 reveal"><div class="tech-card text-center" onclick="openTechCard(this)"><div class="tech-icon-box mx-auto"><i class="bi bi-mic"></i></div><h6>SpeechRecognizer + TTS</h6><p>全局离线语音识别与播报，响应小于200ms，语速/音调可调</p></div></div>
+            <div class="col-md-4 col-lg-3 col-6 reveal"><div class="tech-card text-center" onclick="openTechCard(this)"><div class="tech-icon-box mx-auto"><i class="bi bi-phone"></i></div><h6>Jetpack Compose + Material3</h6><p>现代化声明式 UI，动态主题、大字体无障碍适配、WCAG 标准</p></div></div>
+            <div class="col-md-4 col-lg-3 col-6 reveal"><div class="tech-card text-center" onclick="openTechCard(this)"><div class="tech-icon-box mx-auto"><i class="bi bi-geo-alt"></i></div><h6>GPS + Room 数据库</h6><p>精准公交定位报站，56种本地药品库离线查询，无网络可用</p></div></div>
+            <div class="col-md-4 col-lg-3 col-6 reveal"><div class="tech-card text-center" onclick="openTechCard(this)"><div class="tech-icon-box mx-auto"><i class="bi bi-vibrate"></i></div><h6>振动引擎 + AlertSystem</h6><p>三级风险警报联动（振动+闪光灯+声音），自定义波形精细调节</p></div></div>
+            <div class="col-md-4 col-lg-3 col-6 reveal"><div class="tech-card text-center" onclick="openTechCard(this)"><div class="tech-icon-box mx-auto"><i class="bi bi-eyeglasses"></i></div><h6>ML Kit 图像识别</h6><p>实时场景文字识别，自动提取路牌、告示、菜单等环境文字信息</p></div></div>
+            <div class="col-md-4 col-lg-3 col-6 reveal"><div class="tech-card text-center" onclick="openTechCard(this)"><div class="tech-icon-box mx-auto"><i class="bi bi-braces"></i></div><h6>Kotlin + Coroutines</h6><p>全Kotlin开发，协程异步并发，API 21+ 兼容，APK 仅 8MB</p></div></div>
+        </div>
+    </div>
+</section>
+
+<!-- Features -->
+<section id="features" style="background:#fff;">
+    <div class="container">
+        <div class="text-center mb-5 reveal">
+            <div class="section-tag">🌟 12 大功能模块</div>
+            <h2 class="section-title">全方位守护每一次出行</h2>
+            <p class="section-subtitle mx-auto">从沟通到出行、从用药安全到应急求助，覆盖日常生活的每一个场景。</p>
+        </div>
+        <div class="row g-3">
+            <div class="col-md-4 col-6 reveal"><div class="feature-card"><span class="feat-icon">🤟</span><h6>手语沟通</h6><p>117条高频短语，MediaPipe手势识别，语音⇄手语双向互转</p><span class="status-badge online">已上线</span></div></div>
+            <div class="col-md-4 col-6 reveal"><div class="feature-card"><span class="feat-icon">🚌</span><h6>公交报站</h6><p>GPS实时定位+到站振动提醒，10条公交线路覆盖</p><span class="status-badge online">已上线</span></div></div>
+            <div class="col-md-4 col-6 reveal"><div class="feature-card"><span class="feat-icon">💊</span><h6>药品识别</h6><p>OCR扫药盒/语音搜药名，56种本地药品库+风险分级预警</p><span class="status-badge online">已上线</span></div></div>
+            <div class="col-md-4 col-6 reveal"><div class="feature-card"><span class="feat-icon">🆘</span><h6>一键应急</h6><p>SOS短信+位置+闪光灯三联动，6种预设求助场景一键触发</p><span class="status-badge online">已上线</span></div></div>
+            <div class="col-md-4 col-6 reveal"><div class="feature-card"><span class="feat-icon">🔔</span><h6>强提醒</h6><p>振动/闪光/声音三重警报，四级风险等级，自定义波形</p><span class="status-badge online">已上线</span></div></div>
+            <div class="col-md-4 col-6 reveal"><div class="feature-card"><span class="feat-icon">📚</span><h6>学习中心</h6><p>交通规则/应急避险课程，图文+手语双语教学</p><span class="status-badge online">已上线</span></div></div>
+            <div class="col-md-4 col-6 reveal"><div class="feature-card"><span class="feat-icon">👁️</span><h6>场景文字识别</h6><p>自动识别路牌、告示等环境文字，实时转化为手语/文字提示</p><span class="status-badge online">已上线</span></div></div>
+            <div class="col-md-4 col-6 reveal"><div class="feature-card"><span class="feat-icon">🚧</span><h6>障碍物检测</h6><p>前后方向障碍物识别+距离估算+振动反馈</p><span class="status-badge online">已上线</span></div></div>
+            <div class="col-md-4 col-6 reveal"><div class="feature-card"><span class="feat-icon">🎤</span><h6>语音转文字</h6><p>全局实时语音转写，SpeechRecognizer常驻服务</p><span class="status-badge online">已上线</span></div></div>
+            <div class="col-md-4 col-6 reveal"><div class="feature-card"><span class="feat-icon">🏠</span><h6>基地帮扶</h6><p>手语翻译/陪同出行预约，无障碍设备申领</p><span class="status-badge soon">即将上线</span></div></div>
+            <div class="col-md-4 col-6 reveal"><div class="feature-card"><span class="feat-icon">🗣️</span><h6>语音助手</h6><p>7大品牌一键唤醒：小爱/小艺/小布/YOYO等</p><span class="status-badge online">已上线</span></div></div>
+            <div class="col-md-4 col-6 reveal"><div class="feature-card"><span class="feat-icon">🔊</span><h6>TTS播报</h6><p>全局离线语音播报，语速/音调可调，200ms超低延迟</p><span class="status-badge online">已上线</span></div></div>
+        </div>
+    </div>
+</section>
+
+<!-- Architecture -->
+<section class="arch-section" id="arch">
+    <div class="container">
+        <div class="text-center mb-5 reveal">
+            <div class="section-tag">🏛️ 技术架构</div>
+            <h2 class="section-title">四层架构，稳定可靠</h2>
+            <p class="section-subtitle mx-auto">从底层感知到上层交互，每一层都经过精心设计。</p>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="arch-layer reveal">
+                    <div class="layer-label"><i class="bi bi-phone me-2"></i>表现层 — Jetpack Compose + Material3</div>
+                    <div class="layer-items">
+                        <span>Material3 动态主题</span><span>大字体无障碍</span><span>AnimatedContent</span>
+                        <span>NavigationBar</span><span>Scaffold</span><span>WCAG 色彩对比度</span>
+                    </div>
+                </div>
+                <div class="arch-arrow reveal"><i class="bi bi-chevron-down"></i></div>
+                <div class="arch-layer reveal">
+                    <div class="layer-label"><i class="bi bi-diagram-2 me-2"></i>功能层 — 12 大功能模块</div>
+                    <div class="layer-items">
+                        <span>手语识别</span><span>药品OCR</span><span>公交报站</span><span>SOS应急</span>
+                        <span>强提醒</span><span>视觉识别</span><span>语音助手</span><span>声音监控</span>
+                    </div>
+                </div>
+                <div class="arch-arrow reveal"><i class="bi bi-chevron-down"></i></div>
+                <div class="arch-layer reveal">
+                    <div class="layer-label"><i class="bi bi-cpu me-2"></i>引擎层 — AI &amp; 感知引擎</div>
+                    <div class="layer-items">
+                        <span>MediaPipe Hands</span><span>ML Kit OCR</span><span>ML Kit Image</span>
+                        <span>SpeechRecognizer</span><span>TTS Engine</span><span>TripleAlertSystem</span>
+                    </div>
+                </div>
+                <div class="arch-arrow reveal"><i class="bi bi-chevron-down"></i></div>
+                <div class="arch-layer reveal">
+                    <div class="layer-label"><i class="bi bi-database me-2"></i>数据层 — Room + CameraX + GPS</div>
+                    <div class="layer-items">
+                        <span>Room本地数据库</span><span>CameraX相机</span><span>GPS定位</span>
+                        <span>振动马达</span><span>闪光灯</span><span>传感器融合</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Stats -->
+<section class="stats-section" id="stats">
+    <div class="container">
+        <div class="row g-4 text-center">
+            <div class="col-6 col-md-3 reveal">
+                <div class="stat-item">
+                    <div class="stat-icon"><i class="bi bi-grid-3x3-gap"></i></div>
+                    <div class="stat-divider"></div>
+                    <div class="stat-number"><span class="counter" data-target="12">0</span>+</div>
+                    <div class="stat-label">功能模块</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3 reveal">
+                <div class="stat-item">
+                    <div class="stat-icon"><i class="bi bi-hand-index-thumb"></i></div>
+                    <div class="stat-divider"></div>
+                    <div class="stat-number"><span class="counter" data-target="117">0</span>+</div>
+                    <div class="stat-label">手语短语</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3 reveal">
+                <div class="stat-item">
+                    <div class="stat-icon"><i class="bi bi-capsule"></i></div>
+                    <div class="stat-divider"></div>
+                    <div class="stat-number"><span class="counter" data-target="56">0</span>+</div>
+                    <div class="stat-label">药品数据库</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3 reveal">
+                <div class="stat-item">
+                    <div class="stat-icon"><i class="bi bi-phone-vibrate"></i></div>
+                    <div class="stat-divider"></div>
+                    <div class="stat-number"><span class="counter" data-target="7">0</span>+</div>
+                    <div class="stat-label">语音品牌支持</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Download -->
+<section class="download-section" id="download">
+    <div class="container">
+        <div class="text-center mb-5 reveal">
+            <div class="section-tag">📥 下载 App</div>
+            <h2 class="section-title">立即体验微光畅行</h2>
+            <p class="section-subtitle mx-auto">扫描二维码或点击下方按钮下载 Android APK，完全免费，无需注册。</p>
+        </div>
+        <div class="download-card reveal">
+            <div class="row align-items-center gy-4">
+                <div class="col-md-5 text-center">
+                    <div class="qr-wrap">
+                        <div class="qr-box">
+                            <div class="qr-scan-line"></div>
+                            <div class="qr-fallback d-flex flex-column align-items-center justify-content-center text-center p-3">
+                                <i class="bi bi-qr-code" style="font-size:3.5rem;color:var(--primary);"></i>
+                                <p style="font-size:0.75rem;color:var(--warm-gray);margin-top:6px;">用手机扫码下载</p>
+                            </div>
+                        </div>
+                        <p class="qr-note"><i class="bi bi-qr-code me-1"></i>微信/浏览器扫码即下</p>
+                    </div>
+                </div>
+                <div class="col-md-7 download-info">
+                    <h4>下载选项</h4>
+                    <p style="color:var(--warm-gray);font-size:0.95rem;">选择最适合您的方式获取 App：</p>
+                    <div class="d-flex flex-column gap-3 mt-3">
+                        <a href="app-release.apk" class="btn btn-primary-custom btn-lg py-3" download>
+                            <i class="bi bi-download me-2"></i>下载 APK v1.2（8MB）
+                        </a>
+                        <a href="https://github.com/saber463/----" target="_blank" class="btn btn-outline-custom btn-lg py-3">
+                            <i class="bi bi-github me-2"></i>GitHub 开源仓库
+                        </a>
+                        <div class="mt-2">
+                            <div class="check-item"><i class="bi bi-check-circle-fill" style="color:#22c55e;"></i> 兼容 Android 5.0（API 21）及以上</div>
+                            <div class="check-item"><i class="bi bi-check-circle-fill" style="color:#22c55e;"></i> 无需联网，所有核心功能离线可用</div>
+                            <div class="check-item"><i class="bi bi-check-circle-fill" style="color:#22c55e;"></i> APK 体积仅 8MB，安装无压力</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-md-4">
+                <h6><i class="bi bi-sun-fill me-2" style="color:var(--primary);"></i>微光畅行</h6>
+                <p style="font-size:0.86rem;line-height:1.7;">为听障与言语障碍人群打造的无障碍智能沟通助手。用技术缩小障碍，让每个人都能自由表达。</p>
+                <div class="social-icons mt-3">
+                    <a href="https://github.com/saber463/----" target="_blank" title="GitHub"><i class="bi bi-github"></i></a>
+                    <a href="https://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=1002668039@qq.com" target="_blank" title="QQ邮箱"><i class="bi bi-envelope-at"></i></a>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <h6>功能</h6>
+                <div class="footer-link-item"><a href="#features">手语沟通</a></div>
+                <div class="footer-link-item"><a href="#features">公交报站</a></div>
+                <div class="footer-link-item"><a href="#features">药品识别</a></div>
+                <div class="footer-link-item"><a href="#features">一键应急</a></div>
+                <div class="footer-link-item"><a href="#features">视觉辅助</a></div>
+            </div>
+            <div class="col-md-2">
+                <h6>技术</h6>
+                <div class="footer-link-item"><a href="#tech">核心技术</a></div>
+                <div class="footer-link-item"><a href="#arch">技术架构</a></div>
+                <div class="footer-link-item"><a href="https://github.com/saber463/----" target="_blank">开源仓库</a></div>
+            </div>
+            <div class="col-md-4">
+                <h6>联系我们</h6>
+                <div class="footer-link-item">
+                    <a href="https://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=1002668039@qq.com" target="_blank">
+                        <i class="bi bi-envelope me-2"></i>1002668039@qq.com
+                    </a>
+                </div>
+                <div class="footer-link-item">
+                    <a href="https://github.com/saber463/----" target="_blank">
+                        <i class="bi bi-github me-2"></i>GitHub: saber463/----
+                    </a>
+                </div>
+                <div class="footer-link-item">
+                    <a href="#download"><i class="bi bi-download me-2"></i>下载 App</a>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col text-center">
+                <p style="font-size:0.82rem;margin-bottom:0;opacity:0.6;">© 2026 微光畅行 · 用技术照亮每一个角落</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Back to top -->
+<button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+    <i class="bi bi-arrow-up"></i>
+</button>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    window.addEventListener('scroll', function() {
+        var nav = document.getElementById('mainNav');
+        nav.classList.toggle('scrolled', window.scrollY > 50);
+        document.getElementById('backToTop').classList.toggle('show', window.scrollY > 300);
+        var current = '';
+        document.querySelectorAll('section[id]').forEach(function(s) {
+            if (window.scrollY >= s.offsetTop - 150) current = s.id;
+        });
+        document.querySelectorAll('.nav-link').forEach(function(a) {
+            a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+        });
+    });
+    var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(e) {
+            if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+        });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.reveal').forEach(function(r) { observer.observe(r); });
+
+    var counterObserver = new IntersectionObserver(function(entries) {
+        entries.forEach(function(e) {
+            if (e.isIntersecting) {
+                var el = e.target;
+                var target = parseInt(el.dataset.target);
+                var cur = 0;
+                var step = Math.ceil(target / 45);
+                var t = setInterval(function() {
+                    cur += step;
+                    if (cur >= target) { cur = target; clearInterval(t); }
+                    el.textContent = cur;
+                }, 35);
+                counterObserver.unobserve(el);
+            }
+        });
+    }, { threshold: 0.4 });
+    document.querySelectorAll('.counter').forEach(function(c) { counterObserver.observe(c); });
+
+    document.querySelectorAll('a[href^="#"]').forEach(function(a) {
+        a.addEventListener('click', function(e) {
+            var t = document.querySelector(this.getAttribute('href'));
+            if (t) {
+                e.preventDefault();
+                t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                var nc = document.querySelector('.navbar-collapse');
+                if (nc.classList.contains('show')) {
+                    bootstrap.Collapse.getInstance(nc)?.hide();
+                }
+            }
+        });
+    });
+
+    // ─── Mouse Trail: 鼠标滑过随机生成脚印/太阳/花朵 ───
+    (function() {
+        var trailEmojis = ['👣', '☀️', '🌻', '🌸', '🌼', '🍃', '🌺'];
+        var lastX = 0, lastY = 0, lastTime = Date.now();
+        document.addEventListener('mousemove', function(e) {
+            var now = Date.now();
+            var dist = Math.sqrt((e.clientX - lastX) * (e.clientX - lastX) + (e.clientY - lastY) * (e.clientY - lastY));
+            if (dist < 25 && now - lastTime < 60) return;
+            lastX = e.clientX; lastY = e.clientY; lastTime = now;
+            var el = document.createElement('div');
+            el.className = 'trail-emoji';
+            el.textContent = trailEmojis[Math.floor(Math.random() * trailEmojis.length)];
+            el.style.left = (e.clientX - 10) + 'px';
+            el.style.top = (e.clientY - 10) + 'px';
+            document.body.appendChild(el);
+            setTimeout(function() { el.remove(); }, 1600);
+        });
+    })();
+
+    // ─── Tech Card: Click → Modal (技术卡片点击弹窗) ───
+    var techData = [
+        {
+            title: 'CameraX + ML Kit OCR',
+            icon: '<i class="bi bi-camera-video"></i>',
+            tag: '📸 相机与文字识别',
+            body: '<p><strong>CameraX</strong> 是 Android 官方推出的相机库，最大的特点是"一次开发，全机型适配"。不管你用的是华为、小米还是 OPPO，CameraX 能自动兼容不同手机的摄像头硬件差异，提供一致的预览画面流。</p><p>当用户对准药盒拍照时，CameraX 把每一帧实时画面传给 <strong>ML Kit OCR</strong>（Google 的移动端文字识别引擎）。OCR 模型会先定位图像中的文字区域，然后逐字识别中文、数字和字母，最后提取出药品名称、规格、生产日期等关键信息。</p><p>识别结果会与本地 <strong>Room 数据库</strong>中预存的 56 种常用药品信息进行模糊匹配，自动给出药品用途、用法用量和安全风险等级。整个过程完全离线，不消耗流量，也不用担心隐私泄露。</p>'
+        },
+        {
+            title: 'MediaPipe Hands',
+            icon: '<i class="bi bi-hand-index-thumb"></i>',
+            tag: '🤟 手语识别引擎',
+            body: '<p><strong>MediaPipe Hands</strong> 是 Google 开源的一套手部关键点追踪方案，由轻量级神经网络驱动。它能在手机端以每秒 30 帧以上的速度，实时检测一只手上的 <strong>21 个 3D 关键点</strong>——包括每根手指的指尖、指节、指根，以及手腕的位置坐标。</p><p>我们在这 21 个点的基础上，进一步提取手语的<strong>时空特征</strong>：不仅看当前手势的空间形状，还追踪手指在时间轴上的运动轨迹（比如"你好"的手势是从合掌到张开的过程）。</p><p>然后将这些特征序列与预训练的 <strong>117 条高频手语短语库</strong>进行比对匹配，最终输出对应的文字或语音。识别精度达到 95% 以上，单次识别延迟低于 50 毫秒——你打一个手语，屏幕几乎同时就显示出文字。</p>'
+        },
+        {
+            title: 'SpeechRecognizer + TTS',
+            icon: '<i class="bi bi-mic"></i>',
+            tag: '🎤 语音双向交互',
+            body: '<p><strong>SpeechRecognizer</strong> 是 Android 系统内置的语音识别引擎，支持纯离线模式。它通过声学模型和语言模型将语音波形转化为文字序列。在我们的 App 里，它是听障用户的"耳朵"——对方说的话实时转为文字显示在屏幕上，延迟控制在 200ms 以内。</p><p><strong>TTS</strong>（Text-To-Speech，文字转语音）则反其道而行之。它把用户输入的文字转化为自然流畅的语音播报出来，支持多种语速和音调调节。对于言语障碍用户来说，这就是他们的"嗓子"——打字输入，App 帮你说出来。</p><p>这两个功能组合在一起，就形成了一座<strong>双向沟通的桥梁</strong>：听障用户看文字、言语障碍用户听语音，双方都能顺畅交流。</p>'
+        },
+        {
+            title: 'Jetpack Compose + Material3',
+            icon: '<i class="bi bi-phone"></i>',
+            tag: '🎨 现代化界面框架',
+            body: '<p><strong>Jetpack Compose</strong> 是 Android 全新的声明式 UI 框架。传统开发方式像"手写装修图纸"（XML 布局），而 Compose 像"直接跟工头说我要什么"——用 Kotlin 代码直接描述界面长什么样子，代码量减少约 50%，且界面和数据自动同步更新。</p><p><strong>Material3</strong> 是 Google 最新设计语言，它内置了<strong>动态主题色彩</strong>系统，能根据壁纸自动提取主色和辅色，让 App 界面和手机风格融为一体。</p><p>我们在无障碍方面做了深度适配：大字体模式下布局自动调整不溢出；屏幕阅读器（TalkBack）内容描述全覆盖；所有颜色对比度严格遵循 <strong>WCAG 标准</strong>（确保色弱用户也能看清）；触控热区放大到 48dp 以上，减少误触。</p>'
+        },
+        {
+            title: 'GPS + Room 数据库',
+            icon: '<i class="bi bi-geo-alt"></i>',
+            tag: '📍 定位与本地数据',
+            body: '<p><strong>GPS 定位模块</strong>通过手机内置的定位芯片实时获取经纬度坐标。我们预存了 10 条公交线路的完整站点数据（经纬度+站点名称），App 会持续计算用户当前位置与最近站点的距离。</p><p>当用户接近目标站点约 200 米时，自动触发<strong>到站提醒</strong>——以振动+文字弹窗的方式通知用户准备下车，避免坐过站。整个过程无需网络，在隧道或地库等信号弱的地方也能正常工作。</p><p><strong>Room</strong> 是 Google 官方提供的本地数据库框架，基于 SQLite 但更易用。我们在 Room 中存储了 56 种常用药品信息库、10 条公交线路数据、用户个性化设置等。所有数据离线存储，查询速度在毫秒级，不消耗任何流量。</p>'
+        },
+        {
+            title: '振动引擎 + AlertSystem',
+            icon: '<i class="bi bi-vibrate"></i>',
+            tag: '🔔 智能警报系统',
+            body: '<p><strong>振动引擎</strong>利用了 Android 的 Vibrator API，但我们不是简单地"开/关"振动。我们支持<strong>自定义振动波形</strong>——可以精确控制每次振动的时长（毫秒级）、振动强度（弱/中/强）、以及间歇模式（连续/间歇/脉冲）。</p><p>在此基础上，我们设计了<strong>三级风险差异化提醒策略</strong>：</p><p>• <strong>低风险</strong>（如到站提醒）：轻柔短振 2 次，不打扰<br>• <strong>中风险</strong>（如用药提醒）：规律中振 5 次 + 屏幕闪烁<br>• <strong>高风险</strong>（如 SOS 求救）：急促强振 + 闪光灯高频闪烁 + 最大音量警报声三联动</p><p><strong>AlertSystem</strong> 是我们自行研发的警报调度中心，统一管理所有通知的触发逻辑、优先级排序、防打扰策略（夜间自动降低强度），以及不同模块之间的冲突处理（比如同时收到到站提醒和 SOS 求救，优先响应 SOS）。</p>'
+        },
+        {
+            title: 'ML Kit 图像识别',
+            icon: '<i class="bi bi-eyeglasses"></i>',
+            tag: '👁️ 场景文字理解',
+            body: '<p><strong>ML Kit</strong> 是 Google 提供的移动端机器学习工具包，把训练好的 AI 模型打包成简单易用的 API。其中的<strong>文字识别模型</strong>经过了中文、英文等语言的专项训练，能准确识别路牌、门牌号、菜单、告示牌等场景中的印刷文字。</p><p>在 App 中，当用户打开相机对准场景中的文字时，ML Kit 会自动完成三步：<strong>① 检测</strong>——找到画面中的文字区域；<strong>② 识别</strong>——将文字区域中的字符逐个识别出来；<strong>③ 输出</strong>——将识别结果以文字形式显示在屏幕上。</p><p>这对听障用户来说是一个强大的"环境信息获取器"：走到一个陌生的路口，打开相机扫一扫路牌，文字立刻显示在屏幕上；去餐馆吃饭，扫一下菜单就知道今天有什么菜。世界的信息，尽在眼前。</p>'
+        },
+        {
+            title: 'Kotlin + Coroutines',
+            icon: '<i class="bi bi-braces"></i>',
+            tag: '⚡ 开发语言与并发',
+            body: '<p><strong>Kotlin</strong> 是 Android 官方首推的开发语言，相比传统的 Java，它的语法更简洁、更安全。举个例子：同样的功能，Kotlin 的代码量可以减少约 40%，而且它从语言层面杜绝了空指针异常（NullPointerException）——这是 Java 项目中最常见的崩溃原因。</p><p><strong>Coroutines</strong>（协程）是 Kotlin 的异步并发方案。想象一下你在厨房同时煮汤、切菜、接电话——协程就是能帮你在代码里同时处理多个任务，且不会让 App "卡住"。在我们的 App 里，协程同时管理着相机画面流、手语识别计算、语音合成等多个耗时任务，UI 线程始终保持流畅。</p><p>另外，我们的 APK 打包后<strong>仅 8MB</strong>，兼容从 Android 5.0（2014 年）到最新 Android 15 的所有设备，覆盖了市面上 99% 以上的 Android 手机。</p>'
+        }
+    ];
+
+    var techModalOverlay = document.getElementById('techModalOverlay');
+    var techModalClose = document.getElementById('techModalClose');
+    var techModalIcon = document.getElementById('techModalIcon');
+    var techModalTitle = document.getElementById('techModalTitle');
+    var techModalTag = document.getElementById('techModalTag');
+    var techModalBody = document.getElementById('techModalBody');
+
+    function openTechCard(el) {
+        var h6 = el.querySelector('h6');
+        if (!h6) return;
+        var title = h6.textContent.trim();
+        for (var i = 0; i < techData.length; i++) {
+            if (techData[i].title === title) {
+                techModalIcon.innerHTML = techData[i].icon;
+                techModalTitle.textContent = techData[i].title;
+                techModalTag.textContent = techData[i].tag;
+                techModalBody.innerHTML = techData[i].body;
+                techModalOverlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+                return;
+            }
+        }
+    }
+
+    techModalClose.addEventListener('click', function() {
+        techModalOverlay.classList.remove('active');
+        document.body.style.overflow = '';
+    });
+    techModalOverlay.addEventListener('click', function(e) {
+        if (e.target === techModalOverlay) {
+            techModalOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    });
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && techModalOverlay.classList.contains('active')) {
+            techModalOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    });
+
+    // ─── Mascot + Guided Tour (静默吉祥物,双击触发新手引导) ───
+    (function() {
+        var tourSteps = [
+            { selector: "#home h1", offsetY: -100, msg: "欢迎来到微光畅行👋<br>这是一个专为听障与言语障碍人群打造的无障碍沟通助手。" },
+            { selector: "#tech", offsetY: -80, msg: "核心技术栈🔧<br>我们融合了 CameraX、ML Kit、MediaPipe 等前沿 AI 技术，全部离线运行。" },
+            { selector: "#features .col-6:nth-child(1) .feature-card", offsetY: -120, msg: "手语沟通🤟<br>支持 117 条高频手语短语，语音⇄手语双向互转。" },
+            { selector: "#features .col-6:nth-child(2) .feature-card", offsetY: -120, msg: "公交报站🚌<br>GPS 实时定位+到站振动提醒，出行无忧。" },
+            { selector: "#features .col-6:nth-child(3) .feature-card", offsetY: -120, msg: "药品识别💊<br>扫一扫药盒，56种本地药品库自动匹配+风险分级。" },
+            { selector: "#features .col-6:nth-child(4) .feature-card", offsetY: -120, msg: "一键应急🆘<br>SOS 短信+位置+闪光灯三联动，关键时刻能救命。" },
+            { selector: "#features .col-6:nth-child(5) .feature-card", offsetY: -120, msg: "强提醒�<br>振动/闪光/声音三重警报，四级风险等级可调。" },
+            { selector: "#features .col-6:nth-child(6) .feature-card", offsetY: -120, msg: "学习中心�<br>交通规则/应急避险课程，图文+手语双语教学。" },
+            { selector: "#features .col-6:nth-child(7) .feature-card", offsetY: -120, msg: "场景文字识别👁️<br>自动识别路牌、告示等环境文字，实时转化为手语/文字提示。" },
+            { selector: "#features .col-6:nth-child(8) .feature-card", offsetY: -120, msg: "障碍物检测�<br>前后方向障碍物识别+距离估算+振动反馈。" },
+            { selector: "#features .col-6:nth-child(9) .feature-card", offsetY: -120, msg: "语音转文字🎤<br>全局实时语音转写，SpeechRecognizer 常驻服务。" },
+            { selector: "#features .col-6:nth-child(10) .feature-card", offsetY: -120, msg: "基地帮扶🏠<br>手语翻译/陪同出行预约，无障碍设备申领。" },
+            { selector: "#features .col-6:nth-child(11) .feature-card", offsetY: -120, msg: "语音助手🗣️<br>7大品牌一键唤醒：小爱/小艺/小布/YOYO等。" },
+            { selector: "#features .col-6:nth-child(12) .feature-card", offsetY: -120, msg: "TTS播报🔊<br>全局离线语音播报，200ms 超低延迟，语速可调。" },
+            { selector: "#arch", offsetY: -80, msg: "技术架构🏛️<br>四层架构：表现层→功能层→引擎层→数据层，层层可靠。" },
+            { selector: "#download .download-card", offsetY: -100, msg: "下载 App📥<br>完全免费，Android 5.0+ 全兼容，仅 8MB！" },
+        ];
+        var stepIndex = 0, inTour = false;
+        var overlay = document.getElementById('tourOverlay');
+        var highlight = document.getElementById('tourHighlight');
+        var tooltip = document.getElementById('tourTooltip');
+        var msgEl = document.getElementById('tourMsg');
+        var progressEl = document.getElementById('tourProgress');
+        var nextBtn = document.getElementById('tourNext');
+        var prevBtn = document.getElementById('tourPrev');
+        var exitBtn = document.getElementById('tourExit');
+        var mascotBody = document.getElementById('mascotBody');
+        var ripple = document.getElementById('mascotRipple');
+
+        function exitTour() {
+            inTour = false;
+            overlay.classList.remove('active');
+            highlight.classList.remove('active');
+            tooltip.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function showStep(idx) {
+            if (idx < 0 || idx >= tourSteps.length) return;
+            stepIndex = idx;
+            var step = tourSteps[idx];
+            var target = document.querySelector(step.selector);
+            if (!target) { exitTour(); return; }
+            target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            setTimeout(function() {
+                var rect = target.getBoundingClientRect();
+                highlight.style.left = (rect.left - 12) + 'px';
+                highlight.style.top = (rect.top - 12) + 'px';
+                highlight.style.width = (rect.width + 24) + 'px';
+                highlight.style.height = (rect.height + 24) + 'px';
+                highlight.classList.add('active');
+                msgEl.innerHTML = '<strong>第 ' + (idx + 1) + '/' + tourSteps.length + ' 步</strong><br><br>' + step.msg;
+
+                // Position tooltip
+                var tooltipLeft = rect.right + 20;
+                var tooltipTop = rect.top - 10;
+                if (tooltipLeft + 380 > window.innerWidth) {
+                    tooltipLeft = Math.max(10, rect.left - 380);
+                    tooltipTop = rect.bottom + 15;
+                }
+                if (tooltipTop + 200 > window.innerHeight) {
+                    tooltipTop = window.innerHeight - 210;
+                }
+                tooltip.style.left = tooltipLeft + 'px';
+                tooltip.style.top = tooltipTop + 'px';
+                var dots = '';
+                tourSteps.forEach(function(s, i) {
+                    var cls = 'dot';
+                    if (i === idx) cls += ' active';
+                    else if (i < idx) cls += ' done';
+                    dots += '<span class="' + cls + '"></span>';
+                });
+                progressEl.innerHTML = dots;
+                nextBtn.textContent = idx < tourSteps.length - 1 ? '下一步 →' : '✓ 完成';
+                prevBtn.style.display = idx === 0 ? 'none' : 'inline-block';
+                tooltip.classList.add('active');
+            }, 600);
+        }
+
+        // Double-click mascot → start guided tour
+        mascotBody.addEventListener('dblclick', function(e) {
+            e.stopPropagation();
+            if (inTour) return;
+            inTour = true;
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            showStep(0);
+        });
+
+        // Click mascot → ripple only
+        mascotBody.addEventListener('click', function(e) {
+            if (inTour) return;
+            ripple.className = 'mascot-ripple';
+            void ripple.offsetWidth;
+            ripple.classList.add('active');
+            setTimeout(function() { ripple.className = 'mascot-ripple'; }, 600);
+        });
+
+        // Tour navigation
+        nextBtn.addEventListener('click', function(e) { e.stopPropagation(); if (stepIndex < tourSteps.length - 1) showStep(stepIndex + 1); else exitTour(); });
+        prevBtn.addEventListener('click', function(e) { e.stopPropagation(); showStep(stepIndex - 1); });
+        exitBtn.addEventListener('click', function(e) { e.stopPropagation(); exitTour(); });
+        overlay.addEventListener('click', function(e) { if (e.target === overlay) exitTour(); });
+        tooltip.addEventListener('click', function(e) { e.stopPropagation(); });
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            if (!inTour) return;
+            if (e.key === 'Escape') exitTour();
+            if (e.key === 'ArrowRight') { e.preventDefault(); if (stepIndex < tourSteps.length - 1) showStep(stepIndex + 1); else exitTour(); }
+            if (e.key === 'ArrowLeft') { e.preventDefault(); showStep(stepIndex - 1); }
+        });
+    })();
+</script>
+<!-- ─── Guided Tour Overlay ─── -->
+<div class="tour-overlay" id="tourOverlay"></div>
+<div class="tour-highlight" id="tourHighlight"></div>
+<div class="tour-tooltip" id="tourTooltip">
+    <div class="tour-progress" id="tourProgress"></div>
+    <p class="tour-msg" id="tourMsg"></p>
+    <div class="tour-actions">
+        <button class="tour-btn-exit" id="tourExit">退出引导</button>
+        <button class="tour-btn-prev" id="tourPrev">上一步</button>
+        <button class="tour-btn-next" id="tourNext">下一步</button>
+    </div>
+</div>
+
+<!-- ─── Tech Detail Modal ─── -->
+<div class="tech-modal-overlay" id="techModalOverlay">
+    <div class="tech-modal-card" id="techModalCard">
+        <button class="tech-modal-close" id="techModalClose">✕</button>
+        <div class="tech-modal-icon" id="techModalIcon"></div>
+        <div class="tech-modal-title" id="techModalTitle"></div>
+        <div class="tech-modal-tag" id="techModalTag"></div>
+        <div class="tech-modal-body" id="techModalBody"></div>
+    </div>
+</div>
+
+<!-- ─── Mascot Component (纯吉祥物,双击引导) ─── -->
+<div class="mascot-wrapper">
+    <div class="mascot-body" id="mascotBody" title="双击开始新手引导">
+        <div class="mascot-glow"></div>
+        <div class="mascot-ripple" id="mascotRipple"></div>
+        <img src="mascot.png" alt="微光畅行吉祥物" class="mascot-img">
+        <span class="mascot-tour-hint">双击开始引导</span>
+    </div>
+</div>
+</body>
+</html>
