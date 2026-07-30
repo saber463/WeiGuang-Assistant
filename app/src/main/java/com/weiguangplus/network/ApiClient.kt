@@ -80,7 +80,7 @@ class ApiClient @Inject constructor(
      */
     companion object {
         /** 开发环境BaseUrl（Android模拟器访问本机localhost） */
-        const val BASE_URL = "http://10.0.2.2:8000/"
+        const val BASE_URL = "https://api.weiguangplus.com/"
 
         /**
          * 网络超时时间常量（单位：秒）

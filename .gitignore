@@ -149,3 +149,75 @@ site/
 .classpath
 .settings/
 factorypath
+
+# ---------- JKS Keystore Secrets ----------
+*.jks
+*.keystore
+
+# ---------- Core Sensitive Files (NOT uploaded) ----------
+# Encryption engine source
+fensafe-algorithm/
+
+# Google services
+google-services.json
+**/google-services.json
+
+# Internal config
+备案号.config.json
+
+# Safeguard app (internal)
+safeguard-app/
+
+# Log files
+*.log
+logcat*.txt
+**/logcat*.txt
+compile_output.txt
+
+# Internal scripts
+_build_log.txt
+_batch_fix.py
+_fix*.py
+_patch*.py
+_rewrite*.py
+_rebuild*.py
+_gen*.py
+_mksos.py
+_render.py
+_sos*.py
+_tts*.py
+_w.py
+_backup.py
+_b1.py
+_hist.py
+_qs_tile.py
+_shake_det.py
+patch1.txt
+sos_screen.py
+check_site.py
+fix_media_type.py
+debug-app-startup-crash.md
+_sos_new.kt
+_sosmgr.py
+id16_note.txt
+_strip_bom.py
+_auth*.py
+_drug*.py
+_icons*.py
+_lock*.py
+
+# Temporary test files
+test_reports/
+
+# Build outputs
+outputs/
+tasks-vision_extracted/
+
+# Large binary files
+*.hprof
+*.zip
+
+# Internal project docs
+docs/agent-guides/
+docs/ci-cd/
+docs/api-contract/

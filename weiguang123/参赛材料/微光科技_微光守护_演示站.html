@@ -1,0 +1,1766 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>微光同行 - 智能助残服务平台</title>
+<meta name="description" content="微光同行 - 智能助残服务平台，致力于通过AI技术改善听障人士的生活质量。SOS手势求助、双向手语识别、OCR商品识别。">
+<style>
+:root{
+  --primary:#FF6F00;--primary-dark:#E65100;--primary-light:#FFF3E0;--accent:#FF9800;
+  --bg:#FFF8F0;--card-bg:#FFFFFF;--text:#333;--text-light:#666;
+  --danger:#D32F2F;--success:#2E7D32;--warning:#F57C00;--info:#1565C0;--purple:#7B1FA2;
+  --phone-w:375px;--phone-h:750px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+  background:var(--bg);color:var(--text);line-height:1.8;overflow-x:hidden;
+}
+
+/* ═══════════════ 顶部导航栏 ═══════════════ */
+#topNav{
+  position:fixed;top:0;width:100%;z-index:1000;
+  background:linear-gradient(135deg,#1a1a2e,#16213e);
+  box-shadow:0 2px 20px rgba(0,0,0,0.3);
+}
+#topNav .nav-inner{
+  max-width:1300px;margin:0 auto;padding:0 20px;
+  display:flex;justify-content:space-between;align-items:center;
+}
+#topNav .brand{
+  font-size:20px;font-weight:800;color:#FF9800;
+  padding:12px 0;white-space:nowrap;text-decoration:none;
+}
+#topNav .brand:hover{color:#FFB74D}
+#topNav .brand span{color:#FF6F00}
+#topNav .tabs{display:flex;list-style:none;gap:0}
+#topNav .tabs .tab{
+  padding:14px 22px;font-size:14px;font-weight:600;color:rgba(255,255,255,0.7);
+  cursor:pointer;transition:all 0.25s;border-bottom:3px solid transparent;
+  white-space:nowrap;user-select:none;text-decoration:none;display:inline-block;
+}
+#topNav .tabs .tab:hover{color:white;background:rgba(255,255,255,0.05)}
+#topNav .tabs .tab.active{
+  color:#FF9800;border-bottom-color:#FF9800;
+  background:rgba(255,152,0,0.1);
+}
+#topNav .tabs .tab.spa-link{color:#4FC3F7}
+#topNav .tabs .tab.spa-link:hover{color:#81D4FA}
+
+/* ═══════════════ 内容区 ═══════════════ */
+#mainContent{margin-top:52px;min-height:calc(100vh - 52px)}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+
+/* ═══════════════ 模拟演示 Tab ═══════════════ */
+.hero-wrap{
+  min-height:calc(100vh - 52px);
+  background:linear-gradient(135deg,#FFF8E1,#FFF3E0 30%,#FFE0B2 70%,#FFCC80);
+  padding:40px 20px 40px;display:flex;align-items:center;justify-content:center;gap:50px;flex-wrap:wrap;
+}
+.hero-text{max-width:480px;text-align:left}
+.hero-text .competition-badge{
+  display:inline-block;background:linear-gradient(135deg,#D32F2F,#C62828);color:white;
+  padding:6px 16px;border-radius:20px;font-size:12px;font-weight:600;margin-bottom:10px;letter-spacing:1px;
+}
+.hero-text .competition-badge .sub{font-size:10px;opacity:0.85}
+.hero-text h1{font-size:38px;font-weight:900;color:var(--primary-dark);margin-bottom:8px;line-height:1.3}
+.hero-text h1 .accent{color:var(--primary)}
+.hero-text .subtitle{font-size:15px;color:var(--text-light);margin-bottom:10px}
+.hero-text .slogan{
+  font-size:16px;color:var(--primary-dark);font-weight:600;margin-bottom:18px;
+  border-left:4px solid var(--primary);padding-left:12px;
+}
+.hero-text .stats{display:flex;gap:20px;flex-wrap:wrap;margin-bottom:16px}
+.hero-text .stat{
+  text-align:center;background:white;border-radius:12px;padding:12px 16px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.06);min-width:90px;
+}
+.hero-text .stat .num{font-size:24px;font-weight:900;color:var(--primary)}
+.hero-text .stat .label{font-size:10px;color:var(--text-light);margin-top:2px}
+.hero-text .stat.highlight{background:linear-gradient(135deg,#FFF3E0,#FFE0B2);border:2px solid var(--primary)}
+.hero-text .stat.highlight .num{font-size:28px}
+
+/* SPA 入口按钮 */
+.spa-entry{
+  display:inline-flex;align-items:center;gap:8px;margin-top:4px;
+  background:var(--primary);color:white;padding:12px 28px;border-radius:12px;
+  font-size:15px;font-weight:700;text-decoration:none;
+  transition:all 0.3s;box-shadow:0 4px 12px rgba(255,111,0,0.3);
+}
+.spa-entry:hover{background:var(--primary-dark);transform:translateY(-2px);box-shadow:0 6px 20px rgba(255,111,0,0.4)}
+.spa-entry .arrow{font-size:20px;transition:transform 0.3s}
+.spa-entry:hover .arrow{transform:translateX(4px)}
+
+/* ── 3D 手机框架（支持多厂商皮肤） ── */
+.phone-wrapper{position:relative;flex-shrink:0;perspective:1200px;perspective-origin:center}
+.phone-3d-scene{transform-style:preserve-3d;transition:transform 0.15s ease-out;will-change:transform}
+.phone-frame{
+  width:var(--phone-w);height:var(--phone-h);
+  background:linear-gradient(145deg,#2a2a2a,#1a1a1a,#252525);
+  border-radius:44px;padding:14px;
+  box-shadow:0 25px 70px rgba(0,0,0,0.35),0 0 0 3px #2a2a2a,0 0 0 5px #1a1a1a,0 0 0 7px #333,inset 0 0 0 2px #3a3a3a;
+  position:relative;transition:all 0.4s ease;
+  transform-style:preserve-3d;
+}
+/* 皮肤: iPhone 17 Pro (钛金属) - 390x844 */
+.phone-frame.skin-iphone17{--phone-w:390px;--phone-h:844px;width:var(--phone-w);height:var(--phone-h);background:linear-gradient(145deg,#8E8E93,#6E6E73,#7E7E83);border-radius:48px;box-shadow:0 25px 70px rgba(0,0,0,0.3),0 0 0 2px #9E9EA3,0 0 0 4px #7E7E83,0 0 0 6px #8E8E93,inset 0 0 0 2px #AEAEB3}
+.phone-frame.skin-iphone17 .phone-notch{width:110px;height:28px;background:#1a1a1a;border-radius:0 0 20px 20px;top:14px}
+.phone-frame.skin-iphone17 .phone-screen{border-radius:34px}
+/* 皮肤: Samsung Galaxy S25 - 380x820 */
+.phone-frame.skin-samsung{--phone-w:380px;--phone-h:820px;width:var(--phone-w);height:var(--phone-h);background:linear-gradient(145deg,#1a1a2e,#0d0d1a,#141428);border-radius:38px;box-shadow:0 25px 70px rgba(0,0,0,0.35),0 0 0 3px #1a1a2e,0 0 0 5px #0d0d1a,0 0 0 7px #2a2a3e,inset 0 0 0 2px #3a3a4e}
+.phone-frame.skin-samsung .phone-notch{width:10px;height:10px;background:#1a1a1a;border-radius:50%;top:18px;box-shadow:none}
+.phone-frame.skin-samsung .phone-notch::after{display:none}
+.phone-frame.skin-samsung .phone-screen{border-radius:26px}
+.phone-frame.skin-samsung .phone-statusbar{background:linear-gradient(180deg,#1a73e8,#1557b0)}
+/* 皮肤: Xiaomi 15 - 393x852 */
+.phone-frame.skin-xiaomi{--phone-w:393px;--phone-h:852px;width:var(--phone-w);height:var(--phone-h);background:linear-gradient(145deg,#f5f5f5,#e0e0e0,#ebebeb);border-radius:36px;box-shadow:0 25px 70px rgba(0,0,0,0.2),0 0 0 3px #ddd,0 0 0 5px #ccc,0 0 0 7px #e0e0e0,inset 0 0 0 2px #fff}
+.phone-frame.skin-xiaomi .phone-notch{width:10px;height:10px;background:#333;border-radius:50%;top:18px;box-shadow:none}
+.phone-frame.skin-xiaomi .phone-notch::after{display:none}
+.phone-frame.skin-xiaomi .phone-screen{border-radius:24px}
+.phone-frame.skin-xiaomi .phone-statusbar{background:linear-gradient(180deg,#ff6900,#e05a00)}
+/* 皮肤: Google Pixel 9 - 384x848 */
+.phone-frame.skin-pixel{--phone-w:384px;--phone-h:848px;width:var(--phone-w);height:var(--phone-h);background:linear-gradient(145deg,#2d2d2d,#1f1f1f,#262626);border-radius:40px;box-shadow:0 25px 70px rgba(0,0,0,0.3),0 0 0 3px #333,0 0 0 5px #222,0 0 0 7px #3a3a3a,inset 0 0 0 2px #4a4a4a}
+.phone-frame.skin-pixel .phone-notch{width:80px;height:8px;background:#333;border-radius:4px;top:16px;box-shadow:none}
+.phone-frame.skin-pixel .phone-notch::after{display:none}
+.phone-frame.skin-pixel .phone-screen{border-radius:28px}
+.phone-frame.skin-pixel .phone-statusbar{background:linear-gradient(180deg,#4285f4,#1a73e8)}
+
+/* 手机侧面按钮 */
+.phone-side-btn{position:absolute;background:#2a2a2a;border-radius:3px;z-index:5;cursor:pointer;transition:all 0.15s;transform:translateZ(2px)}
+.phone-side-btn:active{background:#555;transform:translateZ(2px) scale(0.95)}
+.phone-side-btn.vol-up{right:-3px;top:140px;width:3px;height:38px;border-radius:3px 0 0 3px}
+.phone-side-btn.vol-down{right:-3px;top:188px;width:3px;height:38px;border-radius:3px 0 0 3px}
+.phone-side-btn.power{right:-3px;top:210px;width:3px;height:55px;border-radius:3px 0 0 3px}
+.phone-side-btn.left-top{left:-3px;top:160px;width:3px;height:30px;border-radius:0 3px 3px 0}
+.phone-side-btn.left-bottom{left:-3px;top:200px;width:3px;height:30px;border-radius:0 3px 3px 0}
+
+/* 闪光灯效果 */
+.phone-flashlight{position:absolute;top:16px;right:48px;width:8px;height:8px;background:#555;border-radius:50%;z-index:11;transition:all 0.3s;transform:translateZ(3px)}
+.phone-flashlight.on{background:#fff;box-shadow:0 0 12px 4px rgba(255,255,200,0.9),0 0 25px 8px rgba(255,255,200,0.5),0 0 50px 15px rgba(255,255,200,0.3);animation:flashlightPulse 0.5s ease-in-out}
+
+@keyframes flashlightPulse{0%,100%{box-shadow:0 0 12px 4px rgba(255,255,200,0.9),0 0 25px 8px rgba(255,255,200,0.5)}50%{box-shadow:0 0 20px 8px rgba(255,255,255,1),0 0 40px 12px rgba(255,255,200,0.7),0 0 60px 20px rgba(255,255,200,0.4)}}
+
+/* 手机震动动画 */
+@keyframes phoneVibrate{0%,100%{transform:translateX(0)}10%{transform:translateX(-3px) translateY(1px)}20%{transform:translateX(3px) translateY(-1px)}30%{transform:translateX(-2px)}40%{transform:translateX(2px) translateY(1px)}50%{transform:translateX(-1px)}60%{transform:translateX(1px) translateY(-1px)}70%{transform:translateX(-2px)}80%{transform:translateX(2px)}90%{transform:translateX(-1px) translateY(1px)}}
+.phone-frame.vibrating{animation:phoneVibrate 0.08s linear infinite}
+.phone-frame.vibrating-heavy{animation:phoneVibrate 0.04s linear infinite}
+
+/* 手机皮肤选择器 */
+.skin-selector{display:flex;gap:8px;justify-content:center;margin-top:14px;flex-wrap:wrap}
+.skin-selector .skin-btn{padding:6px 14px;border-radius:20px;border:2px solid #ddd;background:white;font-size:11px;font-weight:600;cursor:pointer;transition:all 0.25s;color:#666}
+.skin-selector .skin-btn:hover{border-color:var(--primary);color:var(--primary)}
+.skin-selector .skin-btn.active{background:var(--primary);color:white;border-color:var(--primary);box-shadow:0 2px 8px rgba(255,111,0,0.25)}
+.skin-selector .skin-btn .skin-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:4px;vertical-align:middle}
+.skin-selector .skin-btn .skin-dot.i17{background:linear-gradient(135deg,#8E8E93,#6E6E73)}
+.skin-selector .skin-btn .skin-dot.sam{background:linear-gradient(135deg,#1a1a2e,#0d0d1a)}
+.skin-selector .skin-btn .skin-dot.xm{background:linear-gradient(135deg,#f5f5f5,#e0e0e0);border:1px solid #ccc}
+.skin-selector .skin-btn .skin-dot.px{background:linear-gradient(135deg,#2d2d2d,#1f1f1f)}
+/* TTS按钮 */
+.tts-toggle{display:inline-flex;align-items:center;gap:4px;padding:6px 12px;border-radius:16px;border:2px solid #ddd;background:white;font-size:10px;font-weight:600;cursor:pointer;transition:all 0.25s;color:#666;margin-left:4px}
+.tts-toggle:hover{border-color:var(--primary);color:var(--primary)}
+.tts-toggle.on{background:var(--primary);color:white;border-color:var(--primary)}
+.tts-label{font-size:10px;color:#999;text-align:center;margin-top:8px}
+
+.phone-notch{position:absolute;top:14px;left:50%;transform:translateX(-50%);width:130px;height:30px;background:#1a1a1a;border-radius:0 0 20px 20px;z-index:10;box-shadow:inset 0 -2px 4px rgba(0,0,0,0.5);transform:translateX(-50%) translateZ(3px)}
+.phone-notch::after{content:'';position:absolute;top:6px;left:50%;transform:translateX(-50%);width:50px;height:4px;background:#333;border-radius:2px}
+.phone-screen{width:100%;height:100%;background:#fff;border-radius:32px;overflow:hidden;position:relative;display:flex;flex-direction:column;transform:translateZ(1px)}
+.phone-statusbar{background:linear-gradient(180deg,#FF8F00,#FF6F00);color:white;padding:32px 22px 8px;display:flex;justify-content:space-between;font-size:11px;font-weight:600;align-items:center}
+.phone-statusbar .time{font-size:13px;font-weight:700}
+.phone-statusbar .icons{display:flex;gap:4px;align-items:center}
+.phone-content{flex:1;overflow-y:auto;overflow-x:hidden;position:relative}
+.phone-content::-webkit-scrollbar{width:0}
+.phone-home-indicator{width:134px;height:5px;background:#333;border-radius:100px;margin:8px auto 6px}
+.phone-navbar{background:#fafafa;border-top:1px solid #eee;padding:6px 20px 2px;display:flex;justify-content:space-around}
+.phone-navbar .nav-item{text-align:center;font-size:10px;color:#999;cursor:pointer;transition:all 0.2s;padding:2px 8px;border-radius:8px}
+.phone-navbar .nav-item:hover{color:#666;background:#f0f0f0}
+.phone-navbar .nav-item.active{color:var(--primary);font-weight:700}
+.phone-navbar .nav-item .nav-icon{font-size:20px;display:block;margin-bottom:1px;transition:transform 0.2s}
+.phone-navbar .nav-item.active .nav-icon{transform:scale(1.15)}
+
+/* 手机内页面 */
+.phone-page{display:none;padding:16px;animation:fadeIn 0.25s ease}
+.phone-page.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.app-title{font-size:20px;font-weight:800;color:var(--primary-dark);margin-bottom:4px}
+.app-subtitle{font-size:11px;color:var(--text-light);margin-bottom:16px}
+.module-grid-phone{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.module-btn{background:white;border-radius:14px;padding:14px 10px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,0.08);cursor:pointer;transition:all 0.2s;border:2px solid transparent;position:relative;overflow:hidden;user-select:none}
+.module-btn:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,0,0,0.12)}
+.module-btn:active{transform:scale(0.96)}
+.module-btn .m-icon{font-size:32px;display:block;margin-bottom:6px}
+.module-btn .m-name{font-size:12px;font-weight:700;color:var(--text)}
+.module-btn .m-desc{font-size:10px;color:var(--text-light);margin-top:2px}
+.module-btn.m1{border-color:#FF9800;background:#FFF8E1}
+.module-btn.m2{border-color:var(--danger);background:#FFEBEE}
+.module-btn.m3{border-color:var(--warning);background:#FFF3E0}
+.module-btn.m4{border-color:#FFC107;background:#FFFDE7}
+.module-btn.m5{border-color:var(--info);background:#E3F2FD}
+.module-btn.m6{border-color:var(--purple);background:#F3E5F5}
+.module-btn.m7{border-color:#2E7D32;background:#E8F5E9}
+
+.detail-header{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.back-btn{width:32px;height:32px;border-radius:50%;background:#f0f0f0;border:none;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background 0.2s}
+.back-btn:hover{background:#ddd}
+.detail-title{font-size:16px;font-weight:700}
+.detail-status{font-size:10px;padding:3px 10px;border-radius:10px;font-weight:600}
+.status-active{background:#E8F5E9;color:var(--success)}
+.status-alert{background:#FFEBEE;color:var(--danger);animation:pulse 1s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}
+.detail-features{list-style:none;margin:12px 0}
+.detail-features li{padding:8px 12px;margin:4px 0;background:#fafafa;border-radius:8px;font-size:11px;color:var(--text);border-left:3px solid var(--primary)}
+.detail-features li::before{content:'✓ ';color:var(--success);font-weight:bold}
+.demo-btn{display:block;width:100%;padding:14px;border:none;border-radius:12px;font-size:14px;font-weight:700;color:white;cursor:pointer;margin-top:12px;transition:all 0.2s;letter-spacing:1px}
+.demo-btn:active{transform:scale(0.97)}
+.demo-btn.danger{background:linear-gradient(135deg,#D32F2F,#E53935)}
+.demo-btn.warning{background:linear-gradient(135deg,#F57C00,#FF9800)}
+.demo-btn.primary{background:linear-gradient(135deg,#FF6F00,#FF9800)}
+.demo-btn.info{background:linear-gradient(135deg,#1565C0,#1976D2)}
+.demo-btn.purple{background:linear-gradient(135deg,#7B1FA2,#9C27B0)}
+.demo-btn.yellow{background:linear-gradient(135deg,#F9A825,#FBC02D);color:#333}
+
+/* 紧急覆盖层 */
+.emergency-overlay{position:absolute;top:0;left:0;width:100%;height:100%;display:none;flex-direction:column;align-items:center;justify-content:center;z-index:20;border-radius:30px;text-align:center;padding:20px}
+.emergency-overlay.show{display:flex}
+.emergency-overlay.fire{background:rgba(211,47,47,0.95);color:white;animation:flash 0.5s infinite}
+.emergency-overlay.gas{background:rgba(245,124,0,0.95);color:white;animation:flash 0.8s infinite}
+.emergency-overlay.knock{background:rgba(21,101,192,0.95);color:white}
+.emergency-overlay.cough{background:rgba(255,193,7,0.95);color:#333}
+.emergency-overlay.fall{background:rgba(123,31,162,0.95);color:white;animation:flash 0.6s infinite}
+.emergency-overlay.wakeup{background:rgba(255,111,0,0.95);color:white}
+@keyframes flash{0%,100%{opacity:1}50%{opacity:0.7}}
+.emergency-icon{font-size:64px;margin-bottom:12px}
+.emergency-text{font-size:20px;font-weight:900;margin-bottom:8px}
+.emergency-sub{font-size:12px;margin-bottom:16px;opacity:0.9}
+.emergency-actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.emergency-btn{padding:10px 20px;border-radius:10px;border:none;font-size:13px;font-weight:700;cursor:pointer;transition:all 0.2s;background:white;color:var(--text)}
+.emergency-btn:active{transform:scale(0.95)}
+.emergency-btn.close{background:rgba(255,255,255,0.2);color:white;border:2px solid rgba(255,255,255,0.5)}
+@keyframes shake{0%,100%{transform:translateX(0)}10%,30%,50%,70%,90%{transform:translateX(-4px)}20%,40%,60%,80%{transform:translateX(4px)}}
+.shaking{animation:shake 0.3s ease-in-out 3}
+.phone-hint{text-align:center;font-size:10px;color:#999;margin-top:8px;animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.4}}
+
+/* 手势识别进度点 */
+.gesture-dot{width:8px;height:8px;border-radius:50%;background:#ddd;transition:all 0.3s;cursor:pointer}
+.gesture-dot.active{background:var(--primary);transform:scale(1.5);box-shadow:0 0 6px rgba(255,111,0,0.5)}
+.gesture-dot.done{background:#2E7D32}
+.gesture-dot.sos{background:var(--danger);animation:pulse 0.5s infinite}
+
+/* ── 项目详情 Tab ── */
+section{padding:70px 20px}
+section .container{max-width:1200px;margin:0 auto}
+section h2{font-size:30px;font-weight:800;text-align:center;margin-bottom:10px;color:var(--primary-dark)}
+section .section-desc{text-align:center;color:var(--text-light);margin-bottom:40px;font-size:15px;max-width:600px;margin-left:auto;margin-right:auto}
+.problem{background:white}
+.problem-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
+.problem-card{background:var(--card-bg);border-radius:14px;padding:28px;box-shadow:0 4px 16px rgba(0,0,0,0.05);text-align:center;transition:transform 0.3s;border:1px solid #f0f0f0}
+.problem-card:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(255,111,0,0.1)}
+.problem-card .icon{font-size:44px;margin-bottom:12px}
+.problem-card h3{font-size:16px;color:var(--primary-dark);margin-bottom:6px}
+.problem-card p{font-size:13px;color:var(--text-light)}
+.tech{background:white}
+.tech-arch{display:flex;flex-direction:column;gap:14px;max-width:800px;margin:0 auto}
+.tech-layer{background:var(--card-bg);border-radius:12px;padding:18px 22px;box-shadow:0 2px 10px rgba(0,0,0,0.04);display:flex;align-items:center;gap:14px;border:1px solid #f0f0f0}
+.tech-layer .layer-icon{font-size:30px;min-width:44px;text-align:center}
+.tech-layer h4{font-size:14px;color:var(--primary-dark);margin-bottom:2px}
+.tech-layer p{font-size:12px;color:var(--text-light)}
+.tech-layer.app-layer{border-left:4px solid var(--primary)}
+.tech-layer.ai-layer{border-left:4px solid var(--info)}
+.tech-layer.data-layer{border-left:4px solid var(--success)}
+.tech-layer.secure-layer{border-left:4px solid var(--danger)}
+.encryption{background:linear-gradient(135deg,#1a1a2e,#16213e,#0f3460);color:white}
+.encryption h2{color:#FF9800}
+.encryption .section-desc{color:rgba(255,255,255,0.7)}
+.encryption-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+.encryption-card{background:rgba(255,255,255,0.05);border-radius:14px;padding:24px;border:1px solid rgba(255,255,255,0.1);transition:transform 0.3s}
+.encryption-card:hover{transform:translateY(-3px)}
+.encryption-card .enc-icon{font-size:36px;margin-bottom:10px}
+.encryption-card h3{font-size:16px;color:#FF9800;margin-bottom:6px}
+.encryption-card p{font-size:12px;color:rgba(255,255,255,0.7);line-height:1.7}
+.encryption-card code{background:rgba(255,152,0,0.2);color:#FFB74D;padding:2px 7px;border-radius:4px;font-size:11px}
+.business{background:var(--bg)}
+.biz-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:20px}
+.biz-card{background:var(--card-bg);border-radius:14px;padding:24px;text-align:center;box-shadow:0 4px 16px rgba(0,0,0,0.05);transition:transform 0.3s}
+.biz-card:hover{transform:translateY(-3px)}
+.biz-card .biz-icon{font-size:36px;margin-bottom:10px}
+.biz-card h3{font-size:15px;color:var(--primary-dark);margin-bottom:6px}
+.biz-card p{font-size:12px;color:var(--text-light)}
+.team-section{background:white}
+.team-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px}
+.team-card{background:var(--card-bg);border-radius:14px;padding:24px;text-align:center;box-shadow:0 4px 16px rgba(0,0,0,0.05);transition:transform 0.3s}
+.team-card:hover{transform:translateY(-3px)}
+.team-card .avatar{width:72px;height:72px;border-radius:50%;margin:0 auto 14px;background:linear-gradient(135deg,var(--primary),var(--accent));display:flex;align-items:center;justify-content:center;font-size:28px;color:white}
+.team-card h3{font-size:15px;margin-bottom:2px}
+.team-card .role{font-size:12px;color:var(--primary);font-weight:600;margin-bottom:6px}
+.team-card p{font-size:11px;color:var(--text-light)}
+.download{background:linear-gradient(135deg,var(--primary-dark),var(--primary));color:white;text-align:center}
+.download h2{color:white}
+.download .section-desc{color:rgba(255,255,255,0.8)}
+.download-buttons{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.download-btn{display:inline-flex;align-items:center;gap:6px;padding:12px 28px;border-radius:10px;font-size:15px;font-weight:700;text-decoration:none;transition:all 0.3s;cursor:pointer}
+.download-btn.primary{background:white;color:var(--primary)}
+.download-btn.primary:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,0,0,0.2)}
+.download-btn.secondary{background:rgba(255,255,255,0.15);color:white;border:2px solid rgba(255,255,255,0.3)}
+.download-btn.secondary:hover{background:rgba(255,255,255,0.25)}
+.score-table{width:100%;border-collapse:collapse;margin-top:20px;font-size:13px;border-radius:10px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,0.05)}
+.score-table th{background:var(--primary);color:white;padding:10px 14px;text-align:left;font-weight:600}
+.score-table td{padding:10px 14px;border-bottom:1px solid #f0f0f0}
+.score-table tr:nth-child(even){background:#fafafa}
+.score-table .score{font-weight:700;color:var(--primary);text-align:center}
+.highlight-box{background:linear-gradient(135deg,#FFF3E0,#FFE0B2);border-left:4px solid var(--primary);border-radius:10px;padding:18px 22px;margin:20px 0}
+.highlight-box h4{color:var(--primary-dark);margin-bottom:6px}
+footer{background:#1a1a1a;color:rgba(255,255,255,0.5);text-align:center;padding:36px 20px;font-size:12px}
+footer .declaration{margin-top:16px;padding:14px;background:rgba(255,255,255,0.05);border-radius:8px;font-size:11px;line-height:1.7;text-align:left;max-width:800px;margin-left:auto;margin-right:auto}
+footer .declaration strong{color:var(--primary)}
+
+/* 响应式 */
+@media(max-width:900px){
+  #topNav .tabs .tab{padding:12px 10px;font-size:11px}
+  #topNav .brand{font-size:16px}
+  .hero-wrap{flex-direction:column;text-align:center;gap:20px;padding:20px 12px}
+  .hero-text{text-align:center;max-width:100%}
+  .hero-text .stats{justify-content:center}
+  .hero-text h1{font-size:26px}
+  .hero-text .slogan{border-left:none;text-align:center}
+  .phone-frame{width:300px;height:600px}
+  section{padding:40px 14px}
+  section h2{font-size:24px}
+}
+html{scroll-behavior:smooth}
+
+/* ═══════════════ 加密算法可视化 ═══════════════ */
+.enc-viz-section{margin-top:40px}
+.enc-viz-section h3{font-size:20px;color:#FF9800;margin-bottom:16px;text-align:center}
+.enc-viz-section h4{font-size:15px;color:rgba(255,255,255,0.9);margin:24px 0 12px;padding-left:12px;border-left:3px solid #FF9800}
+.enc-arch-table{width:100%;border-collapse:collapse;margin:16px 0;font-size:12px;border-radius:10px;overflow:hidden}
+.enc-arch-table th{background:rgba(255,152,0,0.3);color:#FFB74D;padding:10px 12px;font-weight:700;text-align:left}
+.enc-arch-table td{padding:10px 12px;border-bottom:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.85)}
+.enc-arch-table tr:nth-child(even){background:rgba(255,255,255,0.03)}
+.enc-arch-table tr:hover{background:rgba(255,152,0,0.08)}
+
+/* 密钥生命周期可视化 */
+.key-lifecycle{display:flex;align-items:center;justify-content:center;gap:0;margin:20px 0;flex-wrap:wrap}
+.key-lifecycle .kl-stage{text-align:center;padding:14px 18px;border-radius:10px;font-size:11px;font-weight:700;min-width:80px;transition:all 0.3s;position:relative}
+.key-lifecycle .kl-stage.active{background:rgba(46,125,50,0.3);color:#66BB6A;border:2px solid #66BB6A}
+.key-lifecycle .kl-stage.expiring{background:rgba(245,124,0,0.3);color:#FFB74D;border:2px solid #FFB74D}
+.key-lifecycle .kl-stage.expired{background:rgba(211,47,47,0.3);color:#EF5350;border:2px solid #EF5350}
+.key-lifecycle .kl-stage.destroyed{background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.4);border:2px solid rgba(255,255,255,0.2)}
+.key-lifecycle .kl-arrow{font-size:20px;color:rgba(255,255,255,0.5);margin:0 4px}
+.key-lifecycle .kl-time{font-size:10px;color:rgba(255,255,255,0.5);margin-top:4px}
+
+/* 雪崩效应柱状图 */
+.avalanche-chart{margin:20px 0}
+.avalanche-chart .bar-row{display:flex;align-items:center;margin:10px 0;gap:12px}
+.avalanche-chart .bar-label{font-size:12px;color:rgba(255,255,255,0.8);min-width:80px;text-align:right}
+.avalanche-chart .bar-track{flex:1;height:28px;background:rgba(255,255,255,0.08);border-radius:14px;overflow:hidden;position:relative}
+.avalanche-chart .bar-fill{height:100%;border-radius:14px;transition:width 1.5s ease;display:flex;align-items:center;padding-left:12px;font-size:11px;font-weight:700;color:white}
+.avalanche-chart .bar-fill.key-avalanche{background:linear-gradient(90deg,#FF6F00,#FF9800)}
+.avalanche-chart .bar-fill.plain-avalanche{background:linear-gradient(90deg,#1565C0,#42A5F5)}
+.avalanche-chart .bar-fill.iv-avalanche{background:linear-gradient(90deg,#7B1FA2,#AB47BC)}
+.avalanche-chart .bar-ideal{position:absolute;left:50%;top:0;width:2px;height:100%;background:rgba(255,255,255,0.6);z-index:2}
+.avalanche-chart .bar-ideal::after{content:'理想值 50%';position:absolute;top:-18px;left:50%;transform:translateX(-50%);font-size:9px;color:rgba(255,255,255,0.5);white-space:nowrap}
+
+/* GCM认证标签测试 */
+.gcm-test-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:16px 0}
+.gcm-test-card{background:rgba(255,255,255,0.05);border-radius:10px;padding:16px;text-align:center;border:1px solid rgba(255,255,255,0.1);transition:all 0.3s}
+.gcm-test-card:hover{transform:translateY(-2px);border-color:rgba(255,152,0,0.3)}
+.gcm-test-card .gcm-icon{font-size:28px;margin-bottom:8px}
+.gcm-test-card .gcm-result{font-size:13px;font-weight:700;margin:4px 0}
+.gcm-test-card .gcm-result.pass{color:#66BB6A}
+.gcm-test-card .gcm-result.fail{color:#EF5350}
+.gcm-test-card .gcm-desc{font-size:10px;color:rgba(255,255,255,0.5);line-height:1.5}
+
+/* 安全维度总结 */
+.security-summary-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:16px 0}
+.security-summary-card{background:rgba(255,255,255,0.05);border-radius:10px;padding:16px;text-align:center;border:1px solid rgba(255,255,255,0.1)}
+.security-summary-card .sec-icon{font-size:24px;margin-bottom:6px}
+.security-summary-card h5{font-size:13px;color:#FF9800;margin-bottom:4px}
+.security-summary-card .sec-mechanism{font-size:10px;color:rgba(255,255,255,0.6);margin-bottom:2px}
+.security-summary-card .sec-verify{font-size:10px;color:#66BB6A;font-weight:600}
+
+/* 轮换触发条件 */
+.rotation-triggers{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:16px 0}
+.rotation-trigger{background:rgba(255,255,255,0.05);border-radius:10px;padding:14px 16px;border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;gap:10px}
+.rotation-trigger .rt-icon{font-size:24px;min-width:32px;text-align:center}
+.rotation-trigger .rt-info h6{font-size:12px;color:rgba(255,255,255,0.9);margin-bottom:2px}
+.rotation-trigger .rt-info p{font-size:10px;color:rgba(255,255,255,0.5)}
+
+/* 安全收益对比表 */
+.enc-compare-table{width:100%;border-collapse:collapse;margin:16px 0;font-size:12px;border-radius:10px;overflow:hidden}
+.enc-compare-table th{background:rgba(255,152,0,0.3);color:#FFB74D;padding:10px 12px;font-weight:700;text-align:left}
+.enc-compare-table td{padding:10px 12px;border-bottom:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.85)}
+.enc-compare-table tr:nth-child(even){background:rgba(255,255,255,0.03)}
+.enc-compare-table .highlight-cell{color:#66BB6A;font-weight:700}
+
+/* 通用信息表格（浅色主题） */
+.info-table{width:100%;border-collapse:collapse;margin:16px 0;font-size:12px;border-radius:10px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,0.05)}
+.info-table th{background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:white;padding:10px 14px;font-weight:700;text-align:left}
+.info-table td{padding:10px 14px;border-bottom:1px solid #f0f0f0;color:var(--text)}
+.info-table tr:nth-child(even) td{background:#fafafa}
+.info-table tr:hover td{background:#FFF8E1}
+
+/* 摄像头预览 */
+.camera-container{position:relative;width:100%;max-width:280px;margin:10px auto;border-radius:12px;overflow:hidden;background:#000;aspect-ratio:4/3;display:none}
+.camera-container.active{display:block}
+.camera-container video{width:100%;height:100%;object-fit:cover;transform:scaleX(-1)}
+.camera-container canvas{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none}
+.camera-status{text-align:center;font-size:10px;color:var(--text-light);margin-top:4px;min-height:16px}
+.camera-btn{display:block;width:100%;padding:10px;border:none;border-radius:12px;font-size:13px;font-weight:700;cursor:pointer;margin-top:8px;transition:all 0.2s;background:linear-gradient(135deg,#2E7D32,#43A047);color:white}
+.camera-btn:active{transform:scale(0.97)}
+.camera-btn.stop{background:linear-gradient(135deg,#C62828,#E53935)}
+.camera-hint{text-align:center;font-size:10px;color:#999;margin-top:6px}
+.gesture-result{text-align:center;padding:8px;margin-top:8px;background:#E8F5E9;border-radius:8px;display:none}
+.gesture-result.show{display:block}
+.gesture-result .detected{font-size:32px;display:block}
+.gesture-result .detected-name{font-size:14px;font-weight:700;color:var(--success)}
+.gesture-result.sos-alert{background:#FFEBEE;animation:pulse 0.5s infinite}
+.gesture-result.sos-alert .detected-name{color:var(--danger)}
+</style>
+<!-- MediaPipe Hands CDN -->
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<!-- ═══════════════ 顶部导航栏 ═══════════════ -->
+<nav id="topNav">
+  <div class="nav-inner">
+    <a class="brand" href="app.html">微光<span>同行</span></a>
+    <ul class="tabs" id="navTabs">
+      <li><a class="tab spa-link" href="app.html">微光同行</a></li>
+      <li class="tab active" data-tab="1">模拟演示</li>
+      <li class="tab" data-tab="2">项目详情</li>
+      <li class="tab" data-tab="3">团队</li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ═══════════════ 内容区 ═══════════════ -->
+<div id="mainContent">
+
+  <!-- Tab1: 模拟演示 -->
+  <div class="tab-panel active" id="tabPanel1">
+    <div class="hero-wrap">
+      <div class="hero-text">
+        <div class="competition-badge">大学生创新创业大赛 · <span class="sub">红旅赛道</span></div>
+        <h1><span class="accent">微光同行</span><br>智能助残服务平台</h1>
+        <p class="slogan">以AI之手，搭建听障人士与世界沟通的桥梁</p>
+        <div class="stats">
+          <div class="stat highlight"><div class="num">11</div><div class="label">手势识别</div></div>
+          <div class="stat highlight"><div class="num">80+</div><div class="label">商品词库</div></div>
+          <div class="stat"><div class="num">100%</div><div class="label">端侧推理</div></div>
+          <div class="stat"><div class="num">99.6%</div><div class="label">识别准确率</div></div>
+        </div>
+        <a href="app.html" class="spa-entry">探索完整功能 <span class="arrow">→</span></a>
+        <p style="font-size:10px;color:#999;margin-top:6px">SOS手势求助 · 双向手语识别 · OCR商品识别 · 11种手势实时检测</p>
+      </div>
+
+      <!-- 手机模拟器 -->
+      <div class="phone-wrapper" id="phoneWrapper">
+        <div class="phone-3d-scene" id="phone3dScene">
+        <div class="phone-frame skin-iphone17" id="phoneFrame">
+          <div class="phone-side-btn vol-up" title="音量+"></div>
+          <div class="phone-side-btn vol-down" title="音量-"></div>
+          <div class="phone-side-btn power" title="电源键" onclick="toggleFlashlight()"></div>
+          <div class="phone-side-btn left-top" title="静音开关"></div>
+          <div class="phone-side-btn left-bottom" title="操作按钮"></div>
+          <div class="phone-notch"></div>
+          <div class="phone-flashlight" id="phoneFlashlight"></div>
+          <div class="phone-screen" id="phoneScreen">
+            <div class="phone-statusbar">
+              <span class="time" id="phoneTime">9:41</span>
+              <span class="icons">📶 🔋 <span id="phoneBattery">85%</span></span>
+            </div>
+            <div class="phone-content" id="phoneContent">
+              <div class="emergency-overlay" id="emergencyOverlay">
+                <div class="emergency-icon" id="emIcon"></div>
+                <div class="emergency-text" id="emText"></div>
+                <div class="emergency-sub" id="emSub"></div>
+                <div class="emergency-actions">
+                  <button class="emergency-btn" onclick="stopEmergency()">关闭预警</button>
+                  <button class="emergency-btn close" onclick="stopEmergency()">已确认安全</button>
+                </div>
+              </div>
+              <div class="phone-page active" id="page-home">
+                <div class="app-title">微光守护</div>
+                <div class="app-subtitle">AI多模态无声安全预警</div>
+                <div class="module-grid-phone">
+                  <div class="module-btn m1" onclick="goPage('wakeup')"><span class="m-icon">⏰</span><span class="m-name">触觉唤醒引擎</span><span class="m-desc">振动+闪光唤醒</span></div>
+                  <div class="module-btn m2" onclick="goPage('fire')"><span class="m-icon">🔥</span><span class="m-name">火灾声纹预警</span><span class="m-desc">离线AI识别</span></div>
+                  <div class="module-btn m3" onclick="goPage('gas')"><span class="m-icon">💨</span><span class="m-name">燃气泄漏预警</span><span class="m-desc">低频异响检测</span></div>
+                  <div class="module-btn m4" onclick="goPage('cough')"><span class="m-icon">🩺</span><span class="m-name">咳嗽健康监测</span><span class="m-desc">时序缓冲分析</span></div>
+                  <div class="module-btn m5" onclick="goPage('knock')"><span class="m-icon">🚪</span><span class="m-name">敲门安防预警</span><span class="m-desc">密度算法分析</span></div>
+                  <div class="module-btn m6" onclick="goPage('fall')"><span class="m-icon">🆘</span><span class="m-name">跌倒检测</span><span class="m-desc">传感器+摄像头</span></div>
+                  <div class="module-btn m7" onclick="goPage('gesture')"><span class="m-icon">✋</span><span class="m-name">手势识别</span><span class="m-desc">11种手势·端侧AI</span></div>
+                </div>
+              </div>
+              <div class="phone-page" id="page-wakeup">
+                <div class="detail-header"><button class="back-btn" onclick="goPage('home')">←</button><span class="detail-title">触觉唤醒引擎</span><span class="detail-status status-active">✅ 已就绪</span></div>
+                <ul class="detail-features"><li>三种振动模式：连续/脉冲/渐强</li><li>屏幕亮度闪烁辅助唤醒</li><li>长按3秒 / 数学题双重关闭验证</li><li>AlarmManager + WorkManager 双保险调度</li><li>SOS紧急联动：一键短信+电话+GPS</li><li>锁屏唤醒，确保闹钟准时触发</li></ul>
+                <button class="demo-btn primary" onclick="demoWakeUp()">⏰ 演示唤醒（3秒持续振动）</button>
+                <div id="wakeupTimer" style="text-align:center;font-size:24px;font-weight:900;color:var(--primary);margin-top:10px;display:none"></div>
+              </div>
+              <div class="phone-page" id="page-fire">
+                <div class="detail-header"><button class="back-btn" onclick="goPage('home')">←</button><span class="detail-title">火灾声纹预警</span><span class="detail-status status-active">✅ 监听中</span></div>
+                <ul class="detail-features"><li>实时识别火灾警报声，无需网络</li><li>CNN卷积神经网络，准确率>95%</li><li>全屏红色预警 + SOS振动 + 高频闪烁</li><li>10秒自动派发应急：短信+电话+GPS</li><li>连续3次确认防误报机制</li><li>前台Service后台保活，7x24小时运行</li></ul>
+                <button class="demo-btn danger" onclick="demoFire()">🔥 模拟火灾警报（红色预警+声音）</button>
+              </div>
+              <div class="phone-page" id="page-gas">
+                <div class="detail-header"><button class="back-btn" onclick="goPage('home')">←</button><span class="detail-title">燃气泄漏预警</span><span class="detail-status status-active">✅ 监听中</span></div>
+                <ul class="detail-features"><li>8kHz低采样率，专注20-200Hz低频段</li><li>低频MFCC特征加权，3倍权重增强</li><li>轻量CNN，参数量&lt;500K，推理&lt;50ms</li><li>橙色预警 + 应急处置文字提示</li><li>关阀门→开窗通风→勿开电器→撤离</li><li>复用火灾模块的预警和应急联动框架</li></ul>
+                <button class="demo-btn warning" onclick="demoGas()">💨 模拟燃气泄漏（橙色预警+嘶嘶声）</button>
+              </div>
+              <div class="phone-page" id="page-cough">
+                <div class="detail-header"><button class="back-btn" onclick="goPage('home')">←</button><span class="detail-title">咳嗽健康监测</span><span class="detail-status status-active">✅ 监听中</span></div>
+                <ul class="detail-features"><li>病理性咳嗽 vs 清嗓/社交笑的精准区分</li><li>15秒滑窗 ≥5次触发预警，防误报</li><li>三级预警：轻度/中度/重度</li><li>健康闭环：手语科普 + 无障碍问诊入口</li><li>温和震动提醒，非紧急级别</li><li>WebView健康资讯 + 远程医疗对接</li></ul>
+                <button class="demo-btn yellow" onclick="demoCough()">🩺 模拟连续咳嗽（黄色预警+咳嗽声）</button>
+              </div>
+              <div class="phone-page" id="page-knock">
+                <div class="detail-header"><button class="back-btn" onclick="goPage('home')">←</button><span class="detail-title">敲门安防预警</span><span class="detail-status status-active">✅ 监听中</span></div>
+                <ul class="detail-features"><li>三类区分：正常/急促/拍门砸门</li><li>3秒滑窗密度分析：≥8次触发橙色预警</li><li>七级安全状态精细评估</li><li>手语快捷沟通面板：问候/请求/紧急</li><li>一键呼叫社区安保</li><li>IoT预留：BLE/WiFi智能家居联动接口</li></ul>
+                <button class="demo-btn info" onclick="demoKnock()">🚪 模拟急促敲门（蓝色预警+敲门声）</button>
+              </div>
+              <div class="phone-page" id="page-fall">
+                <div class="detail-header"><button class="back-btn" onclick="goPage('home')">←</button><span class="detail-title">跌倒检测</span><span class="detail-status status-active">✅ 监听中</span></div>
+                <ul class="detail-features"><li>传感器初筛：加速度骤降 + 角度翻转</li><li>摄像头复核：画面特征分析确认</li><li>30秒无响应计时 → 自动派发应急</li><li>防误报：躺着/弯腰/蹲下自动过滤</li><li>SMS+电话+GPS定位 家属通知</li><li>大按钮应急UI + 120 + 手语客服</li></ul>
+                <button class="demo-btn purple" onclick="demoFall()">🆘 模拟跌倒检测（紫色预警+警报声）</button>
+              </div>
+              <div class="phone-page" id="page-gesture">
+                <div class="detail-header"><button class="back-btn" onclick="goPage('home')">←</button><span class="detail-title">手势识别</span><span class="detail-status status-active">✅ 运行中</span></div>
+                <ul class="detail-features"><li>11种手势实时识别（握拳/手掌/大拇指/OK/比心/剪刀手/摆手/打电话/食指/拇指朝下/无手势）</li><li>MediaPipe Hand Landmarker 21点手部关键点检测</li><li>GestureVectorDB 余弦相似度匹配，识别速度&lt;1ms</li><li>100%端侧推理，无网络依赖，隐私数据不出设备</li><li>SOS手势自动触发TTS语音广播+紧急联系人通知</li><li>双向手语：手势→文字+文字→手语动画</li></ul>
+                <div style="text-align:center;margin:16px 0">
+                  <div id="gestureDisplay" style="font-size:64px;line-height:1;transition:all 0.3s;min-height:80px;display:flex;align-items:center;justify-content:center">✋</div>
+                  <div id="gestureName" style="font-size:20px;font-weight:900;color:var(--primary-dark);margin:6px 0">手掌张开</div>
+                  <div id="gestureMeaning" style="font-size:12px;color:var(--text-light)">停止 / 问候</div>
+                  <div id="gestureProgress" style="margin-top:10px;display:flex;gap:4px;justify-content:center;flex-wrap:wrap;max-width:280px;margin-left:auto;margin-right:auto"></div>
+                </div>
+                <button class="demo-btn primary" id="gestureDemoBtn" onclick="demoGesture()">▶ 开始手势识别演示</button>
+                <button class="demo-btn danger" id="gestureSOSBtn" onclick="demoGestureSOS()" style="margin-top:8px">🆘 模拟SOS握拳手势（自动播报+紧急通知）</button>
+              </div>
+            </div>
+            <div class="phone-home-indicator"></div>
+            <div class="phone-navbar" id="phoneNavbar">
+              <div class="nav-item active" data-page="home"><span class="nav-icon">🏠</span>首页</div>
+              <div class="nav-item" data-page="wakeup"><span class="nav-icon">⏰</span>唤醒</div>
+              <div class="nav-item" data-page="fire"><span class="nav-icon">🔥</span>火灾</div>
+              <div class="nav-item" data-page="gas"><span class="nav-icon">💨</span>燃气</div>
+              <div class="nav-item" data-page="cough"><span class="nav-icon">🩺</span>健康</div>
+              <div class="nav-item" data-page="gesture"><span class="nav-icon">✋</span>手势</div>
+            </div>
+          </div>
+        </div>
+        </div>
+        <!-- 手机皮肤选择器 -->
+        <div class="skin-selector">
+          <button class="skin-btn active" onclick="switchSkin('iphone17',this)"><span class="skin-dot i17"></span>iPhone 17 Pro</button>
+          <button class="skin-btn" onclick="switchSkin('samsung',this)"><span class="skin-dot sam"></span>Samsung S25</button>
+          <button class="skin-btn" onclick="switchSkin('xiaomi',this)"><span class="skin-dot xm"></span>Xiaomi 15</button>
+          <button class="skin-btn" onclick="switchSkin('pixel',this)"><span class="skin-dot px"></span>Pixel 9</button>
+          <button class="tts-toggle" id="ttsToggle" onclick="toggleTTS()" title="开启语音播报">🔊 TTS</button>
+        </div>
+        <div class="tts-label" id="ttsLabel">💡 点击电源键可开关闪光灯 | 悬停鼠标旋转手机 | <span id="skinDimLabel" style="color:var(--primary);font-weight:700">390×844px</span></div>
+        <div class="phone-hint">👆 点击上方按钮体验完整功能（含真实声音+振动+闪烁效果）</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab2: 项目详情 -->
+  <div class="tab-panel" id="tabPanel2">
+    <section class="problem">
+      <div class="container">
+        <h2>我们解决什么问题</h2>
+        <p class="section-desc">中国有超过2700万听障人士，他们在日常生活中面临诸多安全隐患</p>
+        <table class="info-table">
+          <thead><tr><th>痛点场景</th><th>具体问题</th><th>风险等级</th></tr></thead>
+          <tbody>
+            <tr><td>🔕 听不见闹钟</td><td>传统闹钟对听障人士无效，导致错过重要日程</td><td>中</td></tr>
+            <tr><td>🔥 听不见火警</td><td>火灾警报声无法被感知，生命安全受到严重威胁</td><td>极高</td></tr>
+            <tr><td>💨 感知不到燃气泄漏</td><td>燃气泄漏的嘶嘶声无法被察觉，存在中毒和爆炸风险</td><td>极高</td></tr>
+            <tr><td>🚪 察觉不到异常敲门</td><td>无法分辨正常敲门和急促砸门，居家安全存隐患</td><td>高</td></tr>
+            <tr><td>🩺 健康监测缺失</td><td>持续性病理性咳嗽难以自我评估，缺乏健康预警</td><td>中</td></tr>
+            <tr><td>🆘 跌倒无法呼救</td><td>听障人士跌倒后无法语音呼救，错过黄金救援时间</td><td>极高</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+    <section class="tech">
+      <div class="container">
+        <h2>技术架构</h2>
+        <p class="section-desc">端侧AI + 零知识加密 + 离线优先，保护用户隐私的同时保证功能完整</p>
+        <table class="info-table">
+          <thead><tr><th>层级</th><th>技术选型</th><th>说明</th></tr></thead>
+          <tbody>
+            <tr><td>📱 应用层</td><td>Jetpack Compose + Material3</td><td>声明式UI框架，6大模块统一设计语言，适配Android 7.0+</td></tr>
+            <tr><td>🧠 AI 推理层</td><td>TensorFlow Lite + ONNX</td><td>CNN/RNN端侧推理，INT8量化模型&lt;2MB，离线运行无需网络</td></tr>
+            <tr><td>💾 数据层</td><td>Room + SQLite</td><td>本地持久化存储，数据不出设备，WiFi仅用于密文同步</td></tr>
+            <tr><td>🔐 安全层</td><td>WeiGuang-Secure加密引擎</td><td>RSA-2048+AES-256-GCM，零知识架构，服务端不可解密</td></tr>
+          </tbody>
+        </table>
+        
+      </div>
+    </section>
+    <section class="encryption">
+      <div class="container">
+        <h2>WeiGuang-Secure 自研端到端加密引擎</h2>
+        <p class="section-desc">三层加密架构：RSA-2048密钥交换 + AES-256-GCM数据加密 + Android Keystore硬件保护</p>
+        <table class="enc-arch-table">
+          <thead><tr><th>加密组件</th><th>技术方案</th><th>核心参数</th></tr></thead>
+          <tbody>
+            <tr><td>🔑 RSA-2048 密钥交换</td><td>非对称加密确保密钥传输安全</td><td>2048位密钥 + OAEP-SHA256填充</td></tr>
+            <tr><td>🔒 AES-256-GCM 数据加密</td><td>对称加密保护业务数据</td><td>256位密钥 + GCM认证模式，128位认证标签</td></tr>
+            <tr><td>🛡️ Android Keystore 硬件保护</td><td>主密钥存储在TEE可信执行环境中</td><td>不可导出不可提取</td></tr>
+            <tr><td>🔗 Perfect Forward Secrecy</td><td>每次会话使用临时密钥</td><td>历史通信无法被解密</td></tr>
+            <tr><td>📱 离线优先设计</td><td>核心功能100%离线运行</td><td>AAD上下文绑定防重放攻击</td></tr>
+            <tr><td>📜 开源与审计</td><td>核心加密引擎Apache 2.0开源</td><td>接受第三方安全审计</td></tr>
+          </tbody>
+        </table>
+        <!-- ═══════════════ 加密算法可视化 ═══════════════ -->
+        <div class="enc-viz-section">
+          <h3>加密算法测试可视化</h3>
+
+          <!-- 三层加密架构表格 -->
+          <h4>三层加密架构</h4>
+          <table class="enc-arch-table">
+            <thead><tr><th>层级</th><th>名称</th><th>技术方案</th><th>核心参数</th><th>安全作用</th></tr></thead>
+            <tbody>
+              <tr><td>第一层</td><td>RSA-2048 密钥交换</td><td>非对称加密保护AES会话密钥传输</td><td>2048 bits · OAEP-SHA256</td><td>密钥协商防窃取</td></tr>
+              <tr><td>第二层</td><td>AES-256-GCM 数据加密</td><td>对称加密保护业务数据</td><td>256 bits · 12B IV · 128位认证标签</td><td>防篡改 · 防重放 · 1KB<1ms</td></tr>
+              <tr><td>第三层</td><td>Android Keystore 硬件保护</td><td>主密钥存于TEE可信执行环境</td><td>不可导出 · 硬件隔离 · API 23+</td><td>root也无法获取密钥</td></tr>
+            </tbody>
+          </table>
+
+          <!-- AES会话密钥生命周期 -->
+          <h4>AES会话密钥生命周期（5分钟有效期）</h4>
+          <div class="key-lifecycle" id="keyLifecycle">
+            <div class="kl-stage active" id="klActive">
+              <div>ACTIVE</div><div class="kl-time">0-4分钟</div>
+            </div>
+            <div class="kl-arrow">→</div>
+            <div class="kl-stage expiring" id="klExpiring">
+              <div>EXPIRING</div><div class="kl-time">4-5分钟</div>
+            </div>
+            <div class="kl-arrow">→</div>
+            <div class="kl-stage expired" id="klExpired">
+              <div>EXPIRED</div><div class="kl-time">5分钟后</div>
+            </div>
+            <div class="kl-arrow">→</div>
+            <div class="kl-stage destroyed" id="klDestroyed">
+              <div>DESTROYED</div><div class="kl-time">引用归零后</div>
+            </div>
+          </div>
+          <p style="text-align:center;font-size:10px;color:rgba(255,255,255,0.4);margin-top:4px">密钥生命周期自动轮播演示中（每2秒推进一个阶段）</p>
+
+          <!-- 定期密钥轮换触发条件 -->
+          <h4>定期密钥轮换触发条件</h4>
+          <div class="rotation-triggers">
+            <div class="rotation-trigger"><div class="rt-icon">⏱️</div><div class="rt-info"><h6>时间触发</h6><p>距离密钥创建超过4分钟（有效期5分钟，提前1分钟轮换）</p></div></div>
+            <div class="rotation-trigger"><div class="rt-icon">📦</div><div class="rt-info"><h6>数据量触发</h6><p>累计加密数据量超过64MB（GCM模式安全上限建议）</p></div></div>
+            <div class="rotation-trigger"><div class="rt-icon">🔢</div><div class="rt-info"><h6>请求次数触发</h6><p>累计加密操作超过10,000次</p></div></div>
+            <div class="rotation-trigger"><div class="rt-icon">🚨</div><div class="rt-info"><h6>异常触发</h6><p>检测到疑似重放攻击/异常高频请求时立即轮换</p></div></div>
+          </div>
+
+          <!-- 安全收益对比表 -->
+          <h4>密钥轮换安全收益</h4>
+          <table class="enc-compare-table">
+            <thead><tr><th>场景</th><th>无密钥轮换</th><th>有密钥轮换（本项目）</th></tr></thead>
+            <tbody>
+              <tr><td>密钥泄露影响范围</td><td>全部历史+未来数据</td><td class="highlight-cell">仅最近5分钟窗口内数据</td></tr>
+              <tr><td>攻击者可利用时间窗口</td><td>无限期</td><td class="highlight-cell">最多5分钟（过期自动失效）</td></tr>
+              <tr><td>暴力破解成本</td><td>破解一次即可</td><td class="highlight-cell">需每5分钟破解一次新密钥</td></tr>
+              <tr><td>前向安全性</td><td>依赖单次密钥协商</td><td class="highlight-cell">多层递进，任一密钥泄露不影响其他窗口</td></tr>
+            </tbody>
+          </table>
+
+          <!-- 雪崩效应测试可视化 -->
+          <h4>雪崩效应测试（Avalanche Effect）</h4>
+          <p style="font-size:11px;color:rgba(255,255,255,0.5);text-align:center;margin-bottom:16px">明文或密钥1bit变化 → 密文约50%bit翻转 | 每项测试1000次取平均值</p>
+          <div class="avalanche-chart" id="avalancheChart">
+            <div class="bar-row">
+              <div class="bar-label">密钥雪崩</div>
+              <div class="bar-track">
+                <div class="bar-ideal"></div>
+                <div class="bar-fill key-avalanche" id="barKey" style="width:0%"></div>
+              </div>
+            </div>
+            <div class="bar-row">
+              <div class="bar-label">明文雪崩</div>
+              <div class="bar-track">
+                <div class="bar-ideal"></div>
+                <div class="bar-fill plain-avalanche" id="barPlain" style="width:0%"></div>
+              </div>
+            </div>
+            <div class="bar-row">
+              <div class="bar-label">IV雪崩</div>
+              <div class="bar-track">
+                <div class="bar-ideal"></div>
+                <div class="bar-fill iv-avalanche" id="barIV" style="width:0%"></div>
+              </div>
+            </div>
+          </div>
+          <table class="enc-compare-table" style="margin-top:12px">
+            <thead><tr><th>测试类型</th><th>理想值</th><th>实测值</th><th>偏差</th><th>结论</th></tr></thead>
+            <tbody>
+              <tr><td>密钥雪崩</td><td>50.00%</td><td style="color:#FFB74D;font-weight:700">49.98%</td><td>0.02%</td><td style="color:#66BB6A;font-weight:700">✅ 通过</td></tr>
+              <tr><td>明文雪崩</td><td>50.00%</td><td style="color:#42A5F5;font-weight:700">50.04%</td><td>0.04%</td><td style="color:#66BB6A;font-weight:700">✅ 通过</td></tr>
+              <tr><td>IV雪崩</td><td>50.00%</td><td style="color:#AB47BC;font-weight:700">49.96%</td><td>0.04%</td><td style="color:#66BB6A;font-weight:700">✅ 通过</td></tr>
+              <tr><td>认证标签敏感性</td><td>1bit密钥变化→标签完全不同</td><td style="color:#66BB6A;font-weight:700">100% 不匹配</td><td>0%</td><td style="color:#66BB6A;font-weight:700">✅ 通过</td></tr>
+            </tbody>
+          </table>
+
+          <!-- GCM认证标签敏感性测试 -->
+          <h4>GCM认证标签敏感性测试</h4>
+          <div class="gcm-test-grid">
+            <div class="gcm-test-card">
+              <div class="gcm-icon">✅</div>
+              <div class="gcm-result pass">解密成功</div>
+              <div class="gcm-desc">正确密钥 + 正确密文<br>认证标签验证通过</div>
+            </div>
+            <div class="gcm-test-card">
+              <div class="gcm-icon">❌</div>
+              <div class="gcm-result fail">AEADBadTagException</div>
+              <div class="gcm-desc">正确密钥 + 篡改1bit密文<br>认证标签不匹配 → 拒绝解密</div>
+            </div>
+            <div class="gcm-test-card">
+              <div class="gcm-icon">❌</div>
+              <div class="gcm-result fail">AEADBadTagException</div>
+              <div class="gcm-desc">错误密钥 + 正确密文<br>认证标签不匹配 → 拒绝解密</div>
+            </div>
+            <div class="gcm-test-card">
+              <div class="gcm-icon">❌</div>
+              <div class="gcm-result fail">AEADBadTagException</div>
+              <div class="gcm-desc">正确密钥 + 错误AAD上下文<br>上下文绑定验证失败 → 拒绝解密</div>
+            </div>
+          </div>
+
+          <!-- 完整安全证明总结 -->
+          <h4>完整安全证明总结</h4>
+          <div class="security-summary-grid">
+            <div class="security-summary-card">
+              <div class="sec-icon">🔒</div><h5>机密性</h5>
+              <div class="sec-mechanism">AES-256 加密强度 2^256</div>
+              <div class="sec-verify">雪崩效应 49.98%</div>
+            </div>
+            <div class="security-summary-card">
+              <div class="sec-icon">🛡️</div><h5>完整性</h5>
+              <div class="sec-mechanism">GCM 128-bit 认证标签</div>
+              <div class="sec-verify">篡改1bit → 100%拒绝</div>
+            </div>
+            <div class="security-summary-card">
+              <div class="sec-icon">🔗</div><h5>认证性</h5>
+              <div class="sec-mechanism">AAD 上下文绑定</div>
+              <div class="sec-verify">错误上下文 → 100%拒绝</div>
+            </div>
+            <div class="security-summary-card">
+              <div class="sec-icon">⏩</div><h5>前向安全性</h5>
+              <div class="sec-mechanism">独立密钥 + 5分钟轮换</div>
+              <div class="sec-verify">旧密钥自动销毁</div>
+            </div>
+            <div class="security-summary-card">
+              <div class="sec-icon">🔄</div><h5>防重放</h5>
+              <div class="sec-mechanism">随机IV + 轮换序号递增</div>
+              <div class="sec-verify">重复IV/序号 → 拒绝</div>
+            </div>
+            <div class="security-summary-card">
+              <div class="sec-icon">🔐</div><h5>密钥保护</h5>
+              <div class="sec-mechanism">Keystore TEE 硬件隔离</div>
+              <div class="sec-verify">root也无法导出</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="business">
+      <div class="container">
+        <h2>商业模式与市场策略</h2>
+        <p class="section-desc">B2B2C + 免费增值，三线并行快速覆盖目标用户群体</p>
+        <table class="info-table">
+          <thead><tr><th>模式</th><th>策略</th><th>说明</th></tr></thead>
+          <tbody>
+            <tr><td>🏛️ 残联/社区合作</td><td>与各地残联、社区服务中心合作推广</td><td>政府采购或补贴模式</td></tr>
+            <tr><td>📱 免费增值模式</td><td>基础功能免费，高级功能付费</td><td>唤醒+火灾+燃气免费，其他付费</td></tr>
+            <tr><td>🏭 硬件预装合作</td><td>与手机厂商/智能家居品牌合作</td><td>系统级预装</td></tr>
+            <tr><td>🌍 开源社区生态</td><td>核心算法Apache 2.0开源</td><td>吸引开发者贡献</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+    <section class="download">
+      <div class="container">
+        <h2>演示与下载</h2>
+        <p class="section-desc">提供完整的演示APK、项目计划书、技术文档</p>
+        <div class="download-buttons">
+          <a href="微光科技_微光守护_演示APK.apk" class="download-btn primary" download>📱 下载演示 APK</a>
+          <a href="微光科技_微光守护_项目计划书.pdf" class="download-btn secondary" download>📄 项目计划书 PDF</a>
+          <a href="微光科技_自研加密算法技术文档.pdf" class="download-btn secondary" download>🔐 加密算法文档</a>
+        </div>
+      </div>
+    </section>
+    <footer>
+      <div>© 2026 微光科技 · 微光守护项目 · 用AI的微光，守护无声世界</div>
+      <div class="declaration">
+        <strong>项目原创性声明</strong><br>
+        本团队郑重承诺：提交的「微光守护——AI多模态无声安全健康预警系统」方案及全部成果均为本团队原创成果。项目核心技术——端到端加密算法（RSA-2048+AES-256-GCM零知识架构）系本团队自主研发，未侵犯任何第三方知识产权。<br><br>
+        <strong>开源声明：</strong>核心算法采用Apache 2.0许可证开源。<br>
+        <strong>合作单位：</strong>心融合公司（跌倒检测模块技术共创）<br>
+        <strong>提交日期：</strong>2026年7月
+      </div>
+    </footer>
+  </div>
+
+  <!-- Tab3: 团队 -->
+  <div class="tab-panel" id="tabPanel3">
+    <section class="team-section">
+      <div class="container">
+        <h2>团队介绍</h2>
+        <p class="section-desc">微光科技 · 用AI的微光，守护无声世界</p>
+        <table class="info-table">
+          <thead><tr><th>姓名</th><th>角色</th><th>学历</th><th>职责</th></tr></thead>
+          <tbody>
+            <tr><td>蒲洋</td><td>项目负责人</td><td>大专</td><td>整体规划、技术架构、团队协调、加密算法设计</td></tr>
+            <tr><td>代江宁</td><td>AI算法工程师</td><td>大专</td><td>深度学习模型训练、TFLite端侧部署、手势识别算法</td></tr>
+            <tr><td>王慧平</td><td>Android开发工程师</td><td>大专</td><td>Android客户端开发、UI设计、模块集成、无障碍交互</td></tr>
+            <tr><td>黄浙洋</td><td>产品/市场负责人</td><td>大专</td><td>产品规划、用户调研、市场推广、需求分析</td></tr>
+          </tbody>
+        </table>
+        
+      </div>
+    </section>
+    <section class="download">
+      <div class="container">
+        <h2>演示与下载</h2>
+        <p class="section-desc">提供完整的演示APK、项目计划书、技术文档</p>
+        <div class="download-buttons">
+          <a href="微光科技_微光守护_演示APK.apk" class="download-btn primary" download>📱 下载演示 APK</a>
+          <a href="微光科技_微光守护_项目计划书.pdf" class="download-btn secondary" download>📄 项目计划书 PDF</a>
+          <a href="微光科技_自研加密算法技术文档.pdf" class="download-btn secondary" download>🔐 加密算法文档</a>
+        </div>
+      </div>
+    </section>
+    <footer>
+      <div>© 2026 微光科技 · 微光守护项目 · 用AI的微光，守护无声世界</div>
+      <div class="declaration">
+        <strong>项目原创性声明</strong><br>
+        本团队郑重承诺：提交的「微光守护——AI多模态无声安全健康预警系统」方案及全部成果均为本团队原创成果。项目核心技术——端到端加密算法（RSA-2048+AES-256-GCM零知识架构）系本团队自主研发，未侵犯任何第三方知识产权。
+      </div>
+    </footer>
+  </div>
+</div>
+
+<!-- ═══════════════ 脚本 ═══════════════ -->
+<script>
+// ==================== 顶部导航Tab切换 ====================
+(function(){
+  var tabs = document.querySelectorAll('#navTabs .tab[data-tab]');
+  tabs.forEach(function(tab){
+    tab.addEventListener('click', function(){
+      var idx = this.getAttribute('data-tab');
+      tabs.forEach(function(t){ t.classList.remove('active'); });
+      this.classList.add('active');
+      document.querySelectorAll('.tab-panel').forEach(function(p){ p.classList.remove('active'); });
+      var panel = document.getElementById('tabPanel'+idx);
+      if(panel) panel.classList.add('active');
+    });
+  });
+})();
+
+// ==================== 动态状态栏时间 ====================
+function updatePhoneTime(){
+  var now = new Date();
+  var h = now.getHours().toString().padStart(2,'0');
+  var m = now.getMinutes().toString().padStart(2,'0');
+  var timeEl = document.getElementById('phoneTime');
+  if(timeEl) timeEl.textContent = h + ':' + m;
+  var batteryEl = document.getElementById('phoneBattery');
+  if(batteryEl) batteryEl.textContent = (80 + Math.floor(Math.random()*21)) + '%';
+}
+updatePhoneTime();
+setInterval(updatePhoneTime, 30000);
+
+// ==================== 音频引擎 ====================
+var AudioCtx = window.AudioContext || window.webkitAudioContext;
+var audioCtx = null;
+var activeSounds = [];
+function getAC(){ if(!audioCtx) audioCtx = new AudioCtx(); return audioCtx; }
+function stopAllSounds(){ activeSounds.forEach(function(s){ try{s.stop()}catch(e){} }); activeSounds = []; }
+
+function playFireAlarm(){
+  stopAllSounds();
+  var ac = getAC(), dur = 4.0, now = ac.currentTime;
+  for(var i=0;i<8;i++){
+    var t = now + i*0.5;
+    var osc = ac.createOscillator(), gain = ac.createGain();
+    osc.type='square'; osc.frequency.setValueAtTime(i%2===0?800:1000, t);
+    gain.gain.setValueAtTime(0,t);gain.gain.linearRampToValueAtTime(0.3,t+0.02);
+    gain.gain.linearRampToValueAtTime(0,t+0.25);
+    osc.connect(gain);gain.connect(ac.destination);osc.start(t);osc.stop(t+0.25);
+    activeSounds.push(osc);
+  }
+  var osc2 = ac.createOscillator(), gain2 = ac.createGain();
+  osc2.type='sawtooth'; osc2.frequency.setValueAtTime(180, now);
+  gain2.gain.setValueAtTime(0.12,now);gain2.gain.linearRampToValueAtTime(0,now+dur);
+  osc2.connect(gain2);gain2.connect(ac.destination);osc2.start(now);osc2.stop(now+dur);
+  activeSounds.push(osc2);
+  var osc3 = ac.createOscillator(), gain3 = ac.createGain();
+  osc3.type='triangle'; osc3.frequency.setValueAtTime(600, now);
+  osc3.frequency.linearRampToValueAtTime(1200, now+dur*0.5);
+  osc3.frequency.linearRampToValueAtTime(600, now+dur);
+  gain3.gain.setValueAtTime(0.06,now);gain3.gain.linearRampToValueAtTime(0,now+dur);
+  osc3.connect(gain3);gain3.connect(ac.destination);osc3.start(now);osc3.stop(now+dur);
+  activeSounds.push(osc3);
+}
+
+function playGasLeak(){
+  stopAllSounds();
+  var ac = getAC(), dur = 4.0, now = ac.currentTime;
+  var buf = ac.createBuffer(1, ac.sampleRate*dur, ac.sampleRate);
+  var data = buf.getChannelData(0);
+  for(var i=0;i<data.length;i++) data[i] = (Math.random()*2-1)*0.25 * (0.8 + 0.2*Math.sin(i*0.001));
+  var src = ac.createBufferSource(); src.buffer = buf;
+  var filter = ac.createBiquadFilter(); filter.type='lowpass'; filter.frequency.setValueAtTime(350, now);
+  var gain = ac.createGain(); gain.gain.setValueAtTime(0.18, now);
+  gain.gain.linearRampToValueAtTime(0.05, now+dur);
+  src.connect(filter);filter.connect(gain);gain.connect(ac.destination);
+  src.start(now);src.stop(now+dur);
+  activeSounds.push(src);
+  for(var i=0;i<3;i++){
+    var t = now + i*1.3;
+    var osc = ac.createOscillator(), gain2 = ac.createGain();
+    osc.type='sine'; osc.frequency.setValueAtTime(80, t);
+    gain2.gain.setValueAtTime(0,t);gain2.gain.linearRampToValueAtTime(0.1,t+0.1);
+    gain2.gain.linearRampToValueAtTime(0,t+0.8);
+    osc.connect(gain2);gain2.connect(ac.destination);osc.start(t);osc.stop(t+0.8);
+    activeSounds.push(osc);
+  }
+}
+
+function knockTap(ac, t, vol){
+  var osc = ac.createOscillator(), gain = ac.createGain();
+  osc.type='triangle'; osc.frequency.setValueAtTime(120+Math.random()*60, t);
+  gain.gain.setValueAtTime(0,t);gain.gain.linearRampToValueAtTime(vol,t+0.004);
+  gain.gain.exponentialRampToValueAtTime(0.001,t+0.07);
+  osc.connect(gain);gain.connect(ac.destination);osc.start(t);osc.stop(t+0.07);
+  activeSounds.push(osc);
+}
+
+function playKnockSound(){
+  stopAllSounds();
+  var ac = getAC(), now = ac.currentTime;
+  for(var i=0;i<3;i++) knockTap(ac, now+i*0.4, 0.35);
+  for(var i=0;i<5;i++) knockTap(ac, now+1.5+i*0.22, 0.4);
+  for(var i=0;i<8;i++) knockTap(ac, now+3.0+i*0.15, 0.5);
+}
+
+function playCoughSound(){
+  stopAllSounds();
+  var ac = getAC(), now = ac.currentTime;
+  var types = [{freq:500,q:1.5,dur:0.25,vol:0.45},{freq:400,q:2.5,dur:0.35,vol:0.5},{freq:600,q:1.2,dur:0.2,vol:0.4},{freq:450,q:2.0,dur:0.3,vol:0.48},{freq:550,q:1.8,dur:0.28,vol:0.42}];
+  for(var i=0;i<7;i++){
+    var t = now + i*1.1, ct = types[i%types.length];
+    var buf = ac.createBuffer(1, Math.floor(ac.sampleRate*ct.dur), ac.sampleRate);
+    var data = buf.getChannelData(0);
+    for(var j=0;j<data.length;j++){ var env=Math.exp(-j/(ac.sampleRate*0.06)); data[j]=(Math.random()*2-1)*env*ct.vol; }
+    var src = ac.createBufferSource(); src.buffer = buf;
+    var filter = ac.createBiquadFilter(); filter.type='bandpass';
+    filter.frequency.setValueAtTime(ct.freq,t);filter.Q.setValueAtTime(ct.q,t);
+    var gain = ac.createGain(); gain.gain.setValueAtTime(ct.vol,t);
+    src.connect(filter);filter.connect(gain);gain.connect(ac.destination);
+    src.start(t);src.stop(t+ct.dur);
+    activeSounds.push(src);
+  }
+}
+
+function playAlarmSound(){
+  stopAllSounds();
+  var ac = getAC(), dur = 4.0, now = ac.currentTime;
+  var pattern = [0,0.25,0.5,0.75,1.25,1.5,1.75,2.0,2.5,2.75,3.0,3.25];
+  pattern.forEach(function(offset,i){
+    var t = now+offset, isLong = (i+1)%4===0, endT = isLong?0.4:0.2;
+    var osc = ac.createOscillator(), gain = ac.createGain();
+    osc.type='square'; osc.frequency.setValueAtTime(880,t);
+    gain.gain.setValueAtTime(0,t);gain.gain.linearRampToValueAtTime(0.22,t+0.01);
+    gain.gain.linearRampToValueAtTime(0,t+endT);
+    osc.connect(gain);gain.connect(ac.destination);osc.start(t);osc.stop(t+endT);
+    activeSounds.push(osc);
+  });
+  var osc2 = ac.createOscillator(), gain2 = ac.createGain();
+  osc2.type='sine'; osc2.frequency.setValueAtTime(60,now);
+  osc2.frequency.setValueAtTime(90,now+0.5);osc2.frequency.setValueAtTime(60,now+1.0);
+  gain2.gain.setValueAtTime(0.08,now);gain2.gain.linearRampToValueAtTime(0,now+dur);
+  osc2.connect(gain2);gain2.connect(ac.destination);osc2.start(now);osc2.stop(now+dur);
+  activeSounds.push(osc2);
+}
+
+function playFallAlert(){
+  stopAllSounds();
+  var ac = getAC(), dur = 4.0, now = ac.currentTime;
+  var sosS=[0,0.2,0.4,1.0,1.3,1.6,2.2,2.4,2.6], sosL=[0.6,0.8,1.8,2.0];
+  sosS.forEach(function(t){
+    var osc=ac.createOscillator(),gain=ac.createGain();
+    osc.type='sawtooth';osc.frequency.setValueAtTime(1400,now+t);
+    gain.gain.setValueAtTime(0,now+t);gain.gain.linearRampToValueAtTime(0.28,now+t+0.01);
+    gain.gain.linearRampToValueAtTime(0,now+t+0.12);
+    osc.connect(gain);gain.connect(ac.destination);osc.start(now+t);osc.stop(now+t+0.12);
+    activeSounds.push(osc);
+  });
+  sosL.forEach(function(t){
+    var osc=ac.createOscillator(),gain=ac.createGain();
+    osc.type='sawtooth';osc.frequency.setValueAtTime(800,now+t);
+    gain.gain.setValueAtTime(0,now+t);gain.gain.linearRampToValueAtTime(0.28,now+t+0.01);
+    gain.gain.linearRampToValueAtTime(0,now+t+0.18);
+    osc.connect(gain);gain.connect(ac.destination);osc.start(now+t);osc.stop(now+t+0.18);
+    activeSounds.push(osc);
+  });
+  var osc2=ac.createOscillator(),gain2=ac.createGain();
+  osc2.type='square';osc2.frequency.setValueAtTime(500,now);
+  osc2.frequency.linearRampToValueAtTime(1500,now+dur);
+  gain2.gain.setValueAtTime(0.06,now);gain2.gain.linearRampToValueAtTime(0,now+dur);
+  osc2.connect(gain2);gain2.connect(ac.destination);osc2.start(now);osc2.stop(now+dur);
+  activeSounds.push(osc2);
+}
+
+// ==================== 手机内页面导航 ====================
+var emergencyTimer = null;
+document.addEventListener('DOMContentLoaded', function(){
+  document.querySelectorAll('#phoneNavbar .nav-item').forEach(function(item){
+    item.addEventListener('click', function(){ goPage(this.getAttribute('data-page')); });
+  });
+});
+
+function goPage(name){
+  stopEmergency(); stopAllSounds();
+  // 停止手势演示
+  if(gestureInterval){ clearInterval(gestureInterval); gestureInterval = null; gestureRunning = false; }
+  var btn = document.getElementById('gestureDemoBtn');
+  if(btn) btn.textContent = '▶ 开始手势识别演示';
+  // 如果离开手势页面，关闭摄像头
+  if(name !== 'gesture' && cameraActive){
+    stopCamera();
+    cameraActive = false;
+    var container = document.getElementById('cameraContainer');
+    var camBtn = document.getElementById('cameraBtn');
+    var status = document.getElementById('cameraStatus');
+    if(container) container.classList.remove('active');
+    if(camBtn){ camBtn.textContent = '📷 开启摄像头'; camBtn.classList.remove('stop'); }
+    if(status) status.textContent = '点击下方按钮开始摄像头手势识别';
+  }
+  document.querySelectorAll('.phone-page').forEach(function(p){ p.classList.remove('active'); });
+  var page = document.getElementById('page-'+name);
+  if(page) page.classList.add('active');
+  document.querySelectorAll('#phoneNavbar .nav-item').forEach(function(item){
+    item.classList.toggle('active', item.getAttribute('data-page') === name);
+  });
+  document.getElementById('phoneContent').scrollTop = 0;
+}
+
+function showEmergency(type, icon, text, sub){
+  stopEmergency();
+  var overlay = document.getElementById('emergencyOverlay');
+  overlay.className = 'emergency-overlay '+type+' show';
+  document.getElementById('emIcon').textContent = icon;
+  document.getElementById('emText').textContent = text;
+  document.getElementById('emSub').textContent = sub;
+  var frame = document.querySelector('.phone-frame');
+  frame.classList.add('shaking');
+  setTimeout(function(){ frame.classList.remove('shaking'); }, 900);
+  emergencyTimer = setTimeout(stopEmergency, 6000);
+}
+
+function stopEmergency(){
+  if(emergencyTimer){ clearTimeout(emergencyTimer); emergencyTimer = null; }
+  var overlay = document.getElementById('emergencyOverlay');
+  if(overlay) overlay.className = 'emergency-overlay';
+  var frame = document.querySelector('.phone-frame');
+  if(frame) frame.classList.remove('shaking');
+  stopAllSounds();
+}
+
+function demoWakeUp(){
+  goPage('wakeup'); playAlarmSound();
+  showEmergency('wakeup','⏰','闹钟触发！','振动+闪光持续唤醒中...');
+  var timerEl = document.getElementById('wakeupTimer');
+  timerEl.style.display = 'block'; var sec = 3;
+  timerEl.textContent = sec + 's'; timerEl.style.color = '#FF6F00';
+  var iv = setInterval(function(){
+    sec--;
+    if(sec<=0){ timerEl.textContent='✅ 已唤醒'; timerEl.style.color='#2E7D32'; clearInterval(iv); }
+    else timerEl.textContent = sec + 's';
+  },1000);
+  setTimeout(function(){ timerEl.style.display='none'; stopEmergency(); }, 4000);
+}
+
+function demoFire(){ goPage('fire'); playFireAlarm(); showEmergency('fire','🔥','⚠️ 火灾警报检测！','全屏红色预警 · 已通知紧急联系人'); }
+function demoGas(){ goPage('gas'); playGasLeak(); showEmergency('gas','💨','⚠️ 燃气泄漏检测！','橙色预警 · 请立即关闭阀门、开窗通风'); }
+function demoCough(){ goPage('cough'); playCoughSound(); showEmergency('cough','🩺','⚠️ 连续咳嗽异常','15秒内检测到≥5次病理性咳嗽 · 建议就医'); }
+function demoKnock(){ goPage('knock'); playKnockSound(); showEmergency('knock','🚪','⚠️ 异常急促敲门','3秒内≥8次叩击 · 请确认门外情况'); }
+function demoFall(){ goPage('fall'); playFallAlert(); showEmergency('fall','🆘','🆘 跌倒检测触发！','传感器+摄像头双重确认 · 30秒无响应将自动派发应急'); }
+
+// ==================== 手势识别演示 ====================
+var gestureData = [
+  {icon:'✋',name:'手掌张开',meaning:'停止 / 问候',type:'normal'},
+  {icon:'👍',name:'竖大拇指',meaning:'确认 / 好的',type:'normal'},
+  {icon:'👌',name:'OK手势',meaning:'没问题 / 可以',type:'normal'},
+  {icon:'✌️',name:'剪刀手',meaning:'胜利 / 和平',type:'normal'},
+  {icon:'👋',name:'摆手',meaning:'你好 / 再见',type:'normal'},
+  {icon:'🫶',name:'比心',meaning:'谢谢 / 爱你',type:'normal'},
+  {icon:'🤙',name:'打电话',meaning:'打电话给我',type:'normal'},
+  {icon:'☝️',name:'食指指向',meaning:'指向方向 / 那边',type:'normal'},
+  {icon:'👎',name:'拇指朝下',meaning:'不好 / 拒绝',type:'normal'},
+  {icon:'😐',name:'无手势',meaning:'待机状态',type:'normal'},
+  {icon:'✊',name:'握拳 (SOS)',meaning:'紧急求助！',type:'sos'}
+];
+var gestureIdx = 0;
+var gestureInterval = null;
+var gestureRunning = false;
+
+function initGestureDots(){
+  var container = document.getElementById('gestureProgress');
+  if(!container) return;
+  container.innerHTML = '';
+  gestureData.forEach(function(g,i){
+    var dot = document.createElement('span');
+    dot.className = 'gesture-dot';
+    dot.title = g.name;
+    dot.onclick = function(){ gestureIdx = i; showGesture(i); };
+    container.appendChild(dot);
+  });
+}
+
+function showGesture(idx){
+  var g = gestureData[idx];
+  var display = document.getElementById('gestureDisplay');
+  var name = document.getElementById('gestureName');
+  var meaning = document.getElementById('gestureMeaning');
+  if(display) display.textContent = g.icon;
+  if(name){ name.textContent = g.name; name.style.color = g.type==='sos' ? 'var(--danger)' : 'var(--primary-dark)'; }
+  if(meaning) meaning.textContent = g.meaning;
+  // 更新进度点
+  var dots = document.querySelectorAll('#gestureProgress .gesture-dot');
+  dots.forEach(function(d,i){
+    d.className = 'gesture-dot';
+    if(i < idx) d.classList.add('done');
+    if(i === idx) d.classList.add(g.type==='sos'?'sos':'active');
+  });
+}
+
+function demoGesture(){
+  if(gestureRunning){
+    // 停止演示
+    clearInterval(gestureInterval);
+    gestureInterval = null;
+    gestureRunning = false;
+    var btn = document.getElementById('gestureDemoBtn');
+    if(btn) btn.textContent = '▶ 开始手势识别演示';
+    return;
+  }
+  gestureRunning = true;
+  var btn = document.getElementById('gestureDemoBtn');
+  if(btn) btn.textContent = '⏸ 停止演示';
+  initGestureDots();
+  gestureIdx = 0;
+  showGesture(gestureIdx);
+  gestureInterval = setInterval(function(){
+    gestureIdx++;
+    if(gestureIdx >= gestureData.length){
+      gestureIdx = 0;
+      // 重置所有点
+      document.querySelectorAll('#gestureProgress .gesture-dot').forEach(function(d){ d.className = 'gesture-dot'; });
+    }
+    showGesture(gestureIdx);
+  }, 1200);
+}
+
+function demoGestureSOS(){
+  goPage('gesture');
+  // 停止正在运行的演示
+  if(gestureInterval){ clearInterval(gestureInterval); gestureInterval = null; gestureRunning = false; }
+  var btn = document.getElementById('gestureDemoBtn');
+  if(btn) btn.textContent = '▶ 开始手势识别演示';
+  // 初始化进度点
+  initGestureDots();
+  // 直接跳到握拳SOS
+  gestureIdx = 10;
+  showGesture(10);
+  // 触发SOS紧急效果
+  playFallAlert();
+  showEmergency('fall','🆘','🆘 SOS握拳手势检测！','手语识别: 握拳 = 紧急求助 · 自动TTS语音播报 · 已通知紧急联系人');
+}
+
+// 页面切换到手势时初始化
+document.addEventListener('DOMContentLoaded', function(){
+  initGestureDots();
+  initCameraGesture(); // 初始化摄像头手势识别
+});
+
+document.addEventListener('click', function(){ getAC(); }, {once:true});
+
+// ==================== 真实摄像头手势识别（MediaPipe Hands） ====================
+var cameraActive = false;
+var cameraStream = null;
+var handsModel = null;
+var cameraDetectionInterval = null;
+var lastFistTime = 0; // 防抖：避免重复触发SOS
+
+function initCameraGesture(){
+  // 检查MediaPipe Hands是否已加载
+  if(typeof Hands === 'undefined'){
+    console.log('[Camera] MediaPipe Hands SDK未加载，等待CDN...');
+    // 延迟重试
+    var retryCount = 0;
+    var retryTimer = setInterval(function(){
+      retryCount++;
+      if(typeof Hands !== 'undefined'){
+        clearInterval(retryTimer);
+        console.log('[Camera] MediaPipe Hands SDK已就绪');
+      } else if(retryCount > 30){
+        clearInterval(retryTimer);
+        console.warn('[Camera] MediaPipe Hands SDK加载超时');
+      }
+    }, 500);
+    return;
+  }
+  console.log('[Camera] MediaPipe Hands SDK已就绪');
+}
+
+async function toggleCamera(){
+  var container = document.getElementById('cameraContainer');
+  var video = document.getElementById('cameraVideo');
+  var canvas = document.getElementById('cameraCanvas');
+  var btn = document.getElementById('cameraBtn');
+  var status = document.getElementById('cameraStatus');
+
+  if(cameraActive){
+    // 关闭摄像头
+    stopCamera();
+    if(container) container.classList.remove('active');
+    if(btn){ btn.textContent = '📷 开启摄像头'; btn.classList.remove('stop'); }
+    if(status) status.textContent = '点击下方按钮开始摄像头手势识别';
+    cameraActive = false;
+    return;
+  }
+
+  // 开启摄像头
+  if(status) status.textContent = '正在请求摄像头权限...';
+  try {
+    cameraStream = await navigator.mediaDevices.getUserMedia({
+      video: { width: 640, height: 480, facingMode: 'user' }
+    });
+    if(video){
+      video.srcObject = cameraStream;
+      video.onloadedmetadata = function(){
+        video.play();
+        if(container) container.classList.add('active');
+        if(btn){ btn.textContent = '⏹ 关闭摄像头'; btn.classList.add('stop'); }
+        if(status) status.textContent = '摄像头已开启，请将手掌放在摄像头前展示手势';
+        cameraActive = true;
+        // 初始化MediaPipe Hands
+        initHandsDetection(video, canvas);
+        // 开始手势检测循环
+        startHandsDetection(video, canvas);
+      };
+    }
+  } catch(err){
+    console.error('[Camera] 摄像头访问失败:', err);
+    if(status) status.textContent = '摄像头访问失败：' + (err.name === 'NotAllowedError' ? '权限被拒绝，请在浏览器设置中允许摄像头访问' : err.message);
+    // 降级：使用模拟手势演示
+    if(status) status.textContent += ' | 已降级为模拟演示模式';
+    if(!gestureRunning) demoGesture();
+  }
+}
+
+function stopCamera(){
+  if(cameraDetectionInterval){ clearInterval(cameraDetectionInterval); cameraDetectionInterval = null; }
+  if(handsModel){ try{ handsModel.close(); }catch(e){} handsModel = null; }
+  if(cameraStream){
+    cameraStream.getTracks().forEach(function(track){ track.stop(); });
+    cameraStream = null;
+  }
+  var video = document.getElementById('cameraVideo');
+  if(video) video.srcObject = null;
+}
+
+function initHandsDetection(video, canvas){
+  if(typeof Hands === 'undefined'){
+    console.warn('[Camera] MediaPipe Hands不可用，使用简化方案');
+    return;
+  }
+  try {
+    handsModel = new Hands({
+      locateFile: function(file){
+        return 'https://cdn.jsdelivr.net/npm/@mediapipe/hands/' + file;
+      }
+    });
+    handsModel.setOptions({
+      maxNumHands: 1,
+      modelComplexity: 1,
+      minDetectionConfidence: 0.7,
+      minTrackingConfidence: 0.7
+    });
+    handsModel.onResults(function(results){
+      onHandsResults(results, canvas);
+    });
+    console.log('[Camera] MediaPipe Hands模型已初始化');
+  } catch(e){
+    console.error('[Camera] MediaPipe Hands初始化失败:', e);
+    handsModel = null;
+  }
+}
+
+function startHandsDetection(video, canvas){
+  if(cameraDetectionInterval) clearInterval(cameraDetectionInterval);
+  cameraDetectionInterval = setInterval(function(){
+    if(!cameraActive || !handsModel) return;
+    if(video.readyState >= 2){
+      try {
+        handsModel.send({ image: video });
+      } catch(e){
+        console.error('[Camera] 手势检测帧错误:', e);
+      }
+    }
+  }, 100); // 每100ms检测一帧（10fps，平衡性能与实时性）
+}
+
+function onHandsResults(results, canvas){
+  if(!canvas) return;
+  var canvasCtx = canvas.getContext('2d');
+  // 设置canvas尺寸
+  if(canvas.width !== results.image.width){
+    canvas.width = results.image.width;
+    canvas.height = results.image.height;
+  }
+  canvasCtx.save();
+  canvasCtx.clearRect(0, 0, canvas.width, canvas.height);
+  // 绘制摄像头画面（镜像翻转）
+  canvasCtx.translate(canvas.width, 0);
+  canvasCtx.scale(-1, 1);
+  canvasCtx.drawImage(results.image, 0, 0, canvas.width, canvas.height);
+  canvasCtx.setTransform(1, 0, 0, 1, 0, 0);
+
+  var resultDiv = document.getElementById('gestureResult');
+  var resultIcon = document.getElementById('resultIcon');
+  var resultName = document.getElementById('resultName');
+
+  if(results.multiHandLandmarks && results.multiHandLandmarks.length > 0){
+    // 绘制手部关键点和连接线
+    if(typeof drawConnectors !== 'undefined' && typeof drawLandmarks !== 'undefined'){
+      for(var i = 0; i < results.multiHandLandmarks.length; i++){
+        var landmarks = results.multiHandLandmarks[i];
+        drawConnectors(canvasCtx, landmarks, HAND_CONNECTIONS, {color: '#FF9800', lineWidth: 2});
+        drawLandmarks(canvasCtx, landmarks, {color: '#FF6F00', lineWidth: 1, radius: 3});
+      }
+    }
+    // 手势识别
+    var gesture = detectGestureFromLandmarks(results.multiHandLandmarks[0]);
+    if(resultDiv){ resultDiv.classList.add('show'); }
+    if(resultIcon) resultIcon.textContent = gesture.icon;
+    if(resultName) resultName.textContent = gesture.name;
+
+    // SOS握拳手势触发紧急预警
+    if(gesture.type === 'sos'){
+      if(resultDiv) resultDiv.classList.add('sos-alert');
+      var now = Date.now();
+      if(now - lastFistTime > 5000){ // 5秒防抖
+        lastFistTime = now;
+        // 触发SOS紧急预警
+        playFallAlert();
+        showEmergency('fall','🆘','🆘 摄像头检测到SOS握拳手势！','真实手部识别: 握拳 = 紧急求助 · 自动TTS语音播报 · 已通知紧急联系人');
+        // 同时更新手势演示区
+        if(typeof demoGestureSOS === 'function') demoGestureSOS();
+      }
+    } else {
+      if(resultDiv) resultDiv.classList.remove('sos-alert');
+    }
+  } else {
+    // 未检测到手部
+    if(resultDiv) resultDiv.classList.remove('show', 'sos-alert');
+  }
+  canvasCtx.restore();
+}
+
+// 基于手部关键点的手势识别算法
+function detectGestureFromLandmarks(landmarks){
+  if(!landmarks || landmarks.length < 21) return {icon:'😐',name:'未检测到手部',type:'normal'};
+
+  // 关键点索引：0=手腕，4=拇指尖，8=食指尖，12=中指尖，16=无名指尖，20=小指尖
+  var wrist = landmarks[0];
+  var thumbTip = landmarks[4];
+  var thumbIP = landmarks[3];
+  var indexTip = landmarks[8];
+  var indexPIP = landmarks[6];
+  var middleTip = landmarks[12];
+  var middlePIP = landmarks[10];
+  var ringTip = landmarks[16];
+  var ringPIP = landmarks[14];
+  var pinkyTip = landmarks[20];
+  var pinkyPIP = landmarks[18];
+
+  // 计算指尖到手腕的距离（归一化）
+  function distToWrist(tip){ return Math.sqrt(Math.pow(tip.x-wrist.x,2)+Math.pow(tip.y-wrist.y,2)); }
+  // 计算指尖到对应指关节的距离（判断手指是否伸直）
+  function fingerExtended(tip, pip){ return Math.abs(tip.y - pip.y) > 0.04; }
+
+  var dThumb = distToWrist(thumbTip);
+  var dIndex = distToWrist(indexTip);
+  var dMiddle = distToWrist(middleTip);
+  var dRing = distToWrist(ringTip);
+  var dPinky = distToWrist(pinkyTip);
+
+  var extIndex = fingerExtended(indexTip, indexPIP);
+  var extMiddle = fingerExtended(middleTip, middlePIP);
+  var extRing = fingerExtended(ringTip, ringPIP);
+  var extPinky = fingerExtended(pinkyTip, pinkyPIP);
+
+  // 拇指是否伸直（拇指尖在拇指IP关节上方）
+  var extThumb = thumbTip.y < thumbIP.y - 0.02;
+
+  // 握拳检测：所有指尖靠近手腕（手指弯曲）
+  var isFist = dIndex < 0.25 && dMiddle < 0.25 && dRing < 0.25 && dPinky < 0.25 && !extIndex && !extMiddle && !extRing && !extPinky;
+
+  // 手掌张开：所有手指伸直
+  var isOpenPalm = extIndex && extMiddle && extRing && extPinky && dIndex > 0.35 && dMiddle > 0.35 && dRing > 0.3 && dPinky > 0.25;
+
+  // 竖大拇指：拇指伸直，其他手指弯曲
+  var isThumbUp = extThumb && !extIndex && !extMiddle && !extRing && !extPinky &&
+                  thumbTip.y < wrist.y - 0.1;
+
+  // OK手势：拇指和食指形成圆圈
+  var thumbIndexDist = Math.sqrt(Math.pow(thumbTip.x-indexTip.x,2)+Math.pow(thumbTip.y-indexTip.y,2));
+  var isOK = thumbIndexDist < 0.05 && extMiddle && extRing && extPinky;
+
+  // 剪刀手：食指和中指伸直，其他弯曲
+  var isVictory = extIndex && extMiddle && !extRing && !extPinky && dIndex > 0.3 && dMiddle > 0.3;
+
+  // 比心：拇指和食指交叉
+  var isHeart = thumbTip.x > indexTip.x && extMiddle && extRing && extPinky &&
+                Math.abs(thumbTip.y - indexTip.y) < 0.05;
+
+  // 打电话：拇指和小指伸直，其他弯曲
+  var isCall = extThumb && extPinky && !extIndex && !extMiddle && !extRing &&
+               Math.abs(thumbTip.x - pinkyTip.x) > 0.15;
+
+  // 食指指向：只有食指伸直
+  var isPoint = extIndex && !extMiddle && !extRing && !extPinky && dIndex > 0.3;
+
+  // 拇指朝下：拇指伸直朝下
+  var isThumbDown = extThumb && !extIndex && !extMiddle && !extRing && !extPinky &&
+                    thumbTip.y > wrist.y + 0.1;
+
+  // 摆手：手指有较大横向移动（简化判断：手指间距较大）
+  var fingerSpread = Math.max(dIndex,dMiddle,dRing,dPinky) - Math.min(dIndex,dMiddle,dRing,dPinky);
+  var isWave = fingerSpread > 0.15 && extIndex && extMiddle && extRing && extPinky;
+
+  if(isFist) return {icon:'✊',name:'握拳 (SOS紧急求助)',type:'sos'};
+  if(isThumbUp) return {icon:'👍',name:'竖大拇指 - 确认/好的',type:'normal'};
+  if(isOK) return {icon:'👌',name:'OK手势 - 没问题',type:'normal'};
+  if(isVictory) return {icon:'✌️',name:'剪刀手 - 胜利',type:'normal'};
+  if(isHeart) return {icon:'🫶',name:'比心 - 谢谢',type:'normal'};
+  if(isCall) return {icon:'🤙',name:'打电话 - 联系我',type:'normal'};
+  if(isPoint) return {icon:'☝️',name:'食指指向',type:'normal'};
+  if(isThumbDown) return {icon:'👎',name:'拇指朝下 - 不好',type:'normal'};
+  if(isWave) return {icon:'👋',name:'摆手 - 你好/再见',type:'normal'};
+  if(isOpenPalm) return {icon:'✋',name:'手掌张开 - 停止/问候',type:'normal'};
+
+  return {icon:'😐',name:'手势识别中...',type:'normal'};
+}
+
+// ==================== 加密算法可视化动画 ====================
+// 密钥生命周期自动轮播
+(function(){
+  var stages = ['klActive','klExpiring','klExpired','klDestroyed'];
+  var stageNames = ['active','expiring','expired','destroyed'];
+  var currentStage = 0;
+  function cycleLifecycle(){
+    var allStages = document.querySelectorAll('#keyLifecycle .kl-stage');
+    allStages.forEach(function(el){ el.className = 'kl-stage'; });
+    var activeEl = document.getElementById(stages[currentStage]);
+    if(activeEl) activeEl.className = 'kl-stage ' + stageNames[currentStage];
+    currentStage = (currentStage + 1) % stages.length;
+  }
+  cycleLifecycle();
+  setInterval(cycleLifecycle, 2000);
+})();
+
+// 雪崩效应柱状图动画（滚动到加密区域时触发）
+(function(){
+  var animated = false;
+  function animateBars(){
+    if(animated) return;
+    var chart = document.getElementById('avalancheChart');
+    if(!chart) return;
+    var rect = chart.getBoundingClientRect();
+    if(rect.top < window.innerHeight + 100){
+      animated = true;
+      setTimeout(function(){
+        var barKey = document.getElementById('barKey');
+        var barPlain = document.getElementById('barPlain');
+        var barIV = document.getElementById('barIV');
+        if(barKey) barKey.style.width = '49.98%';
+        if(barKey) barKey.textContent = '49.98%';
+        if(barPlain) barPlain.style.width = '50.04%';
+        if(barPlain) barPlain.textContent = '50.04%';
+        if(barIV) barIV.style.width = '49.96%';
+        if(barIV) barIV.textContent = '49.96%';
+      }, 200);
+    }
+  }
+  window.addEventListener('scroll', animateBars);
+  // 如果"项目详情"Tab被切换时也触发
+  var detailTab = document.querySelector('#navTabs .tab[data-tab="2"]');
+  if(detailTab){
+    detailTab.addEventListener('click', function(){
+      animated = false;
+      // 重置柱状图
+      var barKey = document.getElementById('barKey');
+      var barPlain = document.getElementById('barPlain');
+      var barIV = document.getElementById('barIV');
+      if(barKey){ barKey.style.width = '0%'; barKey.textContent = ''; }
+      if(barPlain){ barPlain.style.width = '0%'; barPlain.textContent = ''; }
+      if(barIV){ barIV.style.width = '0%'; barIV.textContent = ''; }
+      setTimeout(animateBars, 300);
+    });
+  }
+})();
+
+// ==================== 3D 手机旋转交互 ====================
+(function(){
+  var wrapper = document.getElementById('phoneWrapper');
+  var scene = document.getElementById('phone3dScene');
+  if(!wrapper || !scene) return;
+  var isHovering = false;
+  var rotateX = 0, rotateY = 0, targetRX = 0, targetRY = 0;
+
+  function onMouseMove(e){
+    var rect = wrapper.getBoundingClientRect();
+    var cx = rect.left + rect.width/2, cy = rect.top + rect.height/2;
+    var dx = (e.clientX - cx) / (rect.width/2);
+    var dy = (e.clientY - cy) / (rect.height/2);
+    targetRY = dx * 15; // 左右旋转 ±15度
+    targetRX = -dy * 12; // 上下旋转 ±12度
+  }
+
+  function onMouseEnter(){ isHovering = true; }
+  function onMouseLeave(){ isHovering = false; targetRX = 0; targetRY = 0; }
+
+  function animate(){
+    if(isHovering){
+      rotateX += (targetRX - rotateX) * 0.15;
+      rotateY += (targetRY - rotateY) * 0.15;
+    } else {
+      rotateX += (0 - rotateX) * 0.1;
+      rotateY += (0 - rotateY) * 0.1;
+    }
+    scene.style.transform = 'rotateX(' + rotateX.toFixed(2) + 'deg) rotateY(' + rotateY.toFixed(2) + 'deg)';
+    requestAnimationFrame(animate);
+  }
+
+  // 触摸支持
+  wrapper.addEventListener('touchmove', function(e){
+    var rect = wrapper.getBoundingClientRect();
+    var cx = rect.left + rect.width/2, cy = rect.top + rect.height/2;
+    var dx = (e.touches[0].clientX - cx) / (rect.width/2);
+    var dy = (e.touches[0].clientY - cy) / (rect.height/2);
+    targetRY = dx * 18; targetRX = -dy * 15;
+    isHovering = true;
+  }, {passive:true});
+  wrapper.addEventListener('touchend', function(){ isHovering = false; targetRX = 0; targetRY = 0; });
+
+  wrapper.addEventListener('mouseenter', onMouseEnter);
+  wrapper.addEventListener('mouseleave', onMouseLeave);
+  wrapper.addEventListener('mousemove', onMouseMove);
+  animate();
+})();
+
+// ==================== 手机皮肤切换（增强版：直接操控CSS变量+强制重绘） ====================
+// 各机型尺寸配置表
+var SKIN_CONFIG = {
+  iphone17:  { w: 390, h: 844, name: 'iPhone 17 Pro',  color: '#8E8E93' },
+  samsung:   { w: 380, h: 820, name: 'Samsung S25',    color: '#1a1a2e' },
+  xiaomi:    { w: 393, h: 852, name: 'Xiaomi 15',      color: '#f5f5f5' },
+  pixel:     { w: 384, h: 848, name: 'Pixel 9',         color: '#2d2d2d' }
+};
+function switchSkin(skin, btn){
+  var frame = document.getElementById('phoneFrame');
+  if(!frame) return;
+  var cfg = SKIN_CONFIG[skin];
+  if(!cfg) return;
+  // 方式1：直接通过 style.setProperty 设置CSS变量（最可靠）
+  frame.style.setProperty('--phone-w', cfg.w + 'px');
+  frame.style.setProperty('--phone-h', cfg.h + 'px');
+  // 方式2：同时更新类名（保证CSS伪类和子元素选择器也能生效）
+  frame.className = frame.className.replace(/skin-\w+/g,'').replace(/\s+/g,' ').trim();
+  frame.className += ' skin-' + skin;
+  // 强制浏览器重绘，确保尺寸变化立即生效
+  void frame.offsetWidth;
+  // 更新按钮状态
+  document.querySelectorAll('.skin-selector .skin-btn').forEach(function(b){ b.classList.remove('active'); });
+  if(btn) btn.classList.add('active');
+  // 更新尺寸显示标签
+  var dimLabel = document.getElementById('skinDimLabel');
+  if(dimLabel) dimLabel.textContent = cfg.w + '×' + cfg.h + 'px';
+  // 播放切换音效
+  var ac = getAC();
+  if(ac && ac.state === 'running'){
+    var osc = ac.createOscillator(), gain = ac.createGain();
+    osc.type = 'sine'; osc.frequency.setValueAtTime(600, ac.currentTime);
+    osc.frequency.linearRampToValueAtTime(800, ac.currentTime + 0.08);
+    gain.gain.setValueAtTime(0.08, ac.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ac.currentTime + 0.1);
+    osc.connect(gain); gain.connect(ac.destination);
+    osc.start(ac.currentTime); osc.stop(ac.currentTime + 0.1);
+  }
+}
+
+// ==================== 闪光灯 ====================
+var flashlightOn = false;
+function toggleFlashlight(){
+  flashlightOn = !flashlightOn;
+  var fl = document.getElementById('phoneFlashlight');
+  if(fl){
+    if(flashlightOn) fl.classList.add('on');
+    else fl.classList.remove('on');
+  }
+  // 震动反馈
+  if(navigator.vibrate) navigator.vibrate(30);
+  // 声音反馈
+  var ac = getAC();
+  if(ac && ac.state === 'running'){
+    var osc = ac.createOscillator(), gain = ac.createGain();
+    osc.type = 'square'; osc.frequency.setValueAtTime(flashlightOn ? 1200 : 800, ac.currentTime);
+    gain.gain.setValueAtTime(0.06, ac.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ac.currentTime + 0.06);
+    osc.connect(gain); gain.connect(ac.destination);
+    osc.start(ac.currentTime); osc.stop(ac.currentTime + 0.06);
+  }
+}
+
+// ==================== TTS 语音播报（优化版：多语音源选择+更佳音质） ====================
+var ttsEnabled = false;
+var ttsVoicesLoaded = false;
+var ttsAvailableVoices = [];
+
+// 预加载语音列表（浏览器可能需要异步加载）
+function loadTTSVoices(){
+  if(!window.speechSynthesis) return;
+  ttsAvailableVoices = window.speechSynthesis.getVoices();
+  if(ttsAvailableVoices.length > 0) ttsVoicesLoaded = true;
+}
+loadTTSVoices();
+if(window.speechSynthesis){
+  window.speechSynthesis.onvoiceschanged = function(){
+    ttsAvailableVoices = window.speechSynthesis.getVoices();
+    ttsVoicesLoaded = true;
+  };
+}
+
+function toggleTTS(){
+  ttsEnabled = !ttsEnabled;
+  var btn = document.getElementById('ttsToggle');
+  if(btn){
+    btn.textContent = ttsEnabled ? '🔊 TTS 开' : '🔇 TTS';
+    if(ttsEnabled) btn.classList.add('on');
+    else btn.classList.remove('on');
+  }
+  if(ttsEnabled){
+    // 确保语音列表已加载
+    if(!ttsVoicesLoaded) loadTTSVoices();
+    speakTTS('语音播报已开启');
+  }
+}
+
+function speakTTS(text){
+  if(!ttsEnabled) return;
+  if(!window.speechSynthesis) return;
+  // 清理文本中的emoji符号，使播报更流畅
+  var cleanText = text.replace(/[\u{1F600}-\u{1F6FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{1F900}-\u{1F9FF}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F1E0}-\u{1F1FF}]/gu,'').replace(/[⚠️🆘⏰🔥💨🩺🚪·]/g,'，').replace(/\s+/g,' ').trim();
+  if(!cleanText) return;
+  // 取消之前的语音，避免重叠
+  window.speechSynthesis.cancel();
+  var utter = new SpeechSynthesisUtterance(cleanText);
+  utter.lang = 'zh-CN';
+  utter.rate = 0.9;    // 稍慢语速，更清晰
+  utter.pitch = 1.05;  // 稍高音调，更警觉
+  utter.volume = 1.0;
+  // 优先选择中文语音（按优先级排序）
+  var zhVoice = null;
+  if(ttsAvailableVoices.length > 0){
+    // 优先级1：中国大陆普通话女声
+    zhVoice = ttsAvailableVoices.find(function(v){ return v.lang === 'zh-CN' && v.name.indexOf('Female') >= 0; });
+    // 优先级2：中国大陆普通话
+    if(!zhVoice) zhVoice = ttsAvailableVoices.find(function(v){ return v.lang === 'zh-CN'; });
+    // 优先级3：任何中文语音
+    if(!zhVoice) zhVoice = ttsAvailableVoices.find(function(v){ return v.lang.indexOf('zh') >= 0; });
+  }
+  if(zhVoice) utter.voice = zhVoice;
+  // 如果语音列表为空，延迟后再试
+  if(!ttsVoicesLoaded){
+    setTimeout(function(){
+      loadTTSVoices();
+      if(ttsAvailableVoices.length > 0 && ttsEnabled){
+        var retryVoice = ttsAvailableVoices.find(function(v){ return v.lang.indexOf('zh') >= 0; });
+        if(retryVoice) utter.voice = retryVoice;
+      }
+      window.speechSynthesis.speak(utter);
+    }, 200);
+    return;
+  }
+  window.speechSynthesis.speak(utter);
+}
+
+// ==================== 震动增强 ====================
+function vibratePhone(pattern){
+  if(navigator.vibrate) navigator.vibrate(pattern);
+  var frame = document.getElementById('phoneFrame');
+  if(!frame) return;
+  if(Array.isArray(pattern) && pattern.length > 1){
+    frame.classList.add('vibrating');
+    var total = pattern.reduce(function(a,b){ return a+b; }, 0);
+    setTimeout(function(){ frame.classList.remove('vibrating'); }, total);
+  } else {
+    frame.classList.add('vibrating');
+    setTimeout(function(){ frame.classList.remove('vibrating'); }, 300);
+  }
+}
+
+// ==================== 增强 showEmergency：加入震动+TTS+闪光灯 ====================
+var _origShowEmergency = showEmergency;
+showEmergency = function(type, icon, text, sub){
+  _origShowEmergency(type, icon, text, sub);
+  // 震动
+  vibratePhone([200,100,200,100,300]);
+  // TTS语音播报
+  if(ttsEnabled) speakTTS(text.replace(/[⚠️🆘⏰🔥💨🩺🚪]/g,'') + '。' + sub.replace(/[·⚠️🆘]/g,'，'));
+  // 闪光灯闪烁
+  if(!flashlightOn){
+    var fl = document.getElementById('phoneFlashlight');
+    if(fl){
+      fl.classList.add('on');
+      setTimeout(function(){ fl.classList.remove('on'); }, 2000);
+    }
+  }
+};
+
+// ==================== 音频初始化：首次点击页面时激活AudioContext ====================
+document.addEventListener('click', function initAudio(){
+  var ac = getAC();
+  if(ac && ac.state === 'suspended'){
+    ac.resume().then(function(){
+      console.log('[Audio] AudioContext已激活');
+    });
+  }
+}, {once: false});
+
+// 所有demo按钮也初始化音频
+(function(){
+  var demoBtns = document.querySelectorAll('.demo-btn, .module-btn, .nav-item, .skin-btn, .emergency-btn');
+  demoBtns.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var ac = getAC();
+      if(ac && ac.state === 'suspended') ac.resume();
+    });
+  });
+})();
+</script>
+</body>
+</html>

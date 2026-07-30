@@ -1,4 +1,4 @@
-const pptxgen = require("pptxgenjs");
+﻿const pptxgen = require("pptxgenjs");
 
 const pptx = new pptxgen();
 pptx.layout = "LAYOUT_WIDE";
@@ -44,7 +44,7 @@ function addAccentBar(slide, y, w, color) {
   });
 }
 
-const TOTAL = 9;
+const TOTAL = 11;
 
 // ═══════════════════════════════════════════════════
 // 第1页：封面（15秒）
@@ -131,9 +131,9 @@ const TOTAL = 9;
   slide.addText([
     { text: "政策一：科技助残，写入了十五五规划\n", options: { fontSize: 15, fontFace: FONT, bold: true, color: DEEP_NAVY } },
     { text: "• 重点推进「科技助残创新应用」，人工智能上前沿技术要用起来\n", options: { fontSize: 13, fontFace: FONT, color: CHARCOAL } },
-    { text: "• 深入实施《无障碍环境建设法》，物理和数字无障碍一起抓", options: { fontSize: 13, fontFace: FONT, color: CHARCOAL } },
-    { text: "\n【此处插入：国新办发布会官方通知截图 | 可访问网址：https://www.gov.cn/lianbo/fabu/202507/content_7033401.htm】", options: { fontSize: 8, fontFace: FONT, color: WARN_RED } }
-  ], { x: 0.9, y: 1.6, w: 11.5, h: 1.6, valign: "top", lineSpacingMultiple: 1.4 });
+    { text: "→ 深入实施《无障碍环境建设法》，物理和数字无障碍一起抓", options: { fontSize: 13, fontFace: FONT, color: CHARCOAL } }
+  ], { x: 0.9, y: 1.6, w: 7.2, h: 1.6, valign: "top", lineSpacingMultiple: 1.4 });
+  slide.addImage({ path: "F:/java/weiguangplus/ppt-workspace/screenshot_gov.jpg", x: 8.3, y: 1.5, w: 4.3, h: 1.8, sizing: { type: "contain", w: 4.3, h: 1.8 } });
 
   slide.addShape(pptx.ShapeType.roundRect, {
     x: 0.6, y: 3.6, w: 12.1, h: 1.8,
@@ -145,10 +145,10 @@ const TOTAL = 9;
   });
   slide.addText([
     { text: "政策二：从项目化转向制度化保障\n", options: { fontSize: 15, fontFace: FONT, bold: true, color: DEEP_NAVY } },
-    { text: "• 推动残疾人事业从「项目化推进」变成「制度化保障」\n", options: { fontSize: 13, fontFace: FONT, color: CHARCOAL } },
-    { text: "• 重点解决数字无障碍短板，让残疾人平等享受互联网服务", options: { fontSize: 13, fontFace: FONT, color: CHARCOAL } },
-    { text: "\n【此处插入：中国残联「十五五」目标研究截图 | 可访问网址：https://www.cdpf.org.cn/ywpd/llyj/llwz/dc107719d1ac47d89dbe2244a049723f_mobile.htm】", options: { fontSize: 8, fontFace: FONT, color: WARN_RED } }
-  ], { x: 0.9, y: 3.7, w: 11.5, h: 1.6, valign: "top", lineSpacingMultiple: 1.4 });
+    { text: "→ 推动残疾人事业从「项目化推进」变成「制度化保障」\n", options: { fontSize: 13, fontFace: FONT, color: CHARCOAL } },
+    { text: "→ 重点解决数字无障碍短板，让残疾人平等享受互联网服务", options: { fontSize: 13, fontFace: FONT, color: CHARCOAL } }
+  ], { x: 0.9, y: 3.7, w: 7.2, h: 1.6, valign: "top", lineSpacingMultiple: 1.4 });
+  slide.addImage({ path: "F:/java/weiguangplus/ppt-workspace/screenshot_cdpf.jpg", x: 8.3, y: 3.6, w: 4.3, h: 1.8, sizing: { type: "contain", w: 4.3, h: 1.8 } });
 
   slide.addShape(pptx.ShapeType.roundRect, {
     x: 2.5, y: 5.8, w: 8.3, h: 0.65,
@@ -183,15 +183,15 @@ const TOTAL = 9;
   const pairs = [
     {
       pain: { title: "痛点①：出行困难", data: "65%有外出意愿，仅12%成行", desc: "交通不便占74%，残疾人无法独立乘坐公交" },
-      solution: { title: "解决办法", feature: "公交智能报站+GPS定位", algo: "自主研发GPS定位算法", tech: "GPS模块 + CameraX + TTS", tag: "核心技术", tagColor: ELECTRIC_BLUE }
+      solution: { title: "解决办法", feature: "公交智能报站+GPS定位", algo: "自主研发GPS定位算法", tech: "GPS模块 + CameraX + TTS", plain: "白话：实时定位+摄像头识别路线+语音播报，坐车不怕坐过站", tag: "核心技术", tagColor: ELECTRIC_BLUE }
     },
     {
       pain: { title: "痛点②：信息缺失", data: "信息服务不足占61%", desc: "听障听不到报站、火警、路人说话" },
-      solution: { title: "解决办法", feature: "语音转文字+三重强提醒", algo: "自主研发多模态感知算法", tech: "SpeechRecognizer + VibrationEngine", tag: "核心技术", tagColor: TEAL }
+      solution: { title: "解决办法", feature: "语音转文字+三重强提醒", algo: "自主研发多模态感知算法", tech: "SpeechRecognizer + VibrationEngine", plain: "白话：听到声音就转成文字弹出来，火警路况都震你一下", tag: "核心技术", tagColor: TEAL }
     },
     {
       pain: { title: "痛点③：沟通障碍", data: "路人不懂手语", desc: "突发状况无法电话求助，沟通信息不足" },
-      solution: { title: "解决办法", feature: "双向手语互通+一键SOS", algo: "自主研发手语识别算法", tech: "MediaPipe底座 + 自研117条短语库", tag: "核心技术", tagColor: AMBER }
+      solution: { title: "解决办法", feature: "双向手语互通+一键SOS", algo: "自主研发手语识别算法", tech: "MediaPipe底座 + 自研117条短语库", plain: "白话：你比划手势，手机转成语音/文字，别人一看就懂", tag: "核心技术", tagColor: AMBER }
     }
   ];
 
@@ -545,6 +545,7 @@ const TOTAL = 9;
         "痛点：路人不懂手语，沟通信息不足(61%)",
         "功能：双屏实时对话，上半屏手语→语音，下半屏语音→文字",
         "技术栈：ML Kit手势检测底座 + 自主研发117条高频短语库",
+        "白话：手机看懂你比划的手势，翻译成别人听得懂的话和文字",
         "效果：听障人和健听人用一台手机就能对话"
       ],
       color: ELECTRIC_BLUE
@@ -557,6 +558,7 @@ const TOTAL = 9;
         "痛点：交通不便占74%，残疾人无法独立坐公交",
         "功能：GPS实时定位，10条线路预置，到站震动+弹窗提醒",
         "技术栈：GPS定位模块 + 自主研发到站距离计算引擎",
+        "白话：手机知道你在哪路车上、快到哪站了，提前震你提醒下车",
         "效果：视障人士也能独立乘坐公共交通"
       ],
       color: TEAL
@@ -569,6 +571,7 @@ const TOTAL = 9;
         "痛点：突发状况无人能帮，电话求助听不到",
         "功能：6种预设场景，一键SOS短信+GPS位置+闪光灯",
         "技术栈：自主研发20种震动编码 + TripleAlert三重联动系统",
+        "白话：按一下按钮，短信+定位+闪光灯三管齐下发出去，绝对不会漏",
         "效果：紧急时刻自动通知紧急联系人，吸引周围人注意"
       ],
       color: WARN_RED
@@ -755,8 +758,8 @@ const TOTAL = 9;
   const slide = pptx.addSlide();
   slide.background = { color: DEEP_NAVY };
 
-  addGlowCircle(slide, 10, -1, 5, ELECTRIC_BLUE, 90);
-  addGlowCircle(slide, -2, 5, 4, NEON_CYAN, 92);
+  addGlowCircle(slide, 11, -0.3, 2.5, ELECTRIC_BLUE, 90);
+  addGlowCircle(slide, -1, 6, 2.5, NEON_CYAN, 92);
 
   slide.addText("第8页 · 残疾人也能用的助残APP", {
     x: 0.6, y: 0.3, w: 12, h: 0.6,
@@ -820,9 +823,9 @@ const TOTAL = 9;
   const slide = pptx.addSlide();
   slide.background = { color: DEEP_NAVY };
 
-  addGlowCircle(slide, -0.5, -0.5, 5, ELECTRIC_BLUE, 88);
-  addGlowCircle(slide, 8, 4, 6, NEON_CYAN, 92);
-  addGlowCircle(slide, 5, -2, 3.5, ELECTRIC_BLUE, 90);
+  addGlowCircle(slide, 0, 0, 3, ELECTRIC_BLUE, 88);
+  addGlowCircle(slide, 9, 5, 4, NEON_CYAN, 92);
+  addGlowCircle(slide, 6, -1, 2.5, ELECTRIC_BLUE, 90);
 
   slide.addText("微光汇聚   畅行无碍", {
     x: 0.8, y: 1.5, w: 11.7, h: 1.2,
@@ -869,6 +872,184 @@ const TOTAL = 9;
   });
 
   addPageNum(slide, 9, TOTAL);
+  helpers.warnIfSlideHasOverlaps(slide, pptx);
+  helpers.warnIfSlideElementsOutOfBounds(slide, pptx);
+}
+
+
+// ═══════════════════════════════════════════════════
+// 第10页：市场需求与机会（30秒） ★★★ 新增
+// ═══════════════════════════════════════════════════
+{
+  const slide = pptx.addSlide();
+  slide.background = { color: BG_CREAM };
+
+  slide.addShape(pptx.ShapeType.rect, {
+    x: 0, y: 0, w: 0.06, h: 7.5, fill: { color: ELECTRIC_BLUE }
+  });
+
+  slide.addText("第10页 · 庞大的市场需求，巨大的社会价值", {
+    x: 0.6, y: 0.25, w: 12, h: 0.55,
+    fontSize: 22, fontFace: FONT, color: DEEP_NAVY, bold: true
+  });
+  slide.addText("全国8500万残疾人的出行需求，蕴藏着千亿级市场机会", {
+    x: 0.6, y: 0.82, w: 12, h: 0.35,
+    fontSize: 14, fontFace: FONT, color: STEEL_BLUE
+  });
+  addAccentBar(slide, 1.0, 4, ELECTRIC_BLUE);
+
+  // Top stat cards
+  const stats = [
+    { value: "8500万", label: "全国残疾人口", color: ELECTRIC_BLUE },
+    { value: "65%", label: "有外出意愿", color: TEAL },
+    { value: "仅12%", label: "能够成行", color: WARN_RED },
+    { value: "4500万+", label: "未满足的出行需求", color: AMBER }
+  ];
+
+  stats.forEach((s, i) => {
+    const xPos = 0.6 + i * 3.1;
+    slide.addShape(pptx.ShapeType.roundRect, {
+      x: xPos, y: 1.3, w: 2.8, h: 1.5,
+      fill: { color: WHITE }, rectRadius: 0.12,
+      shadow: { type: "outer", blur: 4, offset: 2, color: "000000", opacity: 0.08 }
+    });
+    slide.addShape(pptx.ShapeType.rect, {
+      x: xPos, y: 1.3, w: 2.8, h: 0.05, fill: { color: s.color }
+    });
+    slide.addText(s.value, {
+      x: xPos, y: 1.45, w: 2.8, h: 0.7,
+      fontSize: 28, fontFace: FONT, color: s.color, bold: true,
+      align: "center", valign: "middle"
+    });
+    slide.addText(s.label, {
+      x: xPos, y: 2.15, w: 2.8, h: 0.5,
+      fontSize: 12, fontFace: FONT, color: CHARCOAL,
+      align: "center", valign: "middle"
+    });
+  });
+
+  // Bottom insight section
+  slide.addShape(pptx.ShapeType.roundRect, {
+    x: 0.6, y: 3.1, w: 12.1, h: 1.5,
+    fill: { color: WHITE }, rectRadius: 0.12,
+    shadow: { type: "outer", blur: 4, offset: 2, color: "000000", opacity: 0.06 }
+  });
+  slide.addText([
+    { text: "出行障碍三大主因\n", options: { fontSize: 15, fontFace: FONT, bold: true, color: DEEP_NAVY } },
+    { text: "① 交通不便 74%  —— 公交到站、路线识别、换乘导航缺失\n", options: { fontSize: 13, fontFace: FONT, color: CHARCOAL } },
+    { text: "② 信息服务不足 61%  —— 听不到报站、看不到路牌、读不懂标识\n", options: { fontSize: 13, fontFace: FONT, color: CHARCOAL } },
+    { text: "③ 沟通障碍突出  —— 路人不懂手语，突发状况无法求助", options: { fontSize: 13, fontFace: FONT, color: CHARCOAL } }
+  ], { x: 0.9, y: 3.2, w: 11.5, h: 1.3, valign: "top", lineSpacingMultiple: 1.4 });
+
+  // Bottom opportunity callout
+  slide.addShape(pptx.ShapeType.roundRect, {
+    x: 2.0, y: 4.9, w: 9.3, h: 0.7,
+    fill: { color: DEEP_NAVY }, rectRadius: 0.12
+  });
+  slide.addText("微光畅行精准切入 4500万 未满足需求 → 覆盖出行全场景", {
+    x: 2.0, y: 4.9, w: 9.3, h: 0.7,
+    fontSize: 16, fontFace: FONT, color: WHITE, bold: true,
+    align: "center", valign: "middle"
+  });
+
+  // Market size data
+  slide.addShape(pptx.ShapeType.roundRect, {
+    x: 0.6, y: 5.9, w: 5.8, h: 0.85,
+    fill: { color: WHITE }, rectRadius: 0.1,
+    line: { color: TEAL, width: 1 }
+  });
+  slide.addText([
+    { text: "政策红利\n", options: { fontSize: 12, fontFace: FONT, bold: true, color: TEAL } },
+    { text: "十五五科技助残写入规划\n无障碍环境建设法深度实施\n各地助残补贴政策密集出台", options: { fontSize: 10, fontFace: FONT, color: CHARCOAL } }
+  ], { x: 0.8, y: 6.0, w: 5.4, h: 0.75, valign: "top", lineSpacingMultiple: 1.3 });
+
+  slide.addShape(pptx.ShapeType.roundRect, {
+    x: 6.9, y: 5.9, w: 5.8, h: 0.85,
+    fill: { color: WHITE }, rectRadius: 0.1,
+    line: { color: ELECTRIC_BLUE, width: 1 }
+  });
+  slide.addText([
+    { text: "市场前景\n", options: { fontSize: 12, fontFace: FONT, bold: true, color: ELECTRIC_BLUE } },
+    { text: "国内助残科技市场千亿级\n年均增长率超过20%\n智能化助残产品渗透率<5%", options: { fontSize: 10, fontFace: FONT, color: CHARCOAL } }
+  ], { x: 7.1, y: 6.0, w: 5.4, h: 0.75, valign: "top", lineSpacingMultiple: 1.3 });
+
+  addPageNum(slide, 10, TOTAL);
+  helpers.warnIfSlideHasOverlaps(slide, pptx);
+  helpers.warnIfSlideElementsOutOfBounds(slide, pptx);
+}
+
+// ═══════════════════════════════════════════════════
+// 第11页：产品核心界面展示（25秒） ★★★ 新增
+// ═══════════════════════════════════════════════════
+{
+  const slide = pptx.addSlide();
+  slide.background = { color: DEEP_NAVY };
+
+  addGlowCircle(slide, 0, 0, 2, ELECTRIC_BLUE, 92);
+  addGlowCircle(slide, 11, 6, 2, NEON_CYAN, 92);
+
+  slide.addText("第11页 · 六大核心功能，一部手机全搞定", {
+    x: 0.6, y: 0.25, w: 12, h: 0.55,
+    fontSize: 24, fontFace: FONT, color: WHITE, bold: true
+  });
+  slide.addText("覆盖听障 · 视障 · 肢残 — 全场景无障碍出行方案", {
+    x: 0.6, y: 0.82, w: 12, h: 0.35,
+    fontSize: 14, fontFace: FONT, color: NEON_CYAN
+  });
+  addAccentBar(slide, 1.0, 12, NEON_CYAN);
+
+  const screens = [
+    { title: "智能手语翻译", desc: "双屏实时对话\n手语↔语音↔文字", icon: "🤟", color: ELECTRIC_BLUE },
+    { title: "公交智能报站", desc: "GPS实时定位\n到站震动+弹窗提醒", icon: "🚌", color: TEAL },
+    { title: "一键应急SOS", desc: "6种预设场景\n短信+GPS+闪光灯", icon: "🆘", color: WARN_RED },
+    { title: "语音转文字", desc: "环境声实时转写\n三重强提醒通知", icon: "🎤", color: AMBER },
+    { title: "商品AI识别", desc: "OCR文字识别\n药品/商品智能鉴定", icon: "📷", color: ELECTRIC_BLUE },
+    { title: "语音助手", desc: "全程语音操控\n语速/音调自由调节", icon: "🗣️", color: TEAL }
+  ];
+
+  screens.forEach((s, i) => {
+    const col = i % 3, row = Math.floor(i / 3);
+    const xPos = 0.6 + col * 4.15, yPos = 1.3 + row * 2.8;
+    const cw = 3.9, ch = 2.5;
+
+    slide.addShape(pptx.ShapeType.roundRect, {
+      x: xPos, y: yPos, w: cw, h: ch,
+      fill: { color: DARK_NAVY }, rectRadius: 0.15,
+      line: { color: s.color, width: 1.2 },
+      shadow: { type: "outer", blur: 8, offset: 2, color: "000000", opacity: 0.3 }
+    });
+
+    // Phone mockup area
+    slide.addShape(pptx.ShapeType.roundRect, {
+      x: xPos + 0.2, y: yPos + 0.2, w: 1.3, h: 2.1,
+      fill: { color: CHARCOAL }, rectRadius: 0.12,
+      line: { color: s.color, width: 0.5 }
+    });
+    slide.addText(s.icon, {
+      x: xPos + 0.2, y: yPos + 0.3, w: 1.3, h: 1.9,
+      fontSize: 36, align: "center", valign: "middle"
+    });
+
+    // Content
+    slide.addText(s.title, {
+      x: xPos + 1.7, y: yPos + 0.3, w: cw - 1.9, h: 0.5,
+      fontSize: 16, fontFace: FONT, color: WHITE, bold: true,
+      valign: "middle"
+    });
+    slide.addText(s.desc, {
+      x: xPos + 1.7, y: yPos + 0.9, w: cw - 1.9, h: 1.3,
+      fontSize: 12, fontFace: FONT, color: ICE_BLUE,
+      valign: "top", lineSpacingMultiple: 1.4
+    });
+
+    // Color accent dot
+    slide.addShape(pptx.ShapeType.ellipse, {
+      x: xPos + 1.7, y: yPos + 0.25, w: 0.15, h: 0.15,
+      fill: { color: s.color }
+    });
+  });
+
+  addPageNum(slide, 11, TOTAL);
   helpers.warnIfSlideHasOverlaps(slide, pptx);
   helpers.warnIfSlideElementsOutOfBounds(slide, pptx);
 }

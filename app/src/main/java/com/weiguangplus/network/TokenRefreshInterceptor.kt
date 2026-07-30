@@ -29,8 +29,11 @@ package com.weiguangplus.network
 import android.content.Context
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.Request
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.Response
 import java.io.IOException
 
@@ -241,7 +244,7 @@ class TokenRefreshInterceptor(
 
     companion object {
         /** DataStore键名常量（与AuthInterceptor共享） */
-        private val ACCESS_TOKEN_KEY =
+        val ACCESS_TOKEN_KEY =
             androidx.datastore.preferences.core.stringPreferencesKey("access_token")
 
         /**
@@ -271,7 +274,7 @@ class TokenRefreshInterceptor(
 
             // 使用OkHttp的ResponseBody创建响应体
             val responseBody = okhttp3.ResponseBody.create(
-                okhttp3.MediaType.parse("application/json"),
+                "application/json".toMediaType(),
                 errorJson
             )
 

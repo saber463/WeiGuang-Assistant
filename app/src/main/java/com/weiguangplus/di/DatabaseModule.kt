@@ -43,7 +43,7 @@ object DatabaseModule {
     fun provideDatabase(@ApplicationContext context: Context): androidx.room.RoomDatabase {
         return Room.databaseBuilder(
             context,
-            com.weiguangchangxing.weiguang_plus.data.local.AppDatabase::class.java,
+            com.weiguangplus.data.local.AppDatabase::class.java,
             DATABASE_NAME
         )
         .fallbackToDestructiveMigration()  // 开发模式：版本不匹配时重建

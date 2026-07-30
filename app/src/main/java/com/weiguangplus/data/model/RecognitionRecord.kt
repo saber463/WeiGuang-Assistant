@@ -321,7 +321,7 @@ data class RecognitionRecord(
         fun getConfidenceColor(score: Float): String {
             return when {
                 score >= CONFIDENCE_HIGH -> "primary"      // 绿色（高可信）
-                score >= CONFIDITY_MEDIUM -> "tertiary"    // 橙色（中等）
+                score >= CONFIDENCE_MEDIUM -> "tertiary"    // 橙色（中等）
                 else -> "error"                             // 红色（低可信）
             }
         }

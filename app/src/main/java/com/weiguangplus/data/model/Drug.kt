@@ -622,6 +622,15 @@ data class Drug(
          * @param riskLevel 风险等级字符串
          * @return Material3语义化颜色名称
          */
+        private fun getRiskDisplayName(level: String): String {
+            return when (level) {
+                RISK_HIGH -> "高风险"
+                RISK_MEDIUM -> "中风险"
+                RISK_LOW -> "低风险"
+                else -> "未知"
+            }
+        }
+
         fun getRiskColorName(riskLevel: String): String {
             return when (riskLevel) {
                 RISK_HIGH -> "errorContainer"      // 红色系（危险）
@@ -645,36 +654,28 @@ data class Drug(
             }
 
             // 动态生成摘要文本
-            return buildString {
-                appendLine("${this.genericName ?: '未知药品'}")
-                this.tradeName?.let { appendLine("商品名：$it") }
-                appendLine("风险等级：${getRiskDisplayName(this.getHighestRiskLevel())}")
-                this.indication?.let { appendLine("适应症：$it") }
+            val drug = this
+            val genName = this.genericName ?: "未知药品"
+            val trade = this.tradeName
+            val indication = this.indication
+            val riskLevel = getRiskDisplayName(this.getHighestRiskLevel())
+            val prompts = riskPrompts
 
-                if (riskPrompts.isNotEmpty()) {
+            return buildString {
+                appendLine(genName)
+                trade?.let { appendLine("商品名：$it") }
+                appendLine("风险等级：$riskLevel")
+                indication?.let { appendLine("适应症：$it") }
+
+                if (prompts.isNotEmpty()) {
                     appendLine("注意事项：")
-                    riskPrompts.forEach { prompt ->
+                    prompts.forEach { prompt ->
                         appendLine(prompt)
                     }
                 }
 
                 appendLine("请仔细阅读说明书或在药师指导下使用。")
             }.trim()
-        }
-
-        /**
-         * 获取风险等级的中文显示名称
-         *
-         * @param level 风险等级代码
-         * @return 中文显示文本
-         */
-        private fun getRiskDisplayName(level: String): String {
-            return when (level) {
-                RISK_HIGH -> "高风险"
-                RISK_MEDIUM -> "中风险"
-                RISK_LOW -> "低风险"
-                else -> "未知"
-            }
         }
     }
 }

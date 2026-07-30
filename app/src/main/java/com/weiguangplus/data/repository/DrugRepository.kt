@@ -32,6 +32,7 @@ import com.weiguangplus.network.ApiResponse
 import com.weiguangplus.network.WeiguangApiService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
@@ -75,7 +76,7 @@ class DrugRepository @Inject constructor(
             try {
                 // 步骤1：构建Multipart请求体（文件上传格式）
                 val requestFile = imageFile.asRequestBody(
-                    contentType = okhttp3.MediaType.parse("image/*")
+                    contentType = "image/*".toMediaType()
                 )
                 val body = MultipartBody.Part.createFormData(
                     name = "image",  // 后端接收的字段名

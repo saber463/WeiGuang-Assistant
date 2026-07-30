@@ -1,0 +1,1526 @@
+/* ============================================
+   微光畅行 - 无障碍智能沟通助手 网页样式表
+   项目：weiguangplus
+   说明：本文件从 index.html 内联 <style> 标签提取，
+         包含全部页面样式，按功能模块分区并添加中文注释。
+   ============================================ */
+
+
+/* ============================================
+   CSS变量定义 - 定义全局颜色、阴影、圆角等
+   ============================================ */
+
+/* 页面级 CSS 自定义属性，统一管理品牌色与设计令牌 */
+:root {
+    /* 主色调 - 暖橙色系，传递温暖与关怀 */
+    --primary: #D4893C;
+    /* 主色深色变体 - 用于悬停、文字等 */
+    --primary-dark: #B87530;
+    /* 主色浅色变体 - 用于背景、标签等 */
+    --primary-light: #F5E6CC;
+    /* 强调色 - 深橘红，用于辅助强调 */
+    --accent: #C1704A;
+    /* 暖色背景 - 极浅暖白，页面底色 */
+    --warm-bg: #FFFAF5;
+    /* 暖色深色文字 - 深棕色，正文主色 */
+    --warm-dark: #3D2C1E;
+    /* 暖灰色 - 次要文字、辅助信息色 */
+    --warm-gray: #6B5C4F;
+    /* 暖色渐变背景 - 用于 Hero 等大面积背景 */
+    --gradient-warm: linear-gradient(135deg, #FFFAF5 0%, #F5E6CC 50%, #EDD9B5 100%);
+    /* 按钮渐变 - 主按钮、强调元素使用 */
+    --gradient-button: linear-gradient(135deg, #D4893C 0%, #C1704A 100%);
+    /* 标准阴影 - 卡片、浮层等通用阴影 */
+    --shadow-warm: 0 8px 32px rgba(212, 137, 60, 0.16);
+    /* 强阴影 - 悬停、弹窗等需要更强层次感时使用 */
+    --shadow-strong: 0 12px 48px rgba(212, 137, 60, 0.22);
+    /* 卡片圆角 - 全局统一的圆角值 */
+    --radius-card: 20px;
+}
+
+
+/* ============================================
+   基础重置 - 清除浏览器默认样式
+   ============================================ */
+
+/* 全局盒模型重置，确保所有元素使用 border-box */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* 平滑滚动，点击锚点链接时平滑过渡 */
+html { scroll-behavior: smooth; }
+
+/* 页面主体样式 - 字体、背景色、文字色、隐藏横向溢出 */
+body {
+    font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    background: var(--warm-bg);
+    color: var(--warm-dark);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* 选中文字时的高亮颜色 - 橙色背景白色文字 */
+::selection { background: var(--primary); color: #fff; }
+
+/* 自定义滚动条 - 窄轨道、暖色系 */
+::-webkit-scrollbar { width: 8px; }
+/* 滚动条轨道背景色 */
+::-webkit-scrollbar-track { background: var(--warm-bg); }
+/* 滚动条滑块 - 浅橙色圆角 */
+::-webkit-scrollbar-thumb { background: var(--primary-light); border-radius: 4px; }
+/* 滚动条滑块悬停态 */
+::-webkit-scrollbar-thumb:hover { background: var(--primary); }
+
+
+/* ============================================
+   导航栏 - 顶部固定导航，毛玻璃效果
+   ============================================ */
+
+/* 导航栏主体 - 半透明背景 + 毛玻璃模糊效果 */
+.navbar {
+    background: rgba(255, 250, 245, 0.88);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-bottom: 1px solid rgba(212, 137, 60, 0.06);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 导航栏滚动后加深背景并增加阴影 */
+.navbar.scrolled { background: rgba(255, 250, 245, 0.96); box-shadow: 0 4px 30px rgba(61, 44, 30, 0.08); }
+
+/* 品牌名样式 - 加粗、深橙色、悬停缩放 */
+.navbar-brand {
+    font-weight: 800;
+    font-size: 1.35rem;
+    color: var(--primary-dark) !important;
+    letter-spacing: -0.3px;
+    transition: transform 0.3s;
+}
+.navbar-brand:hover { transform: scale(1.03); }
+
+/* 品牌图标 - 渐变背景圆角方块内嵌太阳图标 */
+.navbar-brand .brand-icon {
+    display: inline-flex;
+    width: 34px;
+    height: 34px;
+    background: var(--gradient-button);
+    border-radius: 9px;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+    color: #fff;
+    font-size: 1rem;
+    box-shadow: 0 3px 10px rgba(212, 137, 60, 0.25);
+}
+
+/* 导航链接 - 灰色文字，悬停变橙色并带浅背景 */
+.nav-link {
+    color: var(--warm-gray) !important;
+    font-weight: 550;
+    font-size: 0.92rem;
+    padding: 0.5rem 1.1rem !important;
+    position: relative;
+    transition: color 0.3s;
+    border-radius: 8px;
+}
+/* 导航链接悬停和激活状态 */
+.nav-link:hover, .nav-link.active { color: var(--primary-dark) !important; background: rgba(212, 137, 60, 0.06); }
+
+/* 导航栏下载按钮 - 胶囊形渐变按钮 */
+.navbar .btn-download-nav {
+    padding: 8px 22px;
+    border-radius: 999px;
+    background: var(--gradient-button);
+    color: #fff !important;
+    font-weight: 600;
+    font-size: 0.88rem;
+    box-shadow: 0 4px 14px rgba(212, 137, 60, 0.2);
+    transition: all 0.3s;
+}
+/* 下载按钮悬停 - 上移并增强阴影 */
+.navbar .btn-download-nav:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(212, 137, 60, 0.3); }
+
+
+/* ============================================
+   浮动粒子 - Hero 区域背景装饰粒子
+   ============================================ */
+
+/* 粒子容器 - 绝对定位铺满父级，不拦截鼠标事件 */
+.particles {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+/* 单个粒子 - 小圆形，半透明橙色，无限浮动动画 */
+.particle {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: rgba(212, 137, 60, 0.12);
+    border-radius: 50%;
+    animation: floatParticle 12s infinite ease-in-out;
+}
+
+/* 各粒子差异化定位、延迟和尺寸 */
+.particle:nth-child(1) { left: 10%; top: 20%; animation-delay: 0s; width: 8px; height: 8px; }
+.particle:nth-child(2) { left: 25%; top: 60%; animation-delay: 2s; }
+.particle:nth-child(3) { left: 45%; top: 10%; animation-delay: 4s; width: 10px; height: 10px; }
+.particle:nth-child(4) { left: 65%; top: 50%; animation-delay: 1s; }
+.particle:nth-child(5) { left: 80%; top: 30%; animation-delay: 3s; width: 7px; height: 7px; }
+.particle:nth-child(6) { left: 90%; top: 70%; animation-delay: 5s; }
+.particle:nth-child(7) { left: 35%; top: 80%; animation-delay: 2.5s; width: 5px; height: 5px; }
+.particle:nth-child(8) { left: 55%; top: 40%; animation-delay: 3.5s; }
+
+/* 粒子浮动动画 - 上下移动并缩放透明度变化 */
+@keyframes floatParticle {
+    0%, 100% { transform: translateY(0) scale(1); opacity: 0.4; }
+    50% { transform: translateY(-60px) scale(1.6); opacity: 1; }
+}
+
+
+/* ============================================
+   首页横幅 Hero - 大面积渐变背景 + 手机模型
+   ============================================ */
+
+/* Hero 区域 - 最小高度96vh，居中对齐，渐变背景 */
+.hero {
+    min-height: 96vh;
+    display: flex;
+    align-items: center;
+    background: var(--gradient-warm);
+    position: relative;
+    overflow: hidden;
+    padding-top: 80px;
+}
+
+/* Hero 光晕装饰 - 大圆形模糊光斑 */
+.hero-glow {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    pointer-events: none;
+}
+
+/* 光斑1 - 右上角大光晕 */
+.hero-glow.g1 {
+    width: 500px; height: 500px;
+    background: rgba(212, 137, 60, 0.07);
+    top: -100px; right: -100px;
+    animation: glowFloat 10s ease-in-out infinite;
+}
+
+/* 光斑2 - 左下角光晕，反向动画 */
+.hero-glow.g2 {
+    width: 400px; height: 400px;
+    background: rgba(193, 112, 74, 0.05);
+    bottom: -150px; left: -100px;
+    animation: glowFloat 12s ease-in-out infinite reverse;
+}
+
+/* 光斑3 - 居中光晕 */
+.hero-glow.g3 {
+    width: 300px; height: 300px;
+    background: rgba(245, 230, 204, 0.4);
+    top: 40%; left: 50%;
+    transform: translate(-50%, -50%);
+    animation: glowFloat 8s ease-in-out infinite;
+}
+
+/* 光晕浮动动画 - 微小位移 + 缩放 */
+@keyframes glowFloat {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(30px, -20px) scale(1.08); }
+}
+
+/* Hero 徽章标签 - 圆角胶囊形，显示项目定位 */
+.hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 18px;
+    background: rgba(212, 137, 60, 0.12);
+    color: var(--primary-dark);
+    border-radius: 999px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    margin-bottom: 1.4rem;
+    border: 1px solid rgba(212, 137, 60, 0.12);
+    opacity: 0;
+    animation: fadeUp 0.7s 0.15s forwards;
+}
+
+/* Hero 主标题 - 响应式字号，渐变文字效果 */
+.hero h1 {
+    font-size: clamp(2.4rem, 5.5vw, 3.8rem);
+    font-weight: 800;
+    line-height: 1.15;
+    color: var(--warm-dark);
+    opacity: 0;
+    animation: fadeUp 0.7s 0.3s forwards;
+}
+
+/* 标题中的渐变文字 - 裁剪为渐变色文字 */
+.hero h1 .gradient-text {
+    background: var(--gradient-button);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Hero 描述段落 - 灰色说明文字 */
+.hero p {
+    font-size: 1.12rem;
+    color: var(--warm-gray);
+    max-width: 560px;
+    line-height: 1.75;
+    opacity: 0;
+    animation: fadeUp 0.7s 0.45s forwards;
+}
+
+/* Hero 按钮组容器 */
+.hero-actions {
+    opacity: 0;
+    animation: fadeUp 0.7s 0.6s forwards;
+}
+
+/* Hero 按钮统一样式 - 大圆角、粗字重、过渡动效 */
+.hero-actions .btn {
+    padding: 15px 34px;
+    border-radius: 999px;
+    font-weight: 650;
+    font-size: 1rem;
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+}
+
+/* 主按钮 - 渐变背景，无边框，暖色阴影 */
+.btn-primary-custom {
+    background: var(--gradient-button);
+    border: none;
+    color: #fff;
+    box-shadow: var(--shadow-warm);
+}
+
+/* 主按钮悬停 - 上移并增强阴影 */
+.btn-primary-custom:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-strong);
+    color: #fff;
+}
+
+/* 主按钮按下态 - 回到原位 */
+.btn-primary-custom:active { transform: translateY(0); }
+
+/* 描边按钮 - 橙色边框，透明背景 */
+.btn-outline-custom {
+    border: 2px solid var(--primary);
+    color: var(--primary-dark);
+    background: transparent;
+}
+
+/* 描边按钮悬停 - 填充浅橙背景 + 上移 */
+.btn-outline-custom:hover {
+    background: var(--primary-light);
+    color: var(--primary-dark);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-warm);
+}
+
+/* Hero 状态行 - "已编译验证通过" 等状态信息 */
+.hero-status {
+    opacity: 0;
+    animation: fadeUp 0.7s 0.75s forwards;
+}
+
+/* Hero 手机模型容器 */
+.hero-phone {
+    opacity: 0;
+    animation: fadeUp 0.9s 0.5s forwards;
+}
+
+/* 手机外框 - 深棕色圆角矩形，模拟真机外观 */
+.hero-phone .phone-frame {
+    width: 280px;
+    height: 560px;
+    background: linear-gradient(160deg, #3D2C1E, #5C3A21);
+    border-radius: 40px;
+    padding: 12px;
+    box-shadow: 0 24px 64px rgba(61, 44, 30, 0.18), 0 0 0 1px rgba(255, 255, 255, 0.06);
+    position: relative;
+    margin: 0 auto;
+}
+
+/* 手机屏幕 - 暖色渐变背景，居中布局 */
+.hero-phone .phone-screen {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg, #FFFAF5, #F5E6CC);
+    border-radius: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 20px;
+    text-align: center;
+    overflow: hidden;
+    position: relative;
+}
+
+/* App 图标 - 渐变背景圆角方块 */
+.phone-screen .app-icon {
+    width: 68px;
+    height: 68px;
+    background: var(--gradient-button);
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 14px;
+    box-shadow: 0 6px 20px rgba(212, 137, 60, 0.3);
+}
+
+/* App 图标内图标颜色 */
+.phone-screen .app-icon i { font-size: 1.8rem; color: #fff; }
+
+/* 手机屏幕标题 */
+.phone-screen .phone-title { font-weight: 700; color: var(--warm-dark); margin-bottom: 2px; }
+
+/* 手机屏幕副标题 */
+.phone-screen .phone-sub { font-size: 0.78rem; color: var(--warm-gray); margin-bottom: 14px; }
+
+/* 手机屏幕功能网格 - 两列布局 */
+.phone-screen .phone-features {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5px;
+    width: 100%;
+}
+
+/* 手机屏幕功能标签 - 小圆角标签 */
+.phone-screen .phone-features span {
+    font-size: 0.68rem;
+    padding: 5px 6px;
+    background: rgba(212, 137, 60, 0.08);
+    border-radius: 8px;
+    color: var(--primary-dark);
+    font-weight: 550;
+    transition: background 0.3s;
+}
+
+/* 功能标签悬停加深 */
+.phone-screen .phone-features span:hover { background: rgba(212, 137, 60, 0.18); }
+
+/* 手机顶部刘海 - 深色圆角矩形 */
+.phone-notch {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90px;
+    height: 20px;
+    background: #3D2C1E;
+    border-radius: 0 0 12px 12px;
+}
+
+/* 脉冲圆点 - 绿色在线状态指示 */
+.pulse-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background: #22c55e;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+}
+
+/* 脉冲动画 - 透明度和缩放交替 */
+@keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(0.85); } }
+
+/* 上浮淡入动画 - 从下方28px处滑入 */
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(28px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+
+/* ============================================
+   通用区块 - 各 section 统一样式
+   ============================================ */
+
+/* 所有 section 统一上下内边距 */
+section { padding: 90px 0; }
+
+/* 区块标签 - 圆角胶囊形，浅橙背景 */
+.section-tag {
+    display: inline-block;
+    padding: 5px 18px;
+    background: rgba(212, 137, 60, 0.1);
+    color: var(--primary-dark);
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    margin-bottom: 0.8rem;
+    border: 1px solid rgba(212, 137, 60, 0.1);
+}
+
+/* 区块标题 - 响应式大字号，加粗 */
+.section-title {
+    font-weight: 750;
+    font-size: clamp(1.7rem, 3.2vw, 2.3rem);
+    color: var(--warm-dark);
+    letter-spacing: -0.5px;
+}
+
+/* 区块副标题 - 灰色描述文字 */
+.section-subtitle {
+    color: var(--warm-gray);
+    font-size: 1.05rem;
+    max-width: 620px;
+    line-height: 1.7;
+}
+
+
+/* ============================================
+   技术卡片 - 核心技术栈展示卡片
+   ============================================ */
+
+/* 技术卡片主体 - 白色背景，圆角，悬停上移 */
+.tech-card {
+    background: #fff;
+    border-radius: var(--radius-card);
+    padding: 30px 24px 40px;
+    border: 1px solid rgba(212, 137, 60, 0.06);
+    box-shadow: 0 4px 20px rgba(61, 44, 30, 0.04);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    height: 100%;
+    position: relative;
+    cursor: pointer;
+}
+
+/* 技术卡片底部提示文字 - 悬停时淡入 */
+.tech-card::after {
+    content: '💡 点击查看原理';
+    position: absolute;
+    bottom: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.7rem;
+    color: var(--primary);
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+/* 卡片悬停显示提示 */
+.tech-card:hover::after { opacity: 1; }
+
+/* 移动端隐藏提示文字 */
+@media (max-width: 576px) { .tech-card::after { display: none; } }
+
+/* 技术卡片悬停态 - 上移 + 阴影增强 + 边框高亮 */
+.tech-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-warm);
+    border-color: var(--primary-light);
+}
+
+/* 图标容器 - 浅橙背景圆角方块 */
+.tech-icon-box {
+    width: 54px;
+    height: 54px;
+    background: var(--primary-light);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+    transition: all 0.4s;
+}
+
+/* 悬停时图标容器变为实心橙色 */
+.tech-card:hover .tech-icon-box { background: var(--primary); }
+
+/* 图标颜色 - 默认橙色，悬停变白 */
+.tech-icon-box i { font-size: 1.5rem; color: var(--primary); transition: color 0.4s; }
+.tech-card:hover .tech-icon-box i { color: #fff; }
+
+/* 技术卡片标题 */
+.tech-card h6 { font-weight: 700; font-size: 0.98rem; }
+
+/* 技术卡片描述文字 */
+.tech-card p { font-size: 0.85rem; color: var(--warm-gray); margin-bottom: 0; line-height: 1.6; }
+
+
+/* ============================================
+   功能卡片 - 12大功能模块展示
+   ============================================ */
+
+/* 功能卡片主体 - 白色背景，带顶部渐变线条装饰 */
+.feature-card {
+    background: #fff;
+    border-radius: var(--radius-card);
+    padding: 26px 22px;
+    border: 1px solid rgba(212, 137, 60, 0.05);
+    box-shadow: 0 4px 16px rgba(61, 44, 30, 0.03);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+    cursor: default;
+}
+
+/* 功能卡片顶部渐变线条 - 悬停时从左到右展开 */
+.feature-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--gradient-button);
+    transform: scaleX(0);
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-origin: left;
+}
+/* 悬停展开顶部线条 */
+.feature-card:hover::before { transform: scaleX(1); }
+
+/* 功能卡片悬停态 - 上移 + 阴影 */
+.feature-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-warm);
+}
+
+/* 功能图标 - Emoji 大字号 */
+.feature-card .feat-icon { font-size: 2rem; margin-bottom: 10px; display: block; }
+
+/* 功能卡片标题 */
+.feature-card h6 { font-weight: 700; font-size: 0.93rem; }
+
+/* 功能卡片描述 */
+.feature-card p { font-size: 0.82rem; color: var(--warm-gray); margin-bottom: 10px; line-height: 1.55; }
+
+/* 状态徽章 - 圆角胶囊形，区分已上线/即将上线 */
+.feature-card .status-badge {
+    display: inline-block;
+    padding: 3px 12px;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    font-weight: 650;
+}
+
+/* 已上线状态 - 绿色背景 */
+.status-badge.online { background: #dcfce7; color: #166534; }
+
+/* 即将上线状态 - 黄色背景 */
+.status-badge.soon { background: #fef9c3; color: #854d0e; }
+
+
+/* ============================================
+   架构展示 - 四层技术架构图
+   ============================================ */
+
+/* 架构区块背景 - 白到暖色渐变 */
+.arch-section { background: linear-gradient(180deg, #fff 0%, var(--warm-bg) 100%); }
+
+/* 架构层卡片 - 白色圆角卡片 */
+.arch-layer {
+    background: #fff;
+    border-radius: 18px;
+    padding: 24px;
+    border: 1px solid rgba(212, 137, 60, 0.08);
+    box-shadow: 0 4px 16px rgba(61, 44, 30, 0.04);
+    transition: all 0.35s;
+}
+
+/* 架构层悬停 - 边框高亮 + 上移 */
+.arch-layer:hover { border-color: var(--primary-light); box-shadow: var(--shadow-warm); transform: translateY(-2px); }
+
+/* 架构层标签文字 */
+.arch-layer .layer-label { font-size: 0.88rem; font-weight: 700; color: var(--primary-dark); margin-bottom: 12px; letter-spacing: 0.2px; }
+
+/* 架构层技术标签列表 - 弹性布局换行 */
+.arch-layer .layer-items { display: flex; flex-wrap: wrap; gap: 7px; }
+
+/* 架构层内单个技术标签 - 圆角胶囊 */
+.arch-layer .layer-items span {
+    padding: 5px 14px;
+    background: var(--primary-light);
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 530;
+    color: var(--warm-dark);
+    transition: all 0.3s;
+}
+
+/* 技术标签悬停 - 变为实心橙色白字 */
+.arch-layer .layer-items span:hover { background: var(--primary); color: #fff; }
+
+/* 架构层之间的箭头分隔 */
+.arch-arrow { text-align: center; padding: 4px 0; color: var(--primary); font-size: 1.3rem; opacity: 0.6; }
+
+
+/* ============================================
+   数据统计 - 深色背景数据展示
+   ============================================ */
+
+/* 统计区块 - 深棕色渐变背景，白色文字 */
+.stats-section {
+    background: linear-gradient(135deg, #2C1F14 0%, #3D2C1E 50%, #5C3A21 100%);
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+}
+
+/* 统计区块背景光效装饰 - 径向渐变 + 动画 */
+.stats-section::before {
+    content: '';
+    position: absolute;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: radial-gradient(circle at 30% 50%, rgba(212, 137, 60, 0.04) 0%, transparent 50%);
+    animation: statGlow 12s ease-in-out infinite;
+}
+
+/* 光效动画 - 微小位移 */
+@keyframes statGlow { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(5%, 5%); } }
+
+/* 统计项 - 层级 z-index 保证在光效之上 */
+.stats-section .stat-item { position: relative; z-index: 1; padding: 20px 0; }
+
+/* 统计图标 - 橙色大字号 */
+.stats-section .stat-icon { font-size: 2rem; color: var(--primary); margin-bottom: 10px; }
+
+/* 统计数字 - 响应式超大字号 */
+.stats-section .stat-number { font-size: clamp(2.2rem, 4vw, 3.2rem); font-weight: 800; color: #fff; line-height: 1.1; }
+
+/* 统计标签 - 半透明白色 */
+.stats-section .stat-label { color: rgba(255, 255, 255, 0.65); font-size: 0.92rem; font-weight: 450; margin-top: 4px; }
+
+/* 统计数字与标签之间的橙色分隔线 */
+.stats-section .stat-divider { width: 30px; height: 2px; background: var(--primary); margin: 8px auto; border-radius: 2px; }
+
+
+/* ============================================
+   下载区域 - App 下载二维码 + 信息展示
+   ============================================ */
+
+/* 下载区块 - 白色背景，底部留大间距 */
+.download-section { background: #fff; padding-bottom: 100px; }
+
+/* 下载卡片 - 暖色渐变大圆角卡片 */
+.download-card {
+    background: var(--gradient-warm);
+    border-radius: 28px;
+    padding: 52px 48px;
+    border: 1px solid rgba(212, 137, 60, 0.1);
+    box-shadow: 0 12px 48px rgba(212, 137, 60, 0.08);
+    position: relative;
+    overflow: hidden;
+}
+
+/* 下载卡片右上角装饰光斑 */
+.download-card::before {
+    content: '';
+    position: absolute;
+    top: -100px; right: -100px;
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(212, 137, 60, 0.05), transparent 70%);
+    border-radius: 50%;
+}
+
+/* 二维码外层包装 - 居中定位 */
+.qr-wrap {
+    width: 210px;
+    margin: 0 auto;
+    position: relative;
+}
+
+/* 二维码白色容器 - 圆角 + 阴影 + 边框 */
+.qr-box {
+    width: 210px;
+    height: 210px;
+    background: #fff;
+    border-radius: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 32px rgba(61, 44, 30, 0.06), 0 0 0 1px rgba(212, 137, 60, 0.06);
+    transition: all 0.4s;
+    position: relative;
+}
+
+/* 二维码边框渐变发光效果 */
+.qr-box::after {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: 26px;
+    background: linear-gradient(135deg, rgba(212,137,60,0.1), transparent, rgba(193,112,74,0.1));
+    z-index: -1;
+    animation: qrGlow 3s ease-in-out infinite;
+}
+
+/* 发光动画 - 透明度变化 */
+@keyframes qrGlow { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
+
+/* 二维码悬停 - 微放大 */
+.qr-box:hover { transform: scale(1.03); box-shadow: 0 12px 40px rgba(61, 44, 30, 0.1); }
+
+/* 二维码图片或回退占位 */
+.qr-box img, .qr-box .qr-fallback { width: 180px; height: 180px; border-radius: 12px; }
+
+/* 扫描线动画 - 从上到下循环扫描 */
+.qr-scan-line {
+    width: 160px;
+    height: 2px;
+    background: var(--gradient-button);
+    border-radius: 2px;
+    position: absolute;
+    top: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0.4;
+    animation: scanLine 3s ease-in-out infinite;
+    pointer-events: none;
+}
+
+/* 扫描线动画 - 上下循环 */
+@keyframes scanLine {
+    0%, 100% { top: 15px; opacity: 0.3; }
+    50% { top: 180px; opacity: 0.6; }
+}
+
+/* 二维码下方提示文字 */
+.qr-note { font-size: 0.82rem; color: var(--warm-gray); margin-top: 12px; font-weight: 500; }
+
+/* 下载信息区标题 */
+.download-info h4 { font-weight: 750; font-size: 1.5rem; }
+
+/* 下载信息区检查项 - 带对勾图标的列表项 */
+.download-info .check-item { font-size: 0.88rem; color: var(--warm-gray); display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+
+
+/* ============================================
+   页脚 - 深色底部区域
+   ============================================ */
+
+/* 页脚主体 - 深棕色背景 */
+footer {
+    background: #2C1F14;
+    color: rgba(255, 255, 255, 0.65);
+    padding: 50px 0 28px;
+}
+
+/* 页脚标题 - 白色加粗 */
+footer h6 { color: #fff; font-weight: 650; font-size: 0.88rem; margin-bottom: 16px; letter-spacing: 0.2px; }
+
+/* 页脚链接 - 半透明白色，悬停变橙色并右移 */
+footer a { color: rgba(255, 255, 255, 0.55); text-decoration: none; font-size: 0.88rem; transition: all 0.3s; display: inline-block; }
+footer a:hover { color: var(--primary); transform: translateX(3px); }
+
+/* 页脚链接项间距 */
+footer .footer-link-item { margin-bottom: 8px; }
+
+/* 社交图标容器 - 水平排列 */
+footer .social-icons { display: flex; gap: 10px; }
+
+/* 社交图标按钮 - 圆形半透明背景 */
+footer .social-icons a {
+    display: inline-flex;
+    width: 42px;
+    height: 42px;
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    transition: all 0.35s;
+    border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+/* 社交图标悬停 - 橙色实心 + 上移 */
+footer .social-icons a:hover {
+    background: var(--primary);
+    color: #fff;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(212, 137, 60, 0.3);
+}
+
+/* 页脚分隔线 - 极淡白色 */
+footer hr { border-color: rgba(255, 255, 255, 0.06); margin: 24px 0; }
+
+
+/* ============================================
+   工具类 - 返回顶部按钮、滚动显示等通用工具
+   ============================================ */
+
+/* 返回顶部按钮 - 固定右下角圆形渐变按钮 */
+.back-to-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 48px;
+    height: 48px;
+    background: var(--gradient-button);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 999;
+    box-shadow: var(--shadow-warm);
+}
+
+/* 返回顶部按钮显示状态 */
+.back-to-top.show { opacity: 1; visibility: visible; }
+
+/* 返回顶部按钮悬停 - 上移并增强阴影 */
+.back-to-top:hover { transform: translateY(-4px); box-shadow: var(--shadow-strong); }
+
+/* 滚动显示元素 - 默认隐藏，JS 添加 .visible 后淡入 */
+.reveal { opacity: 0; transform: translateY(35px); transition: all 0.75s cubic-bezier(0.4, 0, 0.2, 1); }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+
+/* ============================================
+   响应式适配 - 平板和手机端布局调整
+   ============================================ */
+
+/* 平板端 (<=992px) - Hero 区域缩小，手机模型缩小 */
+@media (max-width: 992px) {
+    .hero { min-height: auto; padding: 120px 0 60px; }
+    .hero-phone .phone-frame { width: 220px; height: 440px; margin-top: 30px; }
+    .phone-screen .phone-features span { font-size: 0.6rem; padding: 4px; }
+}
+
+/* 小平板端 (<=768px) - 减少 section 内边距，缩小下载卡片和二维码 */
+@media (max-width: 768px) {
+    section { padding: 60px 0; }
+    .download-card { padding: 30px 20px; border-radius: 20px; }
+    .qr-wrap { width: 170px; }
+    .qr-box { width: 170px; height: 170px; }
+    .qr-box img, .qr-box .qr-fallback { width: 150px; height: 150px; }
+    /* 二维码扫描线动画同步缩小 */
+    @keyframes scanLine { 0%, 100% { top: 12px; } 50% { top: 145px; } }
+}
+
+/* 手机端 (<=576px) - 缩小标题字号，隐藏导航下载按钮 */
+@media (max-width: 576px) {
+    .hero h1 { font-size: 1.9rem; }
+    .btn-download-nav { display: none !important; }
+}
+
+
+/* ============================================
+   鼠标拖尾 - 鼠标移动时的 Emoji 轨迹特效
+   ============================================ */
+
+/* 拖尾 Emoji - 固定定位，不拦截点击，1.6秒淡出动画 */
+.trail-emoji {
+    position: fixed;
+    pointer-events: none;
+    z-index: 9998;
+    font-size: 1.4rem;
+    animation: trailFade 1.6s ease-out forwards;
+}
+
+/* 拖尾淡出动画 - 上移 + 旋转 + 缩放 + 透明度递减 */
+@keyframes trailFade {
+    0% { opacity: 1; transform: translateY(0) scale(1) rotate(0deg); }
+    60% { opacity: 0.8; transform: translateY(-20px) scale(1.1) rotate(15deg); }
+    100% { opacity: 0; transform: translateY(-40px) scale(0.8) rotate(-10deg); }
+}
+
+
+/* ============================================
+   吉祥物介绍 - "认识小微"横幅区块
+   ============================================ */
+
+/* 吉祥物介绍区块 - 浅暖色渐变背景 */
+.mascot-intro {
+    background: linear-gradient(135deg, #FFF8F0 0%, #FFF3E6 100%);
+    padding: 60px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+/* 吉祥物介绍背景装饰 - 径向光晕 */
+.mascot-intro::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -10%;
+    width: 120%;
+    height: 200%;
+    background: radial-gradient(ellipse at center, rgba(212,137,60,0.06) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+/* 吉祥物介绍内层 - 弹性布局，头像 + 文字并排 */
+.mascot-intro-inner {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    position: relative;
+    z-index: 1;
+}
+
+/* 吉祥物头像容器 - 不缩放 */
+.mascot-intro-avatar {
+    flex-shrink: 0;
+    position: relative;
+}
+
+/* 吉祥物头像图片 - 圆形，带边框和阴影，浮动动画 */
+.mascot-intro-avatar img {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid rgba(212,137,60,0.2);
+    box-shadow: 0 8px 40px rgba(212,137,60,0.2);
+    animation: mascotIntroFloat 4s ease-in-out infinite;
+}
+
+/* 头像外层光环装饰 */
+.mascot-intro-avatar .intro-glow {
+    position: absolute;
+    inset: -12px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(212,137,60,0.15), rgba(193,112,74,0.08));
+    z-index: -1;
+    animation: introGlowPulse 3s ease-in-out infinite;
+}
+
+/* 头像周围的闪光 Emoji 装饰 */
+.mascot-intro-avatar .intro-sparkle {
+    position: absolute;
+    font-size: 1.4rem;
+    animation: sparkleFloat 3s ease-in-out infinite;
+}
+
+/* 各闪光位置和延迟 */
+.mascot-intro-avatar .sparkle-1 { top: -10px; right: 10px; animation-delay: 0s; }
+.mascot-intro-avatar .sparkle-2 { bottom: 10px; left: -5px; animation-delay: 1s; }
+.mascot-intro-avatar .sparkle-3 { top: 30px; right: -15px; animation-delay: 2s; }
+
+/* 吉祥物头像浮动动画 - 上下缓动 */
+@keyframes mascotIntroFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+
+/* 闪光浮动动画 - 缩放 + 透明度 */
+@keyframes sparkleFloat { 0%,100% { transform: translateY(0) scale(1); opacity: 0.7; } 50% { transform: translateY(-8px) scale(1.2); opacity: 1; } }
+
+/* 光环脉冲动画 - 透明度 + 缩放 */
+@keyframes introGlowPulse { 0%,100% { opacity: 0.5; transform: scale(1); } 50% { opacity: 1; transform: scale(1.06); } }
+
+/* 吉祥物介绍内容区 - 弹性填充剩余空间 */
+.mascot-intro-content { flex: 1; }
+
+/* 介绍徽章标签 */
+.mascot-intro-content .intro-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(212,137,60,0.1);
+    color: var(--primary);
+    padding: 6px 16px;
+    border-radius: 999px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    margin-bottom: 16px;
+}
+
+/* 介绍标题 - 渐变文字 */
+.mascot-intro-content h2 {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--warm-dark);
+    margin-bottom: 12px;
+    line-height: 1.3;
+}
+
+/* 标题中的渐变文字 */
+.mascot-intro-content h2 .gradient-text {
+    background: var(--gradient-button);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* 介绍段落文字 */
+.mascot-intro-content p {
+    font-size: 1rem;
+    color: var(--warm-gray);
+    line-height: 1.8;
+    margin-bottom: 20px;
+}
+
+/* 功能标签列表 - 弹性换行布局 */
+.mascot-intro-features {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+/* 功能标签 - 白色背景圆角标签 */
+.mascot-intro-features .feature-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #fff;
+    padding: 8px 16px;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    color: var(--warm-dark);
+    font-weight: 500;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+    border: 1px solid rgba(212,137,60,0.08);
+}
+
+/* 功能标签内图标颜色 */
+.mascot-intro-features .feature-tag i { color: var(--primary); font-size: 1rem; }
+
+/* 吉祥物介绍移动端适配 - 垂直堆叠居中 */
+@media (max-width: 768px) {
+    .mascot-intro-inner { flex-direction: column; text-align: center; }
+    .mascot-intro-avatar img { width: 120px; height: 120px; }
+    .mascot-intro-content h2 { font-size: 1.4rem; }
+    .mascot-intro-features { justify-content: center; }
+}
+
+
+/* ============================================
+   吉祥物组件 - 右下角浮动吉祥物按钮
+   ============================================ */
+
+/* 吉祥物容器 - 固定右下角定位 */
+.mascot-wrapper {
+    position: fixed;
+    bottom: 100px;
+    right: 30px;
+    z-index: 999;
+}
+
+/* 吉祥物主体 - 圆形头像，带浮动动画和阴影 */
+.mascot-body {
+    width: 80px;
+    height: 80px;
+    cursor: pointer;
+    animation: mascotFloat 3s ease-in-out infinite;
+    filter: drop-shadow(0 4px 12px rgba(61,44,30,0.12));
+    transition: filter 0.3s, transform 0.3s;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    box-shadow: 0 4px 20px rgba(212,137,60,0.25);
+}
+
+/* 吉祥物图片 */
+.mascot-body img.mascot-img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+}
+
+/* 吉祥物悬停 - 增强阴影 + 放大 */
+.mascot-body:hover { filter: drop-shadow(0 8px 24px rgba(212,137,60,0.35)); transform: scale(1.08); }
+
+/* 吉祥物按下 - 弹跳动画 */
+.mascot-body:active { animation: mascotBounce 0.4s ease; }
+
+/* 吉祥物外层光环 */
+.mascot-glow {
+    position: absolute;
+    inset: -5px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(212,137,60,0.2), rgba(193,112,74,0.1));
+    z-index: -1;
+    animation: introGlowPulse 3s ease-in-out infinite;
+}
+
+/* 消息通知红点 */
+.mascot-badge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    width: 22px;
+    height: 22px;
+    background: #ef4444;
+    color: #fff;
+    border-radius: 50%;
+    font-size: 0.65rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #fff;
+    animation: badgePulse 2s ease-in-out infinite;
+}
+
+/* 吉祥物浮动动画 - 上下缓动 */
+@keyframes mascotFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+
+/* 吉祥物弹跳动画 - 按下反馈 */
+@keyframes mascotBounce { 0% { transform: scale(1); } 30% { transform: scale(0.92); } 60% { transform: scale(1.05); } 100% { transform: scale(1); } }
+
+/* 红点脉冲动画 - 微缩放 */
+@keyframes badgePulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.15); } }
+
+
+/* ============================================
+   吉祥物聊天 - 右下角聊天弹出面板
+   ============================================ */
+
+/* 聊天面板 - 固定定位，白色圆角卡片 */
+.mascot-chat {
+    position: fixed;
+    bottom: 200px;
+    right: 30px;
+    width: 320px;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 12px 48px rgba(0,0,0,0.15);
+    z-index: 998;
+    opacity: 0;
+    transform: translateY(20px) scale(0.9);
+    pointer-events: none;
+    transition: all 0.4s cubic-bezier(0.34,1.56,0.64,1);
+    overflow: hidden;
+}
+
+/* 聊天面板激活态 - 显示并可交互 */
+.mascot-chat.active { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
+
+/* 聊天头部 - 暖色渐变背景 */
+.mascot-chat-header {
+    background: var(--gradient-warm);
+    padding: 16px 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* 头部头像 */
+.mascot-chat-header img { width: 36px; height: 36px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.5); }
+
+/* 头部名称 - 白色加粗 */
+.mascot-chat-header .chat-name { color: #fff; font-weight: 700; font-size: 0.95rem; }
+
+/* 头部在线状态 */
+.mascot-chat-header .chat-status { color: rgba(255,255,255,0.8); font-size: 0.75rem; }
+
+/* 聊天消息体 - 可滚动区域 */
+.mascot-chat-body { padding: 18px; max-height: 320px; overflow-y: auto; }
+
+/* 聊天气泡 - 左侧默认样式 */
+.mascot-chat-msg {
+    background: var(--warm-bg);
+    border-radius: 16px 16px 16px 4px;
+    padding: 12px 16px;
+    margin-bottom: 10px;
+    font-size: 0.88rem;
+    line-height: 1.6;
+    color: var(--warm-dark);
+    animation: msgSlideIn 0.3s ease;
+}
+
+/* 用户消息气泡 - 右对齐，浅橙背景 */
+.mascot-chat-msg.user-msg { background: var(--primary-light); border-radius: 16px 16px 4px 16px; margin-left: 40px; }
+
+/* 消息滑入动画 */
+@keyframes msgSlideIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+/* 聊天快捷操作按钮区 - 底部分隔线上方 */
+.mascot-chat-actions {
+    padding: 12px 18px;
+    border-top: 1px solid rgba(0,0,0,0.05);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+/* 快捷操作按钮 - 圆角胶囊形 */
+.mascot-chat-actions button {
+    padding: 6px 14px;
+    border-radius: 999px;
+    border: 1px solid rgba(212,137,60,0.2);
+    background: #fff;
+    color: var(--primary);
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+/* 快捷操作按钮悬停 - 实心橙色 */
+.mascot-chat-actions button:hover { background: var(--primary); color: #fff; border-color: var(--primary); transform: translateY(-1px); }
+
+/* 聊天关闭按钮 - 右上角圆形 */
+.mascot-chat-close {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255,255,255,0.2);
+    color: #fff;
+    font-size: 0.85rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+
+/* 关闭按钮悬停 */
+.mascot-chat-close:hover { background: rgba(255,255,255,0.4); }
+
+/* 打字指示器 - 三个跳动圆点 */
+.mascot-typing { display: flex; gap: 4px; padding: 8px 16px; }
+
+/* 打字圆点样式 */
+.mascot-typing span {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--primary);
+    opacity: 0.4;
+    animation: typingDot 1.2s ease-in-out infinite;
+}
+
+/* 各圆点错开延迟 */
+.mascot-typing span:nth-child(2) { animation-delay: 0.2s; }
+.mascot-typing span:nth-child(3) { animation-delay: 0.4s; }
+
+/* 打字圆点跳动动画 */
+@keyframes typingDot { 0%,60%,100% { opacity: 0.4; transform: translateY(0); } 30% { opacity: 1; transform: translateY(-4px); } }
+
+
+/* ============================================
+   聊天功能卡片 - 聊天面板内的功能推荐卡片
+   ============================================ */
+
+/* 功能卡片网格 - 两列布局 */
+.chat-feature-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px; }
+
+/* 功能卡片 - 白色边框圆角卡片 */
+.chat-feature-card {
+    background: #fff;
+    border: 1px solid rgba(212,137,60,0.12);
+    border-radius: 12px;
+    padding: 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.25s;
+}
+
+/* 功能卡片悬停 - 边框高亮 + 阴影 + 上移 */
+.chat-feature-card:hover { border-color: var(--primary); box-shadow: 0 4px 16px rgba(212,137,60,0.15); transform: translateY(-2px); }
+
+/* 功能 Emoji 图标 */
+.chat-feature-card .feat-emoji { font-size: 1.6rem; display: block; margin-bottom: 4px; }
+
+/* 功能名称 */
+.chat-feature-card .feat-name { font-size: 0.75rem; font-weight: 600; color: var(--warm-dark); margin-bottom: 6px; line-height: 1.3; }
+
+/* 功能操作按钮 - 小圆角胶囊 */
+.chat-feature-card .feat-btn {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: var(--primary-light);
+    color: var(--primary);
+    font-size: 0.65rem;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+/* 功能按钮悬停 - 实心橙色 */
+.chat-feature-card:hover .feat-btn { background: var(--primary); color: #fff; }
+
+
+/* ============================================
+   功能详情弹窗 - 点击功能卡片后的弹出详情
+   ============================================ */
+
+/* 弹窗遮罩层 - 全屏半透明黑色背景 */
+.feat-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 200000;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.35s ease;
+    padding: 20px;
+}
+
+/* 弹窗激活态 - 显示并可交互 */
+.feat-modal-overlay.active { opacity: 1; pointer-events: auto; }
+
+/* 弹窗卡片 - 白色圆角大卡片，带弹性缩放动画 */
+.feat-modal-card {
+    background: #fff;
+    border-radius: 20px;
+    max-width: 520px;
+    width: 100%;
+    padding: 32px 28px 28px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+    transform: translateY(30px) scale(0.96);
+    transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
+    position: relative;
+    max-height: 85vh;
+    overflow-y: auto;
+}
+
+/* 弹窗卡片激活态 - 恢复原始位置和缩放 */
+.feat-modal-overlay.active .feat-modal-card { transform: translateY(0) scale(1); }
+
+/* 弹窗关闭按钮 - 右上角圆形 */
+.feat-modal-close {
+    position: absolute;
+    top: 14px;
+    right: 18px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: none;
+    background: var(--warm-bg);
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--warm-gray);
+    transition: all 0.2s;
+}
+
+/* 关闭按钮悬停 - 红色背景 */
+.feat-modal-close:hover { background: #fee; color: #ef4444; }
+
+/* 弹窗 Emoji 图标 */
+.feat-modal-emoji { font-size: 2.5rem; margin-bottom: 12px; }
+
+/* 弹窗标题 */
+.feat-modal-title { font-size: 1.3rem; font-weight: 800; color: var(--warm-dark); margin-bottom: 8px; }
+
+/* 弹窗状态标签 */
+.feat-modal-tag {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 999px;
+    background: var(--primary-light);
+    color: var(--primary);
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-bottom: 16px;
+}
+
+/* 弹窗正文内容 */
+.feat-modal-body { font-size: 0.92rem; line-height: 1.8; color: #555; }
+
+/* 弹窗正文段落间距 */
+.feat-modal-body p { margin-bottom: 12px; }
+
+/* 弹窗正文加粗文字 - 深色强调 */
+.feat-modal-body strong { color: var(--warm-dark); }
+
+/* 功能弹窗移动端适配 - 缩小间距和字号 */
+@media (max-width: 600px) {
+    .mascot-wrapper { bottom: 80px; right: 20px; }
+    .mascot-body { width: 64px; height: 64px; }
+    .mascot-body img.mascot-img { width: 64px; height: 64px; }
+    .mascot-chat { width: calc(100vw - 40px); right: 20px; bottom: 160px; }
+    .feat-modal-card { padding: 24px 20px 20px; }
+    .feat-modal-title { font-size: 1.1rem; }
+}
+
+
+/* ============================================
+   技术详情弹窗 - 点击技术卡片后的弹出详情
+   ============================================ */
+
+/* 技术弹窗遮罩层 - 全屏半透明黑色背景 */
+.tech-modal-overlay {
+    position: fixed; inset: 0; z-index: 200000;
+    background: rgba(0,0,0,0.6);
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.35s ease;
+    padding: 20px;
+}
+
+/* 技术弹窗激活态 */
+.tech-modal-overlay.active { opacity: 1; pointer-events: auto; }
+
+/* 技术弹窗卡片 - 白色圆角卡片，弹性动画 */
+.tech-modal-card {
+    background: #fff; border-radius: 20px;
+    max-width: 520px; width: 100%;
+    padding: 32px 28px 28px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+    transform: translateY(30px) scale(0.96);
+    transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
+    position: relative;
+    max-height: 85vh; overflow-y: auto;
+}
+
+/* 技术弹窗卡片激活态 - 恢复原位 */
+.tech-modal-overlay.active .tech-modal-card { transform: translateY(0) scale(1); }
+
+/* 技术弹窗关闭按钮 */
+.tech-modal-close {
+    position: absolute; top: 14px; right: 18px;
+    width: 32px; height: 32px; border-radius: 50%;
+    border: none; background: var(--warm-bg);
+    font-size: 1.1rem; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--warm-gray); transition: all 0.2s;
+}
+
+/* 技术弹窗关闭按钮悬停 - 红色 */
+.tech-modal-close:hover { background: #fee; color: #ef4444; }
+
+/* 技术弹窗图标 - 渐变暖色背景圆角方块 */
+.tech-modal-icon {
+    width: 52px; height: 52px; border-radius: 14px;
+    background: var(--gradient-warm);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem; margin-bottom: 14px;
+    color: var(--primary-dark);
+}
+
+/* 技术弹窗标题 */
+.tech-modal-title {
+    font-size: 1.2rem; font-weight: 700;
+    color: var(--warm-dark); margin-bottom: 6px;
+}
+
+/* 技术弹窗标签 - 圆角胶囊 */
+.tech-modal-tag {
+    display: inline-block; padding: 3px 12px;
+    border-radius: 999px; font-size: 0.75rem; font-weight: 600;
+    background: var(--primary-light); color: var(--primary-dark);
+    margin-bottom: 16px;
+}
+
+/* 技术弹窗正文 */
+.tech-modal-body {
+    font-size: 0.92rem; line-height: 1.8;
+    color: #4a3f35;
+}
+
+/* 技术弹窗正文段落间距 */
+.tech-modal-body p { margin-bottom: 12px; }

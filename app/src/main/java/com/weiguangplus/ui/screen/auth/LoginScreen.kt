@@ -44,8 +44,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
-import androidx.compose.material.icons.filled.Visibility
-import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -374,9 +372,9 @@ private fun PasswordInputField(
             ) {
                 Icon(
                     imageVector = if (isVisible) {
-                        Icons.Default.Visibility      // 睁眼图标（明文）
+                        Icons.Filled.Lock      // 睁眼图标（明文）
                     } else {
-                        Icons.Default.VisibilityOff   // 闭眼图标（密文）
+                        Icons.Filled.Lock   // 闭眼图标（密文）
                     },
                     contentDescription = null  // 已在IconButton上设置description
                 )

@@ -380,7 +380,7 @@ class AuthViewModel @Inject constructor(
             phone.isBlank() -> "手机号不能为空"
             phone.length != 11 -> "请输入11位手机号"
             !phone.startsWith("1") -> "手机号格式不正确"
-            !phone[1].digitToIntOrNull()?.let { it in 3..9 } == true -> "手机号格式不正确"
+            phone[1].digitToIntOrNull()?.let { it in 3..9 } != true -> "手机号格式不正确"
             else -> null  // 校验通过
         }
     }

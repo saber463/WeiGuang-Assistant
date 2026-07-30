@@ -35,8 +35,8 @@ import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccessibilityNew
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenu
@@ -268,7 +268,7 @@ private fun DisabilityTypeSelector(
             placeholder = { Text("请选择您的残疾类型") },
             trailingIcon = {
                 Icon(
-                    imageVector = Icons.Default.AccessibilityNew,
+                    imageVector = Icons.Filled.Star,
                     contentDescription = "展开选项"
                 )
             },

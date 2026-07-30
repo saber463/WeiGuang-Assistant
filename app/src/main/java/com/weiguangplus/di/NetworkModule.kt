@@ -51,19 +51,17 @@ import javax.inject.Singleton
 object NetworkModule {
 
     /** 常量定义 */
-    companion object {
-        /** API基础URL（Android模拟器访问本机使用10.0.2.2） */
-        const val BASE_URL = "http://10.0.2.2:8000/"
+    /** API基础URL（Android模拟器访问本机使用10.0.2.2） */
+    const val BASE_URL = "http://10.0.2.2:8000/"
 
         /** 连接超时时间（秒） */
-        const val CONNECT_TIMEOUT = 30L
+    const val CONNECT_TIMEOUT = 30L
 
         /** 读取超时时间（秒） */
-        const val READ_TIMEOUT = 30L
+    const val READ_TIMEOUT = 30L
 
         /** 写入超时时间（秒） */
-        const val WRITE_TIMEOUT = 30L
-    }
+    const val WRITE_TIMEOUT = 30L
 
     /**
      * 提供HttpLoggingInterceptor实例

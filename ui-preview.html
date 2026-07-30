@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>微光同行 - UI预览</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: #1a1a2e;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  padding: 20px;
+}
+
+/* 手机外框 */
+.phone {
+  width: 390px;
+  max-height: 95vh;
+  background: #0d0d0d;
+  border-radius: 40px;
+  padding: 12px;
+  box-shadow: 0 0 0 3px #333, 0 0 0 6px #1a1a1a, 0 20px 60px rgba(0,0,0,0.5);
+  position: relative;
+}
+.phone-notch {
+  width: 120px;
+  height: 28px;
+  background: #0d0d0d;
+  border-radius: 0 0 20px 20px;
+  margin: 0 auto 8px;
+}
+.screen {
+  background: #f5f0eb;
+  border-radius: 28px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: calc(100% - 40px);
+  padding: 0;
+  scrollbar-width: none;
+}
+.screen::-webkit-scrollbar { display: none; }
+
+/* 状态栏 */
+.status-bar {
+  display: flex;
+  justify-content: space-between;
+  padding: 14px 24px 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #333;
+}
+
+/* 内容区 */
+.content {
+  padding: 0 16px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* 卡片 */
+.card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+
+/* 顶部栏 */
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.topbar-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #e65100;
+}
+.topbar-sub {
+  font-size: 11px;
+  color: #999;
+  margin-top: 2px;
+}
+.btn-settings {
+  background: none;
+  border: 1.5px solid #e65100;
+  color: #e65100;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+.btn-settings:hover {
+  background: #e65100;
+  color: #fff;
+}
+
+/* SOS 英雄卡片 */
+.sos-hero {
+  background: linear-gradient(135deg, #d32f2f, #b71c1c);
+  border-radius: 16px;
+  padding: 20px;
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.15s;
+}
+.sos-hero:active { transform: scale(0.98); }
+.sos-hero::before {
+  content: '';
+  position: absolute;
+  top: -30px;
+  right: -30px;
+  width: 120px;
+  height: 120px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 50%;
+}
+.sos-hero-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.sos-hero-title {
+  font-size: 18px;
+  font-weight: 700;
+}
+.sos-badge {
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: 10px;
+  font-weight: 600;
+}
+.sos-badge.off { background: rgba(255,255,255,0.2); }
+.sos-badge.on { background: #ffeb3b; color: #d32f2f; animation: pulse 1.5s infinite; }
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+.sos-status {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 12px;
+  padding: 10px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 10px;
+  font-size: 13px;
+  display: none;
+}
+.sos-status.show { display: flex; }
+.sos-status-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.sos-label {
+  background: rgba(255,255,255,0.2);
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+}
+.sos-btn {
+  margin-top: 12px;
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.sos-btn.start {
+  background: #fff;
+  color: #d32f2f;
+}
+.sos-btn.stop {
+  background: rgba(255,255,255,0.2);
+  color: #fff;
+  border: 1.5px solid rgba(255,255,255,0.5);
+}
+.sos-btn:hover { opacity: 0.9; }
+
+/* 双列 */
+.row2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+/* 小卡片 */
+.mini-card {
+  background: #fff;
+  border-radius: 14px;
+  padding: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+.mini-card:active { transform: scale(0.97); }
+.mini-card-icon {
+  font-size: 24px;
+  margin-bottom: 8px;
+}
+.mini-card-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 4px;
+}
+.mini-card-desc {
+  font-size: 11px;
+  color: #999;
+}
+
+/* 快速按钮 */
+.quick-btn {
+  display: block;
+  width: 100%;
+  padding: 8px;
+  margin-top: 8px;
+  border: none;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.quick-btn.vibrate {
+  background: #fff3e0;
+  color: #e65100;
+}
+.quick-btn.vibrate:hover { background: #ffe0b2; }
+.quick-btn.speech {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+.quick-btn.speech:hover { background: #c8e6c9; }
+
+/* 系统操作 */
+.sys-actions {
+  display: flex;
+  gap: 8px;
+}
+.sys-btn {
+  flex: 1;
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 12px;
+  padding: 12px 8px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-size: 11px;
+  font-weight: 600;
+  color: #555;
+}
+.sys-btn:active { background: #f5f5f5; }
+.sys-btn .icon { font-size: 20px; display: block; margin-bottom: 4px; }
+.sys-btn.active { background: #fff3e0; border-color: #e65100; color: #e65100; }
+
+/* 传感器 */
+.sensors {
+  display: flex;
+  gap: 8px;
+}
+.sensor-item {
+  flex: 1;
+  text-align: center;
+  padding: 8px;
+  background: #fafafa;
+  border-radius: 10px;
+  font-size: 11px;
+  color: #666;
+}
+.sensor-item .val { font-size: 16px; font-weight: 700; color: #333; }
+
+/* 摄像头预览 */
+.camera-preview {
+  background: #1a1a1a;
+  border-radius: 14px;
+  height: 180px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+.camera-preview::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(45deg, #222 25%, #2a2a2a 25%, #2a2a2a 50%, #222 50%, #222 75%, #2a2a2a 75%);
+  background-size: 20px 20px;
+  opacity: 0.3;
+}
+.camera-icon {
+  font-size: 40px;
+  margin-bottom: 8px;
+  position: relative;
+  z-index: 1;
+}
+.camera-label {
+  font-size: 12px;
+  color: #888;
+  position: relative;
+  z-index: 1;
+}
+
+/* OCR 结果 */
+.ocr-result {
+  background: #fff8e1;
+  border: 2px solid #ff9800;
+  border-radius: 14px;
+  padding: 14px;
+  display: none;
+  animation: slideDown 0.3s ease;
+}
+.ocr-result.show { display: block; }
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.ocr-product {
+  font-size: 18px;
+  font-weight: 700;
+  color: #e65100;
+}
+.ocr-price {
+  font-size: 22px;
+  font-weight: 700;
+  color: #d32f2f;
+  margin-top: 4px;
+}
+.ocr-raw {
+  font-size: 12px;
+  color: #999;
+  margin-top: 6px;
+}
+
+/* 引导弹窗 */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
+.overlay.show { display: flex; }
+.dialog {
+  background: #fff;
+  border-radius: 20px;
+  padding: 24px;
+  width: 340px;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  animation: scaleIn 0.3s ease;
+}
+@keyframes scaleIn {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+.dialog h3 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #e65100;
+  margin-bottom: 12px;
+}
+.dialog p {
+  font-size: 13px;
+  color: #666;
+  line-height: 1.7;
+  margin-bottom: 16px;
+}
+.dialog .feature-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+.dialog .feature-tag {
+  background: #fff3e0;
+  color: #e65100;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+}
+.dialog .btn-row {
+  display: flex;
+  gap: 8px;
+}
+.dialog .btn {
+  flex: 1;
+  padding: 10px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s;
+}
+.dialog .btn.primary {
+  background: #e65100;
+  color: #fff;
+}
+.dialog .btn.primary:hover { background: #bf360c; }
+.dialog .btn.secondary {
+  background: #f5f5f5;
+  color: #666;
+}
+.dialog .btn.secondary:hover { background: #eee; }
+
+/* 提醒 */
+.toast {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #333;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-size: 13px;
+  z-index: 200;
+  display: none;
+  animation: fadeIn 0.3s ease;
+}
+.toast.show { display: block; }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateX(-50%) translateY(-10px); }
+  to { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+/* 手语状态指示灯 */
+.sign-status-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+  padding: 6px 10px;
+  background: #fff8e1;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #f9a825;
+}
+.sign-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #f9a825;
+  animation: signPulse 2s infinite;
+}
+@keyframes signPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+.sign-result-area {
+  background: #e8f5e9;
+  border-radius: 8px;
+  padding: 8px 10px;
+  margin-top: 8px;
+  font-size: 11px;
+  color: #2e7d32;
+  display: none;
+}
+.sign-result-area.show { display: block; }
+
+/* 震动闹钟时间选择器 */
+.alarm-display {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+  padding: 6px 10px;
+  background: #fff3e0;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #e65100;
+  display: none;
+}
+.alarm-display.show { display: flex; }
+.quick-btn.alarm {
+  margin-top: 6px;
+  background: #fce4ec;
+  color: #c62828;
+}
+.quick-btn.alarm:hover { background: #f8bbd0; }
+
+/* 时间选择弹窗 */
+.time-picker-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 200;
+}
+.time-picker-overlay.show { display: flex; }
+.time-picker-dialog {
+  background: #fff;
+  border-radius: 20px;
+  padding: 24px;
+  width: 300px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  animation: scaleIn 0.3s ease;
+}
+.time-picker-dialog h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #e65100;
+  margin-bottom: 16px;
+  text-align: center;
+}
+.time-picker-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.time-picker-row select {
+  padding: 8px 12px;
+  border: 1.5px solid #ddd;
+  border-radius: 10px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  background: #fafafa;
+  cursor: pointer;
+}
+.time-picker-row span {
+  font-size: 18px;
+  font-weight: 700;
+  color: #666;
+}
+
+/* 家属端按钮 */
+.family-btn {
+  background: rgba(255,255,255,0.2);
+  border: 1.5px solid rgba(255,255,255,0.5);
+  color: #fff;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 11px;
+  cursor: pointer;
+  font-weight: 600;
+  margin-left: 4px;
+  transition: all 0.2s;
+}
+.family-btn:hover {
+  background: rgba(255,255,255,0.35);
+  border-color: rgba(255,255,255,0.8);
+}
+
+/* OCR 产品切换按钮 */
+.product-switcher {
+  margin-top: 12px;
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.product-btn {
+  flex: 1;
+  min-width: 80px;
+  padding: 6px 8px;
+  border: 1.5px solid #ddd;
+  border-radius: 8px;
+  background: #fafafa;
+  font-size: 11px;
+  font-weight: 600;
+  color: #555;
+  cursor: pointer;
+  transition: all 0.15s;
+  text-align: center;
+}
+.product-btn:hover {
+  background: #fff3e0;
+  border-color: #ff9800;
+  color: #e65100;
+}
+.product-btn.active {
+  background: #fff3e0;
+  border-color: #ff9800;
+  color: #e65100;
+}
+
+/* 更新日志 */
+.update-log {
+  background: #fafafa;
+  border: 1px solid #eee;
+  border-radius: 14px;
+  padding: 14px;
+  margin-top: 4px;
+}
+.update-log h4 {
+  font-size: 13px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 8px;
+}
+.update-log-item {
+  font-size: 11px;
+  color: #888;
+  padding: 3px 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+}
+.update-log-item::before {
+  content: '•';
+  color: #e65100;
+  font-weight: 700;
+}
+</style>
+</head>
+<body>
+
+<!-- 手机 -->
+<div class="phone">
+  <div class="phone-notch"></div>
+  <div class="screen">
+    <div class="status-bar">
+      <span>9:41</span>
+      <span>📶 🔋 85%</span>
+    </div>
+
+    <div class="content" id="content">
+
+      <!-- 顶部栏 -->
+      <div class="card topbar">
+        <div>
+          <div class="topbar-title">微光同行</div>
+          <div class="topbar-sub">欢迎使用 · 助残守护</div>
+        </div>
+        <button class="btn-settings" onclick="showToast('设置页面')">⚙ 设置</button>
+      </div>
+
+      <!-- SOS 英雄卡片 -->
+      <div class="sos-hero" id="sosHero">
+        <div class="sos-hero-header">
+          <div class="sos-hero-title">SOS 家属联动</div>
+          <div class="sos-badge off" id="sosBadge">待命中</div>
+        </div>
+        <div style="font-size:13px;opacity:0.8;">点击按钮或做出握拳手势触发紧急求助 <button class="family-btn" onclick="event.stopPropagation();goToFamily()">家属端 →</button></div>
+        <div class="sos-status" id="sosStatus">
+          <div class="sos-status-row">
+            <span class="sos-label">楼栋</span>
+            <span id="sosBuilding">教学楼A（主教学楼）</span>
+          </div>
+          <div class="sos-status-row">
+            <span class="sos-label">楼层</span>
+            <span id="sosFloor">3楼 (海拔450.2m)</span>
+          </div>
+          <div class="sos-status-row">
+            <span class="sos-label">坐标</span>
+            <span id="sosCoord">30.5168, 104.0653</span>
+          </div>
+          <div class="sos-status-row" style="margin-top:4px;">
+            <span style="font-size:11px;opacity:0.7;">连接码：<strong id="sosCode">----</strong></span>
+          </div>
+        </div>
+        <button class="sos-btn start" id="sosBtn" onclick="toggleSOS()">
+          一键SOS求助
+        </button>
+      </div>
+
+      <!-- 第一行：双向手语 + 震动闹钟 -->
+      <div class="row2">
+        <div class="mini-card" onclick="showToast('双向手语交互：手语↔自然语言互相转换')">
+          <div class="mini-card-icon">🤟</div>
+          <div class="mini-card-title">双向手语交互</div>
+          <div class="mini-card-desc">手语↔自然语言互相转换</div>
+          <div class="sign-status-bar">
+            <span class="sign-dot"></span> 待命中
+          </div>
+          <div class="sign-result-area" id="signResult">
+            识别结果：<strong>你好</strong>
+          </div>
+        </div>
+        <div class="mini-card">
+          <div class="mini-card-icon">📳</div>
+          <div class="mini-card-title">震动闹钟</div>
+          <div class="mini-card-desc" id="vibStatus">模式: 短震动 (5秒)</div>
+          <div class="alarm-display" id="alarmDisplay">⏰ <span id="alarmTime">每天 08:00 提醒</span></div>
+          <button class="quick-btn vibrate" onclick="triggerVibration()">⚡ 短震动 (5秒)</button>
+          <button class="quick-btn alarm" onclick="openTimePicker()">⏰ 设置提醒时间</button>
+        </div>
+      </div>
+
+      <!-- 第二行：常用语 + 语音转文字 -->
+      <div class="row2">
+        <div class="mini-card" onclick="showToast('常用语快捷播报')">
+          <div class="mini-card-icon">💬</div>
+          <div class="mini-card-title">常用语</div>
+          <div class="mini-card-desc">快捷播报预设短语</div>
+          <button class="quick-btn speech" onclick="showToast('播报：需要帮助')">🔊 需要帮助</button>
+        </div>
+        <div class="mini-card" onclick="showToast('语音转文字：点击开始识别')">
+          <div class="mini-card-icon">🎤</div>
+          <div class="mini-card-title">语音转文字</div>
+          <div class="mini-card-desc">点击开始语音识别输入</div>
+          <button class="quick-btn speech" onclick="startSpeech()" id="speechBtn">🎙 开始识别</button>
+        </div>
+      </div>
+
+      <!-- OCR 商品识别结果 -->
+      <div class="ocr-result" id="ocrResult">
+        <div class="ocr-product" id="ocrProductName">怡宝纯净水</div>
+        <div style="font-size:11px;color:#999;">规格：550ml</div>
+        <div class="ocr-price" id="ocrPriceDisplay">￥0.50</div>
+        <div class="ocr-raw" id="ocrRaw">（市场参考价）</div>
+      </div>
+
+      <!-- 系统操作 -->
+      <div class="sys-actions">
+        <div class="sys-btn" id="flashBtn" onclick="toggleFlashlight()">
+          <span class="icon">🔦</span>手电筒
+        </div>
+        <div class="sys-btn" onclick="triggerVibration()">
+          <span class="icon">📳</span>震动
+        </div>
+        <div class="sys-btn" onclick="showToast('音量调节')">
+          <span class="icon">🔊</span>音量
+        </div>
+      </div>
+
+      <!-- 传感器状态 -->
+      <div class="card">
+        <div style="font-size:14px;font-weight:700;color:#333;margin-bottom:10px;">传感器状态</div>
+        <div class="sensors">
+          <div class="sensor-item">
+            <div class="val">✓</div>
+            <div>加速度</div>
+          </div>
+          <div class="sensor-item">
+            <div class="val">✓</div>
+            <div>陀螺仪</div>
+          </div>
+          <div class="sensor-item">
+            <div class="val">✓</div>
+            <div>计步器</div>
+          </div>
+          <div class="sensor-item">
+            <div class="val">✓</div>
+            <div>气压</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 摄像头预览 -->
+      <div class="camera-preview">
+        <div class="camera-icon">📷</div>
+        <div class="camera-label">摄像头预览区域</div>
+        <div style="font-size:10px;color:#666;position:relative;z-index:1;">对准物体进行OCR识别</div>
+      </div>
+
+      <!-- OCR 商品切换演示 -->
+      <div class="card">
+        <div style="font-size:14px;font-weight:700;color:#333;margin-bottom:10px;">OCR 商品识别演示</div>
+        <div class="product-switcher">
+          <button class="product-btn active" onclick="switchProduct('yibao', this)">怡宝纯净水</button>
+          <button class="product-btn" onclick="switchProduct('cola', this)">可口可乐</button>
+          <button class="product-btn" onclick="switchProduct('nongfu', this)">农夫山泉</button>
+        </div>
+      </div>
+
+      <!-- 更新日志 -->
+      <div class="update-log">
+        <h4>📋 更新日志 · 2026-07-22</h4>
+        <div class="update-log-item">OCR价格改为市场价标准</div>
+        <div class="update-log-item">手语识别引擎已启用</div>
+        <div class="update-log-item">震动闹钟支持时间设置</div>
+        <div class="update-log-item">新增家属端页面跳转</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- 时间选择弹窗 -->
+<div class="time-picker-overlay" id="timePickerOverlay">
+  <div class="time-picker-dialog">
+    <h3>⏰ 设置提醒时间</h3>
+    <div class="time-picker-row">
+      <select id="alarmHour">
+        <option value="00">00</option><option value="01">01</option><option value="02">02</option>
+        <option value="03">03</option><option value="04">04</option><option value="05">05</option>
+        <option value="06">06</option><option value="07" selected>07</option><option value="08">08</option>
+        <option value="09">09</option><option value="10">10</option><option value="11">11</option>
+        <option value="12">12</option><option value="13">13</option><option value="14">14</option>
+        <option value="15">15</option><option value="16">16</option><option value="17">17</option>
+        <option value="18">18</option><option value="19">19</option><option value="20">20</option>
+        <option value="21">21</option><option value="22">22</option><option value="23">23</option>
+      </select>
+      <span>:</span>
+      <select id="alarmMinute">
+        <option value="00" selected>00</option><option value="05">05</option><option value="10">10</option>
+        <option value="15">15</option><option value="20">20</option><option value="25">25</option>
+        <option value="30">30</option><option value="35">35</option><option value="40">40</option>
+        <option value="45">45</option><option value="50">50</option><option value="55">55</option>
+      </select>
+    </div>
+    <div style="display:flex;gap:8px;">
+      <button class="btn secondary" onclick="closeTimePicker()" style="flex:1;padding:10px;border-radius:10px;font-size:14px;font-weight:600;border:none;background:#f5f5f5;color:#666;cursor:pointer;">取消</button>
+      <button class="btn primary" onclick="confirmAlarm()" style="flex:1;padding:10px;border-radius:10px;font-size:14px;font-weight:600;border:none;background:#e65100;color:#fff;cursor:pointer;">确认设置</button>
+    </div>
+  </div>
+</div>
+
+<!-- 首次引导弹窗 -->
+<div class="overlay show" id="guideOverlay">
+  <div class="dialog">
+    <h3>🎯 欢迎使用微光同行</h3>
+    <p>微光同行是一款助残辅助应用，帮助视障与听障人士更好地生活。</p>
+    <div class="feature-list">
+      <span class="feature-tag">🔍 OCR识别</span>
+      <span class="feature-tag">🎤 语音识别</span>
+      <span class="feature-tag">🆘 SOS求助</span>
+      <span class="feature-tag">🤟 手语交互</span>
+      <span class="feature-tag">📳 震动闹钟</span>
+      <span class="feature-tag">🛒 商品识别</span>
+    </div>
+    <div class="btn-row">
+      <button class="btn secondary" onclick="closeGuide()">直接进入</button>
+      <button class="btn primary" onclick="closeGuide()">选择模式 →</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+let sosActive = false;
+let flashlightOn = false;
+let speechListening = false;
+let toastTimer = null;
+
+function toggleSOS() {
+  sosActive = !sosActive;
+  const badge = document.getElementById('sosBadge');
+  const status = document.getElementById('sosStatus');
+  const btn = document.getElementById('sosBtn');
+  const code = document.getElementById('sosCode');
+
+  if (sosActive) {
+    badge.textContent = 'SOS 告警中';
+    badge.className = 'sos-badge on';
+    status.className = 'sos-status show';
+    btn.textContent = '停止SOS求助';
+    btn.className = 'sos-btn stop';
+    code.textContent = 'WG-7A3F-2024';
+    showToast('🚨 SOS已触发！正在获取位置...');
+  } else {
+    badge.textContent = '待命中';
+    badge.className = 'sos-badge off';
+    status.className = 'sos-status';
+    btn.textContent = '一键SOS求助';
+    btn.className = 'sos-btn start';
+    code.textContent = '----';
+    showToast('SOS已停止');
+  }
+}
+
+function triggerVibration() {
+  const vibStatus = document.getElementById('vibStatus');
+  vibStatus.textContent = '正在震动...';
+  if (navigator.vibrate) navigator.vibrate([500, 200, 500, 200, 500]);
+  showToast('📳 短震动触发 (5秒)');
+  setTimeout(() => { vibStatus.textContent = '模式: 短震动 (5秒)'; }, 2000);
+}
+
+function toggleFlashlight() {
+  flashlightOn = !flashlightOn;
+  const btn = document.getElementById('flashBtn');
+  btn.className = flashlightOn ? 'sys-btn active' : 'sys-btn';
+  showToast(flashlightOn ? '🔦 手电筒已开启' : '手电筒已关闭');
+}
+
+function startSpeech() {
+  const btn = document.getElementById('speechBtn');
+  if (!speechListening) {
+    speechListening = true;
+    btn.textContent = '⏹ 停止识别';
+    btn.style.background = '#ffcdd2';
+    btn.style.color = '#c62828';
+    showToast('🎤 正在识别语音...');
+    setTimeout(() => {
+      if (speechListening) {
+        speechListening = false;
+        btn.textContent = '🎙 开始识别';
+        btn.style.background = '#e8f5e9';
+        btn.style.color = '#2e7d32';
+        showToast('识别结果：需要帮助');
+      }
+    }, 3000);
+  } else {
+    speechListening = false;
+    btn.textContent = '🎙 开始识别';
+    btn.style.background = '#e8f5e9';
+    btn.style.color = '#2e7d32';
+  }
+}
+
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.className = 'toast show';
+  if (toastTimer) clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { toast.className = 'toast'; }, 2000);
+}
+
+function closeGuide() {
+  document.getElementById('guideOverlay').classList.remove('show');
+}
+
+// OCR 商品数据
+const products = {
+  yibao: { name: '怡宝纯净水', spec: '550ml', price: '￥0.50', raw: '（市场参考价）' },
+  cola:  { name: '可口可乐', spec: '330ml', price: '￥3.00', raw: '（市场参考价）' },
+  nongfu:{ name: '农夫山泉矿泉水', spec: '550ml', price: '￥2.00', raw: '（市场参考价）' }
+};
+
+// 切换OCR商品演示
+function switchProduct(productKey, btn) {
+  const p = products[productKey];
+  document.getElementById('ocrProductName').textContent = p.name;
+  document.getElementById('ocrPriceDisplay').textContent = p.price;
+  document.getElementById('ocrRaw').textContent = p.raw;
+  // 更新按钮激活状态
+  document.querySelectorAll('.product-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  // 确保OCR结果区域可视
+  document.getElementById('ocrResult').classList.add('show');
+  showToast('已切换商品：' + p.name);
+}
+
+// 打开时间选择器
+function openTimePicker() {
+  document.getElementById('timePickerOverlay').classList.add('show');
+}
+
+// 关闭时间选择器
+function closeTimePicker() {
+  document.getElementById('timePickerOverlay').classList.remove('show');
+}
+
+// 确认闹钟时间
+function confirmAlarm() {
+  const hour = document.getElementById('alarmHour').value;
+  const minute = document.getElementById('alarmMinute').value;
+  const timeStr = hour + ':' + minute;
+  document.getElementById('alarmTime').textContent = '每天 ' + timeStr + ' 提醒';
+  document.getElementById('alarmDisplay').classList.add('show');
+  closeTimePicker();
+  showToast('⏰ 提醒时间已设置为 ' + timeStr);
+}
+
+// 跳转家属端
+function goToFamily() {
+  showToast('跳转至家属端页面');
+}
+
+// 模拟 OCR 识别结果
+setTimeout(() => {
+  document.getElementById('ocrResult').classList.add('show');
+}, 2000);
+
+// 模拟手语识别结果（引擎已启用，延迟显示识别结果）
+setTimeout(() => {
+  document.getElementById('signResult').classList.add('show');
+}, 3500);
+
+// 模拟手势触发SOS（双击SOS卡片）
+document.getElementById('sosHero').addEventListener('dblclick', function() {
+  if (!sosActive) {
+    toggleSOS();
+    showToast('🤟 检测到握拳手势，已自动启动SOS求助');
+  }
+});
+</script>
+
+</body>
+</html>
