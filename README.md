@@ -416,7 +416,7 @@ copies or substantial portions of the Software.
 ## 📞 联系我们
 
 - **GitHub Issues**: [提交Issue或建议](https://github.com/saber463/WeiGuang-Assistant/issues)
-- **Email**: 1002668039@qq.com
+- **Email**: weiguangtechnology@foxmail.com
 - **宣传网页**: [待补充链接]
 
 ---
