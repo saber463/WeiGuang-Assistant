@@ -221,3 +221,7 @@ tasks-vision_extracted/
 docs/agent-guides/
 docs/ci-cd/
 docs/api-contract/
+
+# Local build directories
+2/
+android_tests/

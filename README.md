@@ -289,112 +289,18 @@ weiguangplus/
 
 ---
 
-## 🚀 快速开始
+## 🏆 参赛说明
 
-### 环境要求
+本项目目前正在参加以下两项比赛：
 
-- **IDE**: Android Studio Hedgehog (2023.1.1+) 或最新版
-- **JDK**: JDK 17 (推荐)
-- **Gradle**: 8.2+
-- **Android SDK**: compileSdk 34, minSdk 21
-- **设备**: Android 5.0+ 真机或模拟器
+- **2026 AI助残创新创意大赛**（创意赛道）
+- **2026年"挑战杯"大学生创业计划竞赛**
 
-### 克隆项目
+> 比赛结束后，项目核心算法将开源（Apache 2.0），部分手势数据集将公开（CC BY 4.0），敬请关注。
 
-```bash
-# HTTPS方式
-git clone https://github.com/saber463/----.git
+### 🌐 宣传网页
 
-# SSH方式
-git clone git@github.com:saber463/----.git
-
-# 进入项目目录
-cd ----
-```
-
-### 编译运行
-
-```bash
-# Debug版本（开发调试用）
-./gradlew assembleDebug
-
-# Release版本（正式发布用）
-./gradlew assembleRelease
-
-# 安装到连接的设备
-./gradlew installDebug
-```
-
-### APK输出路径
-
-- **Debug APK**: `app/build/outputs/apk/debug/app-debug.apk`
-- **Release APK**: `app/build/outputs/apk/release/app-release.apk`（需签名）
-
-> ⚠️ 注意：APK文件因超过GitHub 100MB限制未纳入版本控制，需本地编译生成。
-
----
-
-## 🧪 多Agent并行开发环境
-
-本项目采用**Git Worktree多Agent协作模式**，实现完全隔离的并行开发：
-
-### 工作树结构
-
-```
-F:\java\
-├── weiguangplus\                    ← 主仓库 [main]
-├── weiguangplus-backend\            ← 后端Agent [feature/backend]
-├── weiguangplus-frontend\           ← 前端Agent [feature/frontend]
-├── weiguangplus-algorithm\          <- 算法Agent [feature/algorithm]
-└── weiguangplus-test\              <- 测试Agent [feature/test]
-```
-
-### Agent分工
-
-| Agent | 分支 | 技术栈 | 核心职责 |
-|-------|------|--------|---------|
-| 🔵 **后端开发** | `feature/backend` | Python FastAPI + PostgreSQL + MinIO | API接口、数据模型、业务逻辑 |
-| 🟢 **前端开发** | `feature/frontend` | Kotlin + Jetpack Compose + Room | Android UI、交互逻辑、接口联调 |
-| 🟣 **算法工程师** | `feature/algorithm` | Python + PaddleOCR + ML模型 | OCR识别、过敏原匹配、用药禁忌 |
-| 🟡 **测试工程师** | `feature/test` | pytest + Espresso + Allure | 单元测试、接口测试、兼容性验证 |
-
-详细规范见各Agent工作区的 `README.md`
-
----
-
-## 📋 开发路线图
-
-### Sprint 1: 核心闭环打通（第1-2周）⏳ 进行中
-
-**目标**：实现"用户注册 → 拍照识药 → 云端匹配 → 风险提示"完整链路
-
-**交付物**：
-- [ ] 后端：FastAPI基础框架 + PostgreSQL搭建 + 用户认证接口
-- [ ] 前端：登录注册页面 + 药品识别界面重构 + 接口联调
-- [ ] 算法：PaddleOCR部署 + 药品名称标准化 + 过敏原匹配V1
-- [ ] 测试：接口自动化测试 + 核心路径冒烟测试
-
-**验收标准**：
-- ✅ 用户可注册登录
-- ✅ 拍照药盒后能识别出药品名称（准确率>=80%）
-- ✅ 能显示该药品针对用户过敏史的风险提示
-- ✅ 整体响应时间 < 3秒
-
-### Sprint 2: 应急与服务模块（第3-4周）
-
-**目标**：完善SOS求助、公交出行、社区服务三大高频场景
-
-### Phase 2: 智能化提升（第2-3个月）
-
-- [ ] 手语识别升级（MediaPipe真实模型替代）
-- [ ] 环境音聆听升级（TFLite模型训练部署）
-- [ ] 个性化推荐（基于用户行为习惯）
-
-### Phase 3: 生态拓展（第3-6个月）
-
-- [ ] 微信小程序（家属端）
-- [ ] Web管理后台（残联管理员）
-- [ ] 智能硬件集成（手环/手表/助听器）
+在线体验与项目介绍：**[待补充网页链接]**
 
 ---
 
@@ -509,9 +415,9 @@ copies or substantial portions of the Software.
 
 ## 📞 联系我们
 
-- **GitHub Issues**: [提交Issue或建议](https://github.com/saber463/----/issues)
-- **Email**: [项目邮箱待补充]
-- **官方网站**: [待上线]
+- **GitHub Issues**: [提交Issue或建议](https://github.com/saber463/WeiGuang-Assistant/issues)
+- **Email**: 1002668039@qq.com
+- **宣传网页**: [待补充链接]
 
 ---
 
