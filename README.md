@@ -300,7 +300,9 @@ weiguangplus/
 
 ### 🌐 宣传网页
 
-在线体验与项目介绍：**[待补充网页链接]**
+在线体验与项目介绍：
+- **服务器站点**：[http://47.108.149.191/](http://47.108.149.191/)
+- **GitHub Pages**：[https://saber463.github.io/WeiGuang-Assistant/](https://saber463.github.io/WeiGuang-Assistant/)
 
 ---
 
@@ -417,7 +419,7 @@ copies or substantial portions of the Software.
 
 - **GitHub Issues**: [提交Issue或建议](https://github.com/saber463/WeiGuang-Assistant/issues)
 - **Email**: weiguangtechnology@foxmail.com
-- **宣传网页**: [待补充链接]
+- **宣传网页**: [http://47.108.149.191/](http://47.108.149.191/) | [GitHub Pages](https://saber463.github.io/WeiGuang-Assistant/)
 
 ---
 
