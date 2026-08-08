@@ -1,0 +1,109 @@
+{
+  "sample_size_bits": 1000000,
+  "test_date": "2026-07-31 14:09:34",
+  "tests": [
+    {
+      "name": "Frequency (Monobit)",
+      "p_value": 0.706917,
+      "passed": true,
+      "description": "0/1 比例是否接近 1:1",
+      "test_number": 1
+    },
+    {
+      "name": "Frequency within Block",
+      "p_value": 0.08113,
+      "passed": true,
+      "description": "分块内 0/1 比例",
+      "test_number": 2
+    },
+    {
+      "name": "Runs",
+      "p_value": 0.62545,
+      "passed": true,
+      "description": "连续相同比特的游程分布",
+      "test_number": 3
+    },
+    {
+      "name": "Longest Run of Ones",
+      "p_value": 0.0,
+      "passed": false,
+      "description": "最长连续 1 的游程",
+      "test_number": 4
+    },
+    {
+      "name": "Binary Matrix Rank",
+      "p_value": 0.036325,
+      "passed": true,
+      "description": "矩阵秩的分布",
+      "test_number": 5
+    },
+    {
+      "name": "Discrete Fourier Transform",
+      "p_value": 0.016616,
+      "passed": true,
+      "description": "频域周期性检测",
+      "test_number": 6
+    },
+    {
+      "name": "Non-overlapping Template",
+      "p_value": 0.0,
+      "passed": false,
+      "description": "非重叠模板匹配",
+      "test_number": 7
+    },
+    {
+      "name": "Overlapping Template",
+      "p_value": 0.0,
+      "passed": false,
+      "description": "重叠模板匹配",
+      "test_number": 8
+    },
+    {
+      "name": "Maurer's Universal",
+      "p_value": 0.539155,
+      "passed": true,
+      "description": "压缩率（信息熵）",
+      "test_number": 9
+    },
+    {
+      "name": "Linear Complexity",
+      "p_value": 0.691619,
+      "passed": true,
+      "description": "线性复杂度（LFSR）",
+      "test_number": 10
+    },
+    {
+      "name": "Serial",
+      "p_value": 0.626812,
+      "passed": true,
+      "description": "子串频率分布",
+      "test_number": 11
+    },
+    {
+      "name": "Approximate Entropy",
+      "p_value": 0.478245,
+      "passed": true,
+      "description": "近似熵",
+      "test_number": 12
+    },
+    {
+      "name": "Cumulative Sums",
+      "p_value": 1.0,
+      "passed": true,
+      "description": "累积和游走",
+      "test_number": 13
+    },
+    {
+      "name": "Random Excursions",
+      "p_value": 0.0,
+      "passed": false,
+      "description": "随机游走偏离",
+      "test_number": 14
+    }
+  ],
+  "summary": {
+    "total": 14,
+    "passed": 10,
+    "failed": 4
+  }
+}

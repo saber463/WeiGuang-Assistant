@@ -1,0 +1,192 @@
+{
+  "aes_gcm": {
+    "total": 316,
+    "passed": 289,
+    "failed": 27,
+    "encrypt_decrypt": {
+      "total": 229,
+      "passed": 202,
+      "failed": 27
+    },
+    "tag_verification": {
+      "total": 87,
+      "passed": 87,
+      "failed": 0
+    },
+    "iv_handling": {
+      "total": 0,
+      "passed": 0,
+      "failed": 0
+    },
+    "details": [
+      {
+        "tcId": 268,
+        "type": "encrypt_decrypt",
+        "result": "FAIL",
+        "comment": "Nonce must be between 8 and 128 bytes | long IV size"
+      },
+      {
+        "tcId": 272,
+        "type": "encrypt_decrypt",
+        "result": "FAIL",
+        "comment": "Nonce must be between 8 and 128 bytes | long IV size"
+      },
+      {
+        "tcId": 276,
+        "type": "encrypt_decrypt",
+        "result": "FAIL",
+        "comment": "Nonce must be between 8 and 128 bytes | long IV size"
+      },
+      {
+        "tcId": 277,
+        "type": "encrypt_decrypt",
+        "result": "FAIL",
+        "comment": "Nonce must be between 8 and 128 bytes | small IV sizes"
+      },
+      {
+        "tcId": 278,
+        "type": "encrypt_decrypt",
+        "result": "FAIL",
+        "comment": "Nonce must be between 8 and 128 bytes | small IV sizes"
+      },
+      {
+        "tcId": 279,
+        "type": "encrypt_decrypt",
+        "result": "FAIL",
+        "comment": "Nonce must be between 8 and 128 bytes | small IV sizes"
+      },
+      {
+        "tcId": 280,
+        "type": "encrypt_decrypt",
+        "result": "FAIL",
+        "comment": "Nonce must be between 8 and 128 bytes | small IV sizes"
+      },
+      {
+        "tcId": 281,
+        "type": "encrypt_decrypt",
+        "result": "FAIL",
+        "comment": "Nonce must be between 8 and 128 bytes | small IV sizes"
+      },
+      {
+        "tcId": 282,
+        "type": "encrypt_decrypt",
+        "result": "FAIL",
+        "comment": "Nonce must be between 8 and 128 bytes | small IV sizes"
+      },
+      {
+        "tcId": 283,
+        "type": "encrypt_decrypt",
+        "result": "FAIL",
+        "comment": "Nonce must be between 8 and 128 bytes | small IV sizes"
+      },
+      {
+        "tcId": 284,
+        "type": "encrypt_decrypt",
+        "result": "FAIL",
+        "comment": "Nonce must be between 8 and 128 bytes | small IV sizes"
+      },
+      {
+        "tcId": 287,
+        "type": "encrypt_decrypt",
+        "result": "FAIL",
+        "comment": "Nonce must be between 8 and 128 bytes | small IV sizes"
+      },
+      {
+        "tcId": 288,
+        "type": "encrypt_decrypt",
+        "result": "FAIL",
+        "comment": "Nonce must be between 8 and 128 bytes | small IV sizes"
+      },
+      {
+        "tcId": 289,
+        "type": "encrypt_decrypt",
+        "result": "FAIL",
+        "comment": "Nonce must be between 8 and 128 bytes | small IV sizes"
+      },
+      {
+        "tcId": 290,
+        "type": "encrypt_decrypt",
+        "result": "FAIL",
+        "comment": "Nonce must be between 8 and 128 bytes | small IV sizes"
+      },
+      {
+        "tcId": 291,
+        "type": "encrypt_decrypt",
+        "result": "FAIL",
+        "comment": "Nonce must be between 8 and 128 bytes | small IV sizes"
+      },
+      {
+        "tcId": 292,
+        "type": "encrypt_decrypt",
+        "result": "FAIL",
+        "comment": "Nonce must be between 8 and 128 bytes | small IV sizes"
+      },
+      {
+        "tcId": 293,
+        "type": "encrypt_decrypt",
+        "result": "FAIL",
+        "comment": "Nonce must be between 8 and 128 bytes | small IV sizes"
+      },
+      {
+        "tcId": 294,
+        "type": "encrypt_decrypt",
+        "result": "FAIL",
+        "comment": "Nonce must be between 8 and 128 bytes | small IV sizes"
+      },
+      {
+        "tcId": 299,
+        "type": "encrypt_decrypt",
+        "result": "FAIL",
+        "comment": "Nonce must be between 8 and 128 bytes | small IV sizes"
+      },
+      {
+        "tcId": 300,
+        "type": "encrypt_decrypt",
+        "result": "FAIL",
+        "comment": "Nonce must be between 8 and 128 bytes | small IV sizes"
+      },
+      {
+        "tcId": 301,
+        "type": "encrypt_decrypt",
+        "result": "FAIL",
+        "comment": "Nonce must be between 8 and 128 bytes | small IV sizes"
+      },
+      {
+        "tcId": 302,
+        "type": "encrypt_decrypt",
+        "result": "FAIL",
+        "comment": "Nonce must be between 8 and 128 bytes | small IV sizes"
+      },
+      {
+        "tcId": 303,
+        "type": "encrypt_decrypt",
+        "result": "FAIL",
+        "comment": "Nonce must be between 8 and 128 bytes | small IV sizes"
+      },
+      {
+        "tcId": 304,
+        "type": "encrypt_decrypt",
+        "result": "FAIL",
+        "comment": "Nonce must be between 8 and 128 bytes | small IV sizes"
+      },
+      {
+        "tcId": 305,
+        "type": "encrypt_decrypt",
+        "result": "FAIL",
+        "comment": "Nonce must be between 8 and 128 bytes | small IV sizes"
+      },
+      {
+        "tcId": 306,
+        "type": "encrypt_decrypt",
+        "result": "FAIL",
+        "comment": "Nonce must be between 8 and 128 bytes | small IV sizes"
+      }
+    ]
+  },
+  "chacha20_poly1305": {
+    "total": 325,
+    "passed": 325,
+    "failed": 0,
+    "details": []
+  }
+}

@@ -1,0 +1,207 @@
+{
+  "language": "HTML/CSS",
+  "category": "frontend",
+  "icon": "🎨",
+  "description": "HTML定义网页结构，CSS负责样式美化，两者是前端开发的基石",
+  "levels": {
+    "primary": {
+      "name": "初级入门",
+      "topics": [
+        {
+          "title": "HTML基础结构",
+          "level": "初级",
+          "concept": "HTML文档由DOCTYPE声明、html根元素、head头部和body主体组成，是每个网页的骨架。",
+          "code": "<!DOCTYPE html>\n<!-- 声明文档类型为HTML5，确保浏览器以标准模式渲染 -->\n<html lang=\"zh-CN\">\n<!-- lang属性指定页面语言为中文，帮助搜索引擎和屏幕阅读器理解 -->\n<head>\n  <!-- head标签包含页面的元数据，不会显示在页面上 -->\n  <meta charset=\"UTF-8\">\n  <!-- 设置字符编码为UTF-8，支持中文和全球多语言字符 -->\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <!-- viewport让页面在移动端自适应，initial-scale=1.0防止缩放 -->\n  <title>我的第一个网页</title>\n  <!-- title标签定义浏览器标签页上显示的标题 -->\n</head>\n<body>\n  <!-- body标签包含所有用户可见的页面内容 -->\n  <h1>欢迎来到前端世界！</h1>\n  <!-- h1是最重要的标题标签，一个页面建议只用一个h1 -->\n  <p>这是HTML文档的基本结构示例。</p>\n  <!-- p标签表示段落，自动在前后添加换行间距 -->\n</body>\n</html>",
+          "explanation": "第1行DOCTYPE声明告诉浏览器使用HTML5标准。第2行html元素包裹整个页面。第4-9行head包含字符编码、视口设置和标题。第11-15行body包含实际显示的内容，h1是主标题，p是段落。",
+          "key_points": ["DOCTYPE声明必须放在第一行", "lang属性提升无障碍访问", "viewport是移动端适配的关键", "title影响SEO排名"]
+        },
+        {
+          "title": "常用标签详解",
+          "level": "初级",
+          "concept": "HTML提供了丰富的语义化标签：div用于布局容器、p用于段落、a用于超链接、img用于图片、span用于行内文本。",
+          "code": "<body>\n  <!-- div：块级容器，常用于布局分组，默认占满整行 -->\n  <div class=\"container\">\n    <!-- a：超链接，href属性指定跳转地址 -->\n    <a href=\"https://example.com\" target=\"_blank\" title=\"访问示例网站\">\n      <!-- target=\"_blank\"在新标签页打开，title是鼠标悬停提示 -->\n      点击跳转\n    </a>\n\n    <!-- img：图片标签，src指定图片路径，alt是加载失败时的替代文本 -->\n    <img src=\"photo.jpg\" alt=\"一张风景照片\" width=\"300\" height=\"200\">\n    <!-- width/height设置宽高，避免加载时页面抖动 -->\n\n    <!-- span：行内容器，不换行，用于包裹小段文本 -->\n    <p>这是一个<span style=\"color: red;\">重要</span>的提示。</p>\n    <!-- span配合CSS可以实现局部样式高亮 -->\n  </div>\n</body>",
+          "explanation": "第2行div是块级容器，用于页面布局。第4-7行a标签创建超链接，href是目标地址，target=\"_blank\"在新窗口打开。第10行img嵌入图片，src是图片路径，alt提供替代文本。第14行span是行内元素，不打断文本流，常用于局部样式。",
+          "key_points": ["div是块级元素独占一行", "span是行内元素不换行", "a标签的target控制打开方式", "img必须有alt属性提升可访问性"]
+        },
+        {
+          "title": "表格与表单",
+          "level": "初级",
+          "concept": "table用于展示结构化数据，form用于收集用户输入并提交到服务器。",
+          "code": "<!-- ====== 表格示例 ====== -->\n<!-- table：表格容器，border属性添加边框 -->\n<table border=\"1\">\n  <!-- thead：表格头部，包含列标题 -->\n  <thead>\n    <tr>\n      <!-- tr：表格行(table row) -->\n      <th>姓名</th>\n      <!-- th：表头单元格，默认加粗居中 -->\n      <th>年龄</th>\n      <th>城市</th>\n    </tr>\n  </thead>\n  <!-- tbody：表格主体，包含数据行 -->\n  <tbody>\n    <tr>\n      <td>张三</td>\n      <!-- td：普通数据单元格 -->\n      <td>25</td>\n      <td>北京</td>\n    </tr>\n  </tbody>\n</table>\n\n<!-- ====== 表单示例 ====== -->\n<!-- form：表单容器，action是提交地址，method是请求方式 -->\n<form action=\"/submit\" method=\"POST\">\n  <!-- label：关联表单控件，for属性指向input的id -->\n  <label for=\"username\">用户名：</label>\n  <!-- input：输入框，type=\"text\"为文本输入 -->\n  <input type=\"text\" id=\"username\" name=\"username\" placeholder=\"请输入用户名\" required>\n  <!-- placeholder是占位提示文字，required表示必填 -->\n\n  <label for=\"password\">密码：</label>\n  <!-- type=\"password\"时输入内容会显示为圆点 -->\n  <input type=\"password\" id=\"password\" name=\"password\" required>\n\n  <!-- button：提交按钮，type=\"submit\"触发表单提交 -->\n  <button type=\"submit\">登录</button>\n</form>",
+          "explanation": "表格部分：第3行table定义表格，第5行thead包含标题行，th是表头单元格。第13行tbody包含数据行，td是普通单元格。表单部分：第24行form定义表单，第26行label关联input提升点击区域，第28行input的type决定控件类型，required表示必填。",
+          "key_points": ["table用于数据展示不是布局", "form的action和method控制提交行为", "label的for属性提升可用性", "input的type决定输入类型"]
+        },
+        {
+          "title": "CSS选择器",
+          "level": "初级",
+          "concept": "CSS选择器用于选中HTML元素并应用样式，包括标签选择器、类选择器、ID选择器和组合选择器。",
+          "code": "/* ====== 标签选择器：选中所有同名标签 ====== */\n/* 选中所有p标签，设置字体大小为16px */\np {\n  font-size: 16px;      /* 字体大小 */\n  line-height: 1.6;     /* 行高为字号的1.6倍，提升可读性 */\n  color: #333;          /* 文字颜色为深灰色 */\n}\n\n/* ====== 类选择器：以.开头，选中class属性匹配的元素 ====== */\n/* 选中所有class=\"highlight\"的元素 */\n.highlight {\n  background-color: yellow;  /* 背景色黄色 */\n  padding: 4px 8px;         /* 上下4px，左右8px的内边距 */\n  border-radius: 4px;       /* 圆角边框4px */\n}\n\n/* ====== ID选择器：以#开头，选中唯一ID的元素 ====== */\n/* 选中id=\"main-title\"的元素，ID在页面中必须唯一 */\n#main-title {\n  font-size: 32px;      /* 大号字体 */\n  text-align: center;   /* 文字居中 */\n}\n\n/* ====== 组合选择器：后代选择器（空格分隔） ====== */\n/* 选中class=\"article\"内部的所有p标签 */\n.article p {\n  text-indent: 2em;     /* 首行缩进2个字符宽度 */\n  margin-bottom: 10px;  /* 段落下边距 */\n}\n\n/* ====== 伪类选择器：选中特定状态的元素 ====== */\n/* 鼠标悬停在链接上时改变颜色 */\na:hover {\n  color: orange;        /* 悬停时变为橙色 */\n  text-decoration: underline;  /* 添加下划线 */\n}",
+          "explanation": "第2-6行：标签选择器直接使用标签名，选中所有p标签。第9-13行：类选择器以.开头，同一个class可应用于多个元素。第16-19行：ID选择器以#开头，ID在页面中唯一。第22-25行：后代选择器用空格表示层级关系。第28-31行：伪类选择器用冒号表示状态，hover是鼠标悬停。",
+          "key_points": ["类选择器可复用，ID选择器唯一", "后代选择器用空格连接", "伪类选择器以冒号开头", "选择器优先级：ID>类>标签"]
+        },
+        {
+          "title": "盒模型",
+          "level": "初级",
+          "concept": "CSS盒模型是页面布局的核心，每个元素都是一个矩形盒子，由内容(content)、内边距(padding)、边框(border)、外边距(margin)组成。",
+          "code": "/* ====== 盒模型四层结构 ====== */\n/* 从内到外：content → padding → border → margin */\n.box {\n  /* 内容区域：文字和子元素显示的地方 */\n  width: 200px;              /* 内容宽度200px */\n  height: 100px;             /* 内容高度100px */\n\n  /* 内边距：内容与边框之间的空白区域 */\n  padding: 20px;             /* 四边统一20px内边距 */\n  /* 等价于 padding: 20px 20px 20px 20px; 上右下左 */\n\n  /* 边框：围绕内边距和内容的线条 */\n  border: 2px solid #3498db; /* 2px宽、实线、蓝色边框 */\n\n  /* 外边距：元素与相邻元素之间的间距 */\n  margin: 15px;              /* 四边统一15px外边距 */\n\n  /* 背景色填充content和padding区域 */\n  background-color: #ecf0f1;\n}\n\n/* ====== box-sizing：改变盒模型计算方式 ====== */\n/* 默认content-box：width只指内容宽度 */\n/* 推荐border-box：width包含content+padding+border */\n.box-border {\n  box-sizing: border-box;    /* 更直观的盒模型 */\n  width: 200px;              /* 此时200px是content+padding+border的总宽 */\n  padding: 20px;\n  border: 5px solid #e74c3c;\n  /* 实际内容宽度 = 200 - 20*2 - 5*2 = 150px */\n}",
+          "explanation": "第3-14行：展示了盒模型四层结构，width设置内容宽度，padding是内边距，border是边框，margin是外边距。第19-24行：box-sizing: border-box让width包含padding和border，布局计算更直观，推荐全局使用。",
+          "key_points": ["盒模型四层：content→padding→border→margin", "默认box-sizing是content-box", "推荐全局设置border-box", "margin可以设置负值，padding不能"]
+        },
+        {
+          "title": "Flexbox布局基础",
+          "level": "初级",
+          "concept": "Flexbox是一维布局模型，通过设置容器和项目的属性，可以轻松实现水平或垂直方向的对齐、分布和排序。",
+          "code": "/* ====== Flex容器属性 ====== */\n.flex-container {\n  display: flex;              /* 开启Flex布局，子元素变为flex项目 */\n  flex-direction: row;        /* 主轴方向：row水平(默认) | column垂直 */\n  justify-content: space-between; /* 主轴对齐：space-between两端对齐 */\n  align-items: center;        /* 交叉轴对齐：center垂直居中 */\n  flex-wrap: wrap;            /* 允许换行，项目超出容器宽度时自动折行 */\n  gap: 16px;                  /* 项目之间的间距16px */\n  height: 200px;              /* 容器高度 */\n  background-color: #f0f0f0;\n}\n\n/* ====== Flex项目属性 ====== */\n.flex-item {\n  flex: 1;                    /* 简写：flex-grow:1 flex-shrink:1 flex-basis:0 */\n  /* flex-grow: 1 表示有剩余空间时，该项目按比例放大 */\n  /* flex-shrink: 1 表示空间不足时，该项目按比例缩小 */\n  /* flex-basis: 0 表示基础大小为0，完全按grow分配 */\n  padding: 20px;\n  background-color: #3498db;\n  color: #fff;\n  text-align: center;\n}\n\n/* 让某个项目占据2倍空间 */\n.flex-item.double {\n  flex: 2;                    /* 占据2倍于其他项目的空间 */\n}",
+          "explanation": "第2-9行：容器设置display:flex开启布局，flex-direction控制主轴方向，justify-content控制主轴对齐，align-items控制交叉轴对齐，flex-wrap允许换行，gap设置间距。第13-20行：flex:1是简写属性，控制项目的伸缩比例。第23-25行：不同flex值让项目按比例分配空间。",
+          "key_points": ["主轴和交叉轴是Flexbox的核心概念", "justify-content控制主轴对齐", "align-items控制交叉轴对齐", "flex属性控制项目伸缩比例"]
+        },
+        {
+          "title": "Grid布局基础",
+          "level": "初级",
+          "concept": "CSS Grid是二维布局系统，可以同时控制行和列，适合构建复杂的页面布局结构。",
+          "code": "/* ====== Grid容器：定义网格轨道 ====== */\n.grid-container {\n  display: grid;                          /* 开启Grid布局 */\n  /* grid-template-columns：定义3列，每列等宽 */\n  grid-template-columns: repeat(3, 1fr);  /* 1fr表示等分剩余空间 */\n  /* grid-template-rows：定义行高 */\n  grid-template-rows: 100px 150px;        /* 第1行100px，第2行150px */\n  /* gap：行列间距 */\n  gap: 16px;                              /* 行和列的间距都是16px */\n  /* 也可以分别设置：row-gap: 16px; column-gap: 20px; */\n  padding: 16px;\n  background-color: #f5f5f5;\n}\n\n/* ====== Grid项目：放置到指定位置 ====== */\n.grid-item {\n  background-color: #2ecc71;\n  color: #fff;\n  padding: 20px;\n  text-align: center;\n  border-radius: 8px;\n}\n\n/* 让某个项目横跨多列 */\n.grid-item.span-2 {\n  /* grid-column：从第1条线开始，横跨2列 */\n  grid-column: span 2;    /* 占2列宽度 */\n}\n\n/* 让某个项目横跨多行 */\n.grid-item.span-row {\n  /* grid-row：从第1条线开始，横跨2行 */\n  grid-row: span 2;       /* 占2行高度 */\n}",
+          "explanation": "第2-10行：display:grid开启网格布局，grid-template-columns定义列轨道，repeat(3,1fr)创建3等分列，grid-template-rows定义行高，gap统一设置间距。第15-18行：基础项目样式。第21-23行：grid-column:span 2让项目占据2列。第26-28行：grid-row:span 2让项目占据2行。",
+          "key_points": ["fr单位表示等分剩余空间", "repeat()简化重复定义", "grid-column/row实现跨列跨行", "Grid是二维布局，Flex是一维"]
+        },
+        {
+          "title": "响应式设计与媒体查询",
+          "level": "初级",
+          "concept": "响应式设计让网页在不同屏幕尺寸下都能良好显示，媒体查询@media是实现响应式的核心技术。",
+          "code": "/* ====== 移动优先：先写移动端样式 ====== */\n/* 基础样式适用于手机屏幕（< 768px） */\n.card {\n  width: 100%;               /* 手机端占满整个宽度 */\n  padding: 16px;\n  margin-bottom: 12px;\n  background-color: #fff;\n  border-radius: 8px;\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);  /* 轻微阴影 */\n}\n\n/* ====== 平板断点：768px以上 ====== */\n@media (min-width: 768px) {\n  /* 屏幕宽度>=768px时，以下样式生效 */\n  .card {\n    width: calc(50% - 24px); /* 两列布局，减去间距 */\n    display: inline-block;   /* 行内块元素，可并排显示 */\n    margin-right: 12px;\n  }\n}\n\n/* ====== 桌面断点：1024px以上 ====== */\n@media (min-width: 1024px) {\n  /* 屏幕宽度>=1024px时，以下样式生效 */\n  .card {\n    width: calc(33.333% - 24px); /* 三列布局 */\n  }\n\n  .container {\n    max-width: 1200px;       /* 限制最大宽度，超宽屏内容不散开 */\n    margin: 0 auto;          /* 水平居中 */\n  }\n}\n\n/* ====== 打印样式 ====== */\n@media print {\n  /* 打印时隐藏导航栏和广告 */\n  .navbar, .advertisement {\n    display: none;\n  }\n  body {\n    font-size: 12pt;         /* 打印用的字号单位 */\n  }\n}",
+          "explanation": "第2-9行：移动优先策略，基础样式先适配小屏。第12-18行：@media (min-width:768px)是平板断点，宽度达到768px时应用两列布局。第21-30行：@media (min-width:1024px)是桌面断点，三列布局并限制最大宽度。第33-40行：@media print设置打印样式。",
+          "key_points": ["移动优先：基础样式为小屏设计", "min-width断点从小到大覆盖", "常见断点：768px平板、1024px桌面", "max-width容器防止内容过度拉伸"]
+        },
+        {
+          "title": "CSS变量（自定义属性）",
+          "level": "初级",
+          "concept": "CSS变量（--*）允许在样式表中定义可复用的值，通过var()函数引用，方便统一管理和动态修改主题色。",
+          "code": "/* ====== 在:root中定义全局CSS变量 ====== */\n/* :root选择器代表html元素，变量定义在此处全局可用 */\n:root {\n  /* 以--开头定义变量，命名建议用kebab-case */\n  --primary-color: #3498db;       /* 主题色：蓝色 */\n  --secondary-color: #2ecc71;     /* 辅助色：绿色 */\n  --text-color: #333333;          /* 文字颜色 */\n  --border-radius: 8px;           /* 圆角大小 */\n  --spacing-unit: 8px;            /* 基础间距单位 */\n  --font-size-base: 16px;         /* 基础字号 */\n}\n\n/* ====== 使用var()函数引用变量 ====== */\n.button {\n  /* var(变量名, 默认值)：第二个参数是变量不存在时的备用值 */\n  background-color: var(--primary-color, #3498db);\n  color: #fff;\n  padding: var(--spacing-unit) calc(var(--spacing-unit) * 2);\n  /* calc()函数可以结合变量进行计算 */\n  border: none;\n  border-radius: var(--border-radius);\n  font-size: var(--font-size-base);\n  cursor: pointer;\n}\n\n/* ====== 局部覆盖变量 ====== */\n.dark-theme {\n  /* 在特定作用域覆盖变量，只影响该元素及其子元素 */\n  --primary-color: #8e44ad;       /* 暗色主题下改为紫色 */\n  --text-color: #ecf0f1;          /* 浅色文字 */\n  background-color: #2c3e50;\n}",
+          "explanation": "第3-10行：在:root中定义全局变量，--开头是语法要求，命名用连字符分隔。第13-22行：通过var()函数引用变量，第二个参数是备用值，calc()可结合变量计算。第26-30行：在特定选择器内覆盖变量值，实现局部主题切换。",
+          "key_points": ["变量以--开头，在:root中定义全局可用", "var()的第二个参数是默认值", "变量可在任意作用域内覆盖", "配合calc()可实现动态计算"]
+        }
+      ]
+    },
+    "intermediate": {
+      "name": "中级进阶",
+      "topics": [
+        {
+          "title": "HTML5语义化标签",
+          "level": "中级",
+          "concept": "HTML5引入了header、nav、main、article、section、aside、footer等语义化标签，让页面结构更清晰，提升SEO和无障碍访问。",
+          "code": "<body>\n  <!-- header：页头区域，通常包含logo、导航、搜索框 -->\n  <header>\n    <!-- nav：导航链接区域，包裹主要的导航菜单 -->\n    <nav aria-label=\"主导航\">\n      <!-- aria-label为屏幕阅读器提供标签说明 -->\n      <ul>\n        <li><a href=\"/\">首页</a></li>\n        <li><a href=\"/about\">关于</a></li>\n        <li><a href=\"/contact\">联系</a></li>\n      </ul>\n    </nav>\n  </header>\n\n  <!-- main：页面主体内容，每个页面只能用一次 -->\n  <main>\n    <!-- article：独立完整的内容块，可独立分发 -->\n    <article>\n      <h2>文章标题</h2>\n      <!-- time：时间标签，datetime属性提供机器可读格式 -->\n      <time datetime=\"2026-08-07\">2026年8月7日</time>\n      <!-- section：文档中的章节，通常带有标题 -->\n      <section>\n        <h3>第一节</h3>\n        <p>这是章节内容...</p>\n      </section>\n    </article>\n\n    <!-- aside：侧边栏，与主内容相关但非核心 -->\n    <aside>\n      <h3>相关文章</h3>\n      <ul>\n        <li><a href=\"#\">推荐文章1</a></li>\n      </ul>\n    </aside>\n  </main>\n\n  <!-- footer：页脚，包含版权、联系方式等 -->\n  <footer>\n    <p>&copy; 2026 我的网站. 保留所有权利.</p>\n  </footer>\n</body>",
+          "explanation": "第2-10行：header包裹页头，nav定义导航区域，aria-label提供无障碍标签。第13-27行：main是唯一主体容器，article表示独立内容，section划分章节，time提供语义化时间。第30-34行：aside是侧边栏。第37-39行：footer是页脚。",
+          "key_points": ["main每页只能用一次", "article表示独立完整内容", "section通常带标题", "语义化标签提升SEO和可访问性"]
+        },
+        {
+          "title": "CSS动画：Transition",
+          "level": "中级",
+          "concept": "transition让CSS属性值的变化变得平滑，通过指定过渡属性、时长、缓动函数和延迟，实现流畅的动画效果。",
+          "code": "/* ====== Transition基础语法 ====== */\n.btn {\n  padding: 12px 24px;\n  background-color: #3498db;\n  color: #fff;\n  border: none;\n  border-radius: 6px;\n  cursor: pointer;\n  /* transition: 属性名 时长 缓动函数 延迟时间; */\n  /* 过渡属性为all表示所有可动画属性都过渡 */\n  transition: all 0.3s ease-in-out;\n  /* all：所有属性变化都过渡 */\n  /* 0.3s：过渡持续300毫秒 */\n  /* ease-in-out：先加速后减速的缓动函数 */\n}\n\n/* 鼠标悬停时触发过渡 */\n.btn:hover {\n  background-color: #2980b9;  /* 背景色变深 */\n  transform: scale(1.05);     /* 放大到105% */\n  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);  /* 阴影加深 */\n}\n\n/* ====== 分别设置不同属性的过渡 ====== */\n.card {\n  width: 300px;\n  padding: 20px;\n  background: #fff;\n  border-radius: 8px;\n  /* 不同属性使用不同的过渡参数 */\n  transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55),\n              box-shadow 0.3s ease,\n              opacity 0.2s linear;\n  /* transform用弹性缓动，box-shadow用默认缓动，opacity用线性 */\n}\n\n.card:hover {\n  transform: translateY(-8px);  /* 向上移动8px */\n  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);\n  opacity: 0.9;\n}",
+          "explanation": "第2-13行：transition是简写属性，all表示所有属性都过渡，0.3s是时长，ease-in-out是缓动函数。第16-19行：hover时改变背景色、缩放和阴影，因为有transition所以会平滑过渡。第23-34行：可以为不同属性设置不同的过渡参数，cubic-bezier自定义缓动曲线。",
+          "key_points": ["transition简写：属性 时长 缓动 延迟", "ease-in-out是最常用的缓动函数", "cubic-bezier可自定义缓动曲线", "transition需要触发条件（如hover）"]
+        },
+        {
+          "title": "CSS动画：Keyframes",
+          "level": "中级",
+          "concept": "@keyframes定义动画的关键帧序列，animation属性将动画应用到元素上，支持循环、反向、暂停等控制。",
+          "code": "/* ====== 定义关键帧动画 ====== */\n/* @keyframes后面跟动画名称 */\n@keyframes slideIn {\n  /* 0%是动画开始状态（也可用from） */\n  0% {\n    transform: translateX(-100%);  /* 从左侧屏幕外开始 */\n    opacity: 0;                    /* 完全透明 */\n  }\n  /* 60%是动画中间状态 */\n  60% {\n    transform: translateX(20px);   /* 稍微超过目标位置 */\n    opacity: 0.8;\n  }\n  /* 100%是动画结束状态（也可用to） */\n  100% {\n    transform: translateX(0);      /* 回到正常位置 */\n    opacity: 1;                    /* 完全不透明 */\n  }\n}\n\n/* ====== 应用动画到元素 ====== */\n.animated-box {\n  width: 200px;\n  height: 100px;\n  background: linear-gradient(135deg, #667eea, #764ba2);\n  border-radius: 8px;\n  /* animation: 名称 时长 缓动 延迟 次数 方向 填充模式; */\n  animation: slideIn 0.8s ease-out 0.2s 1 forwards;\n  /* slideIn：动画名称 */\n  /* 0.8s：单次动画持续时间 */\n  /* ease-out：缓动函数（先快后慢） */\n  /* 0.2s：延迟0.2秒后开始 */\n  /* 1：播放1次（infinite表示无限循环） */\n  /* forwards：动画结束后保持最终状态 */\n}\n\n/* ====== 无限循环的脉冲动画 ====== */\n@keyframes pulse {\n  0%, 100% { transform: scale(1); }\n  50%      { transform: scale(1.1); }\n}\n\n.loading-dot {\n  width: 12px;\n  height: 12px;\n  background: #3498db;\n  border-radius: 50%;\n  animation: pulse 1.5s ease-in-out infinite;\n  /* infinite：无限循环播放 */\n}",
+          "explanation": "第3-16行：@keyframes定义slideIn动画，用百分比指定关键帧，0%是起始状态，100%是结束状态。第19-31行：animation是简写属性，forwards让动画停在最后一帧。第34-41行：pulse动画利用0%/50%/100%三个关键帧实现缩放脉冲，infinite让动画无限循环。",
+          "key_points": ["@keyframes用百分比定义关键帧", "animation-direction控制播放方向", "forwards保持动画结束状态", "infinite实现无限循环动画"]
+        },
+        {
+          "title": "BEM命名规范",
+          "level": "中级",
+          "concept": "BEM（Block Element Modifier）是一种CSS命名方法论，通过 块__元素--修饰符 的命名模式，让CSS类名更具语义化和可维护性。",
+          "code": "/* ====== BEM命名规范示例 ====== */\n/* Block（块）：独立的组件，如 .card */\n/* Element（元素）：块的组成部分，用 __ 连接，如 .card__title */\n/* Modifier（修饰符）：块或元素的状态变体，用 -- 连接，如 .card--featured */\n\n/* ====== Block：卡片组件 ====== */\n.card {\n  display: flex;\n  flex-direction: column;\n  padding: 20px;\n  border-radius: 8px;\n  background: #fff;\n  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);\n}\n\n/* ====== Element：卡片的子元素 ====== */\n/* 卡片标题 */\n.card__title {\n  font-size: 20px;\n  font-weight: bold;\n  color: #333;\n  margin-bottom: 8px;\n}\n\n/* 卡片描述 */\n.card__description {\n  font-size: 14px;\n  color: #666;\n  line-height: 1.6;\n  margin-bottom: 16px;\n}\n\n/* 卡片操作按钮区 */\n.card__actions {\n  display: flex;\n  gap: 12px;\n  margin-top: auto;  /* 自动推到卡片底部 */\n}\n\n/* 卡片按钮 */\n.card__button {\n  padding: 8px 16px;\n  border: none;\n  border-radius: 4px;\n  cursor: pointer;\n  background: #3498db;\n  color: #fff;\n}\n\n/* ====== Modifier：卡片的状态变体 ====== */\n/* 精选卡片：特殊样式 */\n.card--featured {\n  border: 2px solid #f39c12;\n  background: linear-gradient(135deg, #fff9e6, #fff);\n}\n\n/* 主要按钮：强调色 */\n.card__button--primary {\n  background: #e74c3c;\n}\n\n/* 小尺寸卡片 */\n.card--small {\n  padding: 12px;\n  max-width: 250px;\n}",
+          "explanation": "第1-4行：BEM命名规则说明。第7-14行：.card是Block，表示独立组件。第18-42行：.card__title、.card__description等是Element，用__连接，表示块的子元素。第46-55行：.card--featured是Modifier，用--连接，表示块的状态变体。第58-62行：.card--small是尺寸修饰符。",
+          "key_points": ["Block用单个类名表示独立组件", "Element用__连接表示子元素", "Modifier用--连接表示状态变体", "BEM避免深层嵌套，保持选择器扁平"]
+        },
+        {
+          "title": "CSS函数：calc()与clamp()",
+          "level": "中级",
+          "concept": "calc()允许在CSS中进行数学计算，clamp()实现响应式数值约束，min()和max()则选取最值，这些函数让CSS更动态灵活。",
+          "code": "/* ====== calc()：数学计算函数 ====== */\n/* 支持加减乘除运算，不同单位可以混合计算 */\n.sidebar {\n  /* 宽度 = 100%视口宽度 - 主内容区300px - 间距40px */\n  width: calc(100% - 300px - 40px);\n  /* 计算后的值作为最终宽度 */\n  padding: 20px;\n}\n\n.hero-section {\n  /* 高度 = 视口高度 - 导航栏60px */\n  min-height: calc(100vh - 60px);\n  /* vh是视口高度单位，100vh = 整个视口高度 */\n  background: linear-gradient(135deg, #667eea, #764ba2);\n}\n\n/* ====== clamp()：响应式约束函数 ====== */\n/* 语法：clamp(最小值, 首选值, 最大值) */\n.responsive-text {\n  /* 字体大小：最小16px，理想值4vw，最大24px */\n  font-size: clamp(16px, 4vw, 24px);\n  /* 在小屏幕上不会小于16px，在大屏幕上不会超过24px */\n  /* 4vw = 视口宽度的4%，随屏幕大小动态变化 */\n}\n\n.responsive-container {\n  /* 容器宽度：最小320px，理想值80%，最大1200px */\n  width: clamp(320px, 80%, 1200px);\n  /* 保证内容不会太窄或太宽 */\n  margin: 0 auto;  /* 居中 */\n  padding: clamp(16px, 3vw, 40px);\n  /* 内边距也随视口动态调整 */\n}\n\n/* ====== min()与max()：选取最值 ====== */\n.hero-image {\n  /* 宽度取80%和600px中较小的那个 */\n  width: min(80%, 600px);\n  /* 大屏幕时不超过600px，小屏幕时自适应 */\n}\n\n.full-width {\n  /* 宽度取100%和1200px中较大的那个 */\n  width: max(100%, 1200px);\n  /* 确保内容至少1200px宽 */\n}",
+          "explanation": "第3-7行：calc()支持加减乘除，不同单位混合计算。第10-13行：100vh是视口高度。第17-27行：clamp()设置响应式字体和容器，最小值保证可读性，最大值防止过度放大。第30-37行：min()取较小值限制最大尺寸，max()取较大值保证最小尺寸。",
+          "key_points": ["calc()支持混合单位计算", "clamp()实现响应式约束", "min()和max()选取最值", "这些函数在运行时动态计算"]
+        },
+        {
+          "title": "伪类与伪元素深入",
+          "level": "中级",
+          "concept": "伪类(:)表示元素的特殊状态，伪元素(::)创建文档中不存在的虚拟元素，两者结合可以实现丰富的交互和装饰效果。",
+          "code": "/* ====== 结构伪类：根据位置选择元素 ====== */\n/* :nth-child(n)：选中父元素的第n个子元素 */\n.list-item:nth-child(odd) {\n  /* odd表示奇数项，even表示偶数项 */\n  background-color: #f8f9fa;\n}\n\n.list-item:nth-child(3n) {\n  /* 3n表示每3个选一个（3, 6, 9...） */\n  font-weight: bold;\n}\n\n.list-item:first-child {\n  /* 选中第一个子元素 */\n  border-top: 2px solid #3498db;\n}\n\n.list-item:last-child {\n  /* 选中最后一个子元素 */\n  border-bottom: 2px solid #3498db;\n}\n\n/* ====== 状态伪类 ====== */\n/* :focus-within：元素自身或其子元素获得焦点时 */\n.search-form:focus-within {\n  /* 搜索框内任意子元素获得焦点时，整个表单高亮 */\n  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.3);\n  border-color: #3498db;\n}\n\n/* :empty：选中没有子元素（包括文本）的元素 */\n.error-message:empty {\n  display: none;  /* 没有错误信息时隐藏 */\n}\n\n/* ====== 伪元素 ====== */\n/* ::before和::after：在元素前后插入虚拟内容 */\n.quote::before {\n  content: '\u201C';  /* 左双引号的Unicode编码 */\n  font-size: 3em;\n  color: #3498db;\n  line-height: 0;\n  vertical-align: -0.3em;\n}\n\n.quote::after {\n  content: '\u201D';  /* 右双引号 */\n  font-size: 3em;\n  color: #3498db;\n}\n\n/* ::selection：用户选中文本时的样式 */\n::selection {\n  background-color: #3498db;\n  color: #fff;\n}",
+          "explanation": "第3-17行：:nth-child根据位置选择元素，odd/even选奇偶项，3n选每3个。第20-27行：:focus-within检测焦点在子元素内，:empty匹配空元素。第31-42行：::before和::after通过content插入虚拟内容，创建装饰性引号。第46-49行：::selection自定义选中文本样式。",
+          "key_points": [":nth-child()支持odd/even和公式", ":focus-within检测后代焦点", "::before/::after必须设置content", "::selection自定义文本选中样式"]
+        },
+        {
+          "title": "表单验证",
+          "level": "中级",
+          "concept": "HTML5原生表单验证通过属性约束和CSS伪类提供即时反馈，结合JavaScript可实现更复杂的自定义验证逻辑。",
+          "code": "<!-- ====== HTML5原生验证属性 ====== -->\n<form id=\"signup-form\" novalidate>\n  <!-- novalidate禁用浏览器默认验证弹窗，改用自定义样式 -->\n\n  <div class=\"form-group\">\n    <label for=\"email\">邮箱：</label>\n    <!-- type=\"email\"自动验证邮箱格式 -->\n    <input type=\"email\" id=\"email\" name=\"email\"\n           required                    <!-- 必填 -->\n           placeholder=\"请输入邮箱\"\n           pattern=\"[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}$\">\n           <!-- pattern：正则表达式验证 -->\n    <!-- :invalid伪类匹配验证失败的状态 -->\n    <span class=\"error-message\"></span>\n  </div>\n\n  <div class=\"form-group\">\n    <label for=\"password\">密码：</label>\n    <input type=\"password\" id=\"password\" name=\"password\"\n           required\n           minlength=\"8\"               <!-- 最小长度8 -->\n           maxlength=\"20\"              <!-- 最大长度20 -->\n           placeholder=\"至少8位密码\">\n    <span class=\"error-message\"></span>\n  </div>\n\n  <div class=\"form-group\">\n    <label for=\"age\">年龄：</label>\n    <input type=\"number\" id=\"age\" name=\"age\"\n           min=\"18\"                    <!-- 最小值18 -->\n           max=\"100\"                   <!-- 最大值100 -->\n           placeholder=\"18-100\">\n    <span class=\"error-message\"></span>\n  </div>\n\n  <button type=\"submit\">提交</button>\n</form>\n\n<script>\n// 自定义验证：使用Constraint Validation API\nconst form = document.getElementById('signup-form');\nform.addEventListener('submit', function(event) {\n  // 阻止默认提交行为\n  event.preventDefault();\n\n  // checkValidity()检查所有表单控件是否满足约束\n  if (form.checkValidity()) {\n    alert('验证通过，提交表单！');\n  } else {\n    // reportValidity()触发浏览器显示验证错误\n    form.reportValidity();\n  }\n});\n\n// 实时验证单个字段\nconst emailInput = document.getElementById('email');\nemailInput.addEventListener('input', function() {\n  // validity对象包含详细的验证状态\n  if (emailInput.validity.typeMismatch) {\n    // 设置自定义错误消息\n    emailInput.setCustomValidity('请输入有效的邮箱地址');\n  } else {\n    emailInput.setCustomValidity(''); // 清除自定义错误\n  }\n});\n</script>",
+          "explanation": "HTML部分：第2行novalidate禁用默认弹窗。第8行type=\"email\"自动验证格式。第10行pattern自定义正则。第20行minlength限制最小长度。第29行min/max限制数值范围。JS部分：第42行checkValidity()检查所有字段。第47行reportValidity()显示错误。第53行validity对象提供详细验证状态。",
+          "key_points": ["HTML5原生验证属性减少JS代码", "novalidate可禁用默认弹窗", "Constraint Validation API精细控制", "setCustomValidity()设置自定义错误"]
+        },
+        {
+          "title": "CSS打印样式",
+          "level": "中级",
+          "concept": "通过@media print定义打印专用样式，隐藏不必要的元素、调整排版和颜色，确保网页内容在打印时清晰美观。",
+          "code": "/* ====== 打印样式：@media print ====== */\n@media print {\n  /* 隐藏不需要打印的元素 */\n  .navbar,\n  .sidebar,\n  .advertisement,\n  .no-print {\n    display: none !important;  /* !important确保打印时一定隐藏 */\n  }\n\n  /* 调整全局排版 */\n  body {\n    font-size: 12pt;           /* 打印用pt单位更合适 */\n    line-height: 1.5;\n    color: #000;               /* 黑色文字，打印更清晰 */\n    background: #fff !important;  /* 白色背景，节省墨水 */\n  }\n\n  /* 链接显示完整URL */\n  a[href]::after {\n    content: \" (\" attr(href) \")\";  /* attr()获取href属性值 */\n    font-size: 0.8em;\n    color: #666;\n  }\n\n  /* 内部链接和空链接不显示URL */\n  a[href^=\"#\"]::after,\n  a[href=\"\"]::after {\n    content: none;             /* 不显示链接 */\n  }\n\n  /* 避免内容在中间断页 */\n  h2, h3 {\n    page-break-after: avoid;   /* 标题后不要立即换页 */\n  }\n\n  article {\n    page-break-inside: avoid;  /* 文章内部不要断页 */\n  }\n\n  /* 图片适应打印宽度 */\n  img {\n    max-width: 100% !important;  /* 图片不超过页面宽度 */\n    page-break-inside: avoid;\n  }\n\n  /* 页面边距设置 */\n  @page {\n    margin: 2cm;               /* 打印页边距2厘米 */\n    size: A4;                   /* 纸张大小A4 */\n  }\n\n  /* 首页特殊样式 */\n  @page :first {\n    margin-top: 3cm;           /* 首页顶部留更多空间 */\n  }\n}",
+          "explanation": "第2-8行：隐藏导航、侧边栏、广告等打印无关元素。第11-16行：调整基础排版，pt单位更适合打印，黑色文字+白色背景。第19-23行：用::after伪元素在链接后显示URL。第26-30行：内部链接不显示URL。第33-39行：page-break-after/inside控制分页位置。第42-49行：@page规则设置纸张大小和边距。",
+          "key_points": ["@media print针对打印设备", "page-break-*控制分页行为", "attr()可获取属性值显示", "@page规则设置纸张参数"]
+        }
+      ]
+    },
+    "advanced": {
+      "name": "高级精通",
+      "topics": [
+        {
+          "title": "CSS性能优化：contain与will-change",
+          "level": "高级",
+          "concept": "contain属性限制元素的重绘和重排范围，will-change提前告知浏览器将要变化的属性，两者都是提升渲染性能的关键手段。",
+          "code": "/* ====== contain：隔离渲染范围 ====== */\n/* 告诉浏览器该元素的内部变化不会影响外部布局 */\n.widget {\n  /* contain: layout style paint size; */\n  contain: content;  /* content = layout + style + paint */\n  /* layout：内部布局变化不影响外部 */\n  /* style：counter和quotes等不影响外部 */\n  /* paint：内部绘制不超出边界 */\n  /* content：layout + style + paint 的组合 */\n  width: 300px;\n  height: 200px;\n  overflow: hidden;\n}\n\n/* 严格隔离：完全包含 */\n.isolated-widget {\n  contain: strict;  /* strict = layout + style + paint + size */\n  /* size：元素的尺寸不依赖子元素内容 */\n  /* 使用strict时必须显式设置宽高 */\n  width: 300px;\n  height: 200px;\n}\n\n/* ====== will-change：预告即将变化的属性 ====== */\n/* 提前告知浏览器要变化的属性，浏览器提前优化 */\n.slide-panel {\n  transform: translateX(-100%);\n  /* 告知浏览器transform即将变化 */\n  will-change: transform;\n  /* 浏览器会为transform创建独立的合成层，利用GPU加速 */\n  transition: transform 0.3s ease;\n}\n\n/* ⚠️ 重要：动画结束后移除will-change，避免占用资源 */\n.slide-panel.active {\n  transform: translateX(0);\n}\n\n/* 使用JS在动画结束后移除will-change */\n/*\nconst panel = document.querySelector('.slide-panel');\npanel.addEventListener('transitionend', () => {\n  panel.style.willChange = 'auto';  // 动画结束后移除\n});\n*/\n\n/* 滚动容器的优化 */\n.scroll-container {\n  overflow-y: auto;\n  will-change: scroll-position;  /* 预告即将滚动 */\n}",
+          "explanation": "第3-12行：contain:content隔离元素的布局、样式和绘制，让浏览器只重绘变化区域。第15-19行：contain:strict更进一步隔离尺寸计算。第24-30行：will-change:transform预告transform变化，浏览器预创建GPU合成层。第35-42行：注释展示了动画结束后移除will-change的最佳实践，避免持续占用GPU内存。",
+          "key_points": ["contain限制重绘/重排范围", "will-change预创建GPU合成层", "动画结束后必须移除will-change", "合理使用可大幅提升渲染性能"]
+        },
+        {
+          "title": "Container Queries（容器查询）",
+          "level": "高级",
+          "concept": "Container Queries根据父容器尺寸而非视口尺寸来应用样式，让组件能根据自身所在空间自适应，是响应式设计的重大升级。",
+          "code": "/* ====== 定义容器查询上下文 ====== */\n/* 使用container-type声明元素为查询容器 */\n.card-wrapper {\n  container-type: inline-size;  /* 基于内联尺寸（宽度）查询 */\n  container-name: card;         /* 命名容器，方便引用 */\n  /* 简写：container: card / inline-size; */\n}\n\n/* ====== 使用容器查询 ====== */\n/* @container规则：当容器满足条件时应用样式 */\n@container card (min-width: 400px) {\n  /* 当card容器宽度>=400px时 */\n  .card {\n    display: grid;\n    grid-template-columns: 200px 1fr;  /* 图文并排 */\n    gap: 16px;\n  }\n\n  .card__image {\n    width: 200px;\n    height: 150px;\n  }\n\n  .card__title {\n    font-size: 1.5em;\n  }\n}\n\n@container card (max-width: 399px) {\n  /* 当card容器宽度<400px时（窄容器） */\n  .card {\n    display: flex;\n    flex-direction: column;  /* 上下堆叠 */\n  }\n\n  .card__image {\n    width: 100%;\n    height: auto;\n  }\n\n  .card__title {\n    font-size: 1.1em;\n  }\n}\n\n/* ====== 容器查询长度单位 ====== */\n/* cqw = 容器宽度的1%，cqh = 容器高度的1% */\n.card__title {\n  font-size: clamp(1em, 5cqw, 2em);\n  /* 字体大小基于容器宽度动态调整 */\n}\n\n/* 不指定容器名，匹配最近的容器 */\n@container (min-width: 300px) {\n  .timeline-item {\n    padding: 16px;\n  }\n}",
+          "explanation": "第3-6行：container-type声明容器类型，inline-size基于宽度查询。第10-36行：@container规则根据容器尺寸应用不同样式，宽容器时图文并排，窄容器时上下堆叠。第40-43行：cqw/cqh是容器查询单位，基于容器尺寸计算。第47-51行：不指定容器名时匹配最近的查询容器。",
+          "key_points": ["container-type声明查询容器", "@container替代@media做组件级响应", "cqw/cqh是容器相对单位", "组件可在任何容器中自适应"]
+        },
+        {
+          "title": "CSS Grid高级布局",
+          "level": "高级",
+          "concept": "CSS Grid的高级特性包括grid-template-areas命名区域、auto-fill/auto-fit自动填充、minmax()弹性轨道、以及子网格subgrid继承父网格。",
+          "code": "/* ====== grid-template-areas：命名区域布局 ====== */\n.page-layout {\n  display: grid;\n  grid-template-columns: 250px 1fr 250px;\n  grid-template-rows: auto 1fr auto;\n  min-height: 100vh;\n  /* 用命名区域描述布局，像画ASCII图一样直观 */\n  grid-template-areas:\n    \"header  header  header\"\n    \"sidebar main    aside\"\n    \"footer  footer  footer\";\n  gap: 16px;\n}\n\n/* 将元素放置到命名区域 */\n.header  { grid-area: header; }\n.sidebar { grid-area: sidebar; }\n.main    { grid-area: main; }\n.aside   { grid-area: aside; }\n.footer  { grid-area: footer; }\n\n/* ====== auto-fill vs auto-fit ====== */\n/* auto-fill：尽可能多地创建轨道，即使有些是空的 */\n.auto-fill-grid {\n  display: grid;\n  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));\n  /* minmax(250px, 1fr)：每列最小250px，最大等分剩余空间 */\n  /* auto-fill：有多少空位就创建多少轨道 */\n  gap: 16px;\n}\n\n/* auto-fit：拉伸现有项目填满空间 */\n.auto-fit-grid {\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));\n  /* auto-fit：现有项目拉伸填满，多余空轨道折叠为0 */\n  gap: 16px;\n}\n\n/* ====== 响应式无需媒体查询 ====== */\n/* minmax() + auto-fill 实现自适应列数 */\n.gallery {\n  display: grid;\n  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));\n  /* 容器宽度>=200*n时自动增加列数 */\n  /* 缩小窗口时自动减少列数 */\n  /* 完全不需要写@media查询！ */\n  gap: 12px;\n}\n\n/* ====== 密集填充模式 ====== */\n.masonry-like {\n  display: grid;\n  grid-template-columns: repeat(4, 1fr);\n  grid-auto-flow: dense;  /* 密集填充：小元素填充空隙 */\n  gap: 8px;\n}",
+          "explanation": "第2-14行：grid-template-areas用命名区域直观描述布局，像一个ASCII图。第17-21行：grid-area将元素放入命名区域。第25-30行：auto-fill创建尽可能多的空白轨道。第32-37行：auto-fit拉伸现有项目填满空间。第41-48行：minmax()配合auto-fill实现无需媒体查询的响应式网格。第52-56行：grid-auto-flow:dense密集填充模式。",
+          "key_points": ["grid-template-areas可视化布局", "auto-fill和auto-fit的区别", "minmax()实现弹性轨道", "dense模式自动填充空隙"]
+        },
+        {
+          "title": "关键渲染路径优化",
+          "level": "高级",
+          "concept": "关键渲染路径（CRP）是浏览器将HTML/CSS/JS转换为像素的过程，优化CRP可以显著提升首屏加载速度。",
+          "code": "<!-- ====== HTML优化：减少阻塞渲染的资源 ====== -->\n<head>\n  <meta charset=\"UTF-8\">\n\n  <!-- 1. 内联关键CSS（首屏必需的样式） -->\n  <!-- 避免额外的网络请求，直接渲染首屏 -->\n  <style>\n    /* 仅包含首屏可见内容的样式 */\n    .hero { min-height: 100vh; background: #1a1a2e; }\n    .navbar { position: fixed; top: 0; width: 100%; }\n  </style>\n\n  <!-- 2. 非关键CSS异步加载 -->\n  <!-- media=\"print\"让浏览器低优先级加载，onload后切换为all -->\n  <link rel=\"stylesheet\" href=\"/styles/full.css\"\n        media=\"print\" onload=\"this.media='all'\">\n  <!-- 备用方案：noscript标签在无JS时直接加载 -->\n  <noscript>\n    <link rel=\"stylesheet\" href=\"/styles/full.css\">\n  </noscript>\n\n  <!-- 3. 预加载关键资源 -->\n  <!-- preload告诉浏览器优先下载该资源 -->\n  <link rel=\"preload\" href=\"/fonts/main.woff2\" as=\"font\" crossorigin>\n  <link rel=\"preload\" href=\"/images/hero.webp\" as=\"image\">\n\n  <!-- 4. 脚本异步加载 -->\n  <!-- async：下载不阻塞解析，下载完立即执行 -->\n  <script src=\"/js/analytics.js\" async></script>\n  <!-- defer：下载不阻塞解析，DOM解析完后按顺序执行 -->\n  <script src=\"/js/main.js\" defer></script>\n</head>\n\n<!-- ====== CSS优化：减少重排重绘 ====== -->\n<style>\n/* 5. 使用transform和opacity做动画 */\n/* 这些属性只触发composite，不触发layout和paint */\n.animated {\n  /* ✅ 推荐：只触发合成阶段 */\n  transform: translateX(100px);\n  opacity: 0.5;\n\n  /* ❌ 避免：触发重排 */\n  /* left: 100px; */\n  /* width: 200px; */\n  /* margin-left: 20px; */\n}\n\n/* 6. 提升到合成层 */\n.smooth-scroll {\n  transform: translateZ(0);  /* 创建独立合成层 */\n  will-change: transform;    /* 预告变化 */\n}\n\n/* 7. content-visibility延迟渲染 */\n.off-screen-section {\n  content-visibility: auto;  /* 屏幕外的元素跳过渲染 */\n  contain-intrinsic-size: 0 500px;  /* 预估高度，防止滚动条跳动 */\n}\n</style>",
+          "explanation": "第5-9行：内联关键CSS避免额外请求。第12-18行：非关键CSS用media trick异步加载。第21-24行：preload预加载关键资源。第27-30行：async和defer避免脚本阻塞解析。第36-49行：CSS动画优化——使用transform/opacity只触发合成阶段，translateZ(0)创建合成层。第52-55行：content-visibility:auto跳过屏幕外渲染。",
+          "key_points": ["内联关键CSS减少请求", "async/defer异步加载JS", "transform/opacity只触发合成", "content-visibility跳过屏幕外渲染"]
+        },
+        {
+          "title": "CSS架构设计",
+          "level": "高级",
+          "concept": "大型项目的CSS架构需要分层管理、命名规范、设计令牌和工具约束，确保样式可维护、可扩展、可复用。",
+          "code": "/* ====== CSS架构设计：分层结构 ====== */\n\n/* 第一层：设计令牌（Design Tokens） */\n/* 所有设计变量集中管理，是整个样式系统的基础 */\n:root {\n  /* 颜色系统 */\n  --color-primary-100: #dbeafe;\n  --color-primary-500: #3b82f6;\n  --color-primary-900: #1e3a5f;\n\n  /* 间距系统（基于4px的倍数） */\n  --space-1: 4px;\n  --space-2: 8px;\n  --space-4: 16px;\n  --space-6: 24px;\n  --space-8: 32px;\n\n  /* 字体系统 */\n  --font-sans: 'Inter', system-ui, sans-serif;\n  --font-mono: 'JetBrains Mono', monospace;\n\n  /* 阴影层级 */\n  --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);\n  --shadow-md: 0 4px 6px rgba(0,0,0,0.1);\n  --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);\n}\n\n/* 第二层：全局重置与基础样式 */\n/* 统一浏览器默认样式，建立全局基线 */\n*,\n*::before,\n*::after {\n  box-sizing: border-box;\n  margin: 0;\n  padding: 0;\n}\n\nhtml {\n  font-size: 16px;\n  -webkit-font-smoothing: antialiased;\n}\n\nbody {\n  font-family: var(--font-sans);\n  line-height: 1.6;\n  color: #1a1a2e;\n}\n\n/* 第三层：工具类（Utility Classes） */\n/* 单一职责的原子化类，组合使用构建布局 */\n.flex { display: flex; }\n.flex-col { flex-direction: column; }\n.items-center { align-items: center; }\n.justify-between { justify-content: space-between; }\n.gap-4 { gap: var(--space-4); }\n.p-4 { padding: var(--space-4); }\n.text-center { text-align: center; }\n\n/* 第四层：组件样式 */\n/* 遵循BEM规范，每个组件独立文件 */\n/* @import './components/button.css'; */\n/* @import './components/card.css'; */\n/* @import './components/modal.css'; */\n\n/* 第五层：页面布局 */\n.page-layout {\n  display: grid;\n  grid-template-areas:\n    \"header\"\n    \"main\"\n    \"footer\";\n  min-height: 100vh;\n}\n\n/* 第六层：主题变体 */\n[data-theme=\"dark\"] {\n  --color-primary-100: #1e293b;\n  --color-primary-500: #60a5fa;\n  background: #0f172a;\n  color: #e2e8f0;\n}",
+          "explanation": "第4-24行：设计令牌层集中管理颜色、间距、字体、阴影等变量。第28-31行：全局重置统一浏览器默认样式。第33-40行：基础样式设置全局字体和行高。第44-51行：工具类提供原子化CSS。第57-60行：组件层按BEM规范组织。第63-69行：页面布局层定义整体结构。第72-77行：主题层通过变量覆盖实现主题切换。",
+          "key_points": ["设计令牌是样式系统的基石", "分层架构：令牌→重置→工具→组件→布局→主题", "原子化工具类提高复用性", "变量覆盖实现主题切换"]
+        },
+        {
+          "title": "CSS Houdini入门",
+          "level": "高级",
+          "concept": "CSS Houdini是一组底层API，允许开发者通过JavaScript扩展CSS引擎，实现自定义属性、布局、绘制等功能。",
+          "code": "/* ====== CSS Houdini Paint API ====== */\n/* 通过JavaScript注册自定义绘制函数 */\n<script>\n// 注册一个自定义Paint Worklet\n// paint()函数接收ctx（类似Canvas 2D上下文）、几何信息和属性\nclass CheckerboardPainter {\n  // 声明CSS属性，这些属性变化时会触发重绘\n  static get inputProperties() {\n    return ['--checkerboard-size', '--checkerboard-color'];\n  }\n\n  // paint是核心绘制方法\n  paint(ctx, geom, properties) {\n    // 从CSS属性中读取值\n    const size = parseInt(properties.get('--checkerboard-size').toString()) || 32;\n    const color = properties.get('--checkerboard-color').toString() || '#3498db';\n\n    ctx.fillStyle = color;\n    // 绘制棋盘格图案\n    for (let y = 0; y < geom.height; y += size) {\n      for (let x = 0; x < geom.width; x += size) {\n        // 交替绘制方格\n        if ((Math.floor(x / size) + Math.floor(y / size)) % 2 === 0) {\n          ctx.fillRect(x, y, size, size);\n        }\n      }\n    }\n  }\n}\n\n// 注册Paint Worklet\nregisterPaint('checkerboard', CheckerboardPainter);\n</script>\n\n<style>\n  /* 使用自定义Paint */\n  .checkerboard-bg {\n    /* paint()函数调用自定义绘制 */\n    background-image: paint(checkerboard);\n    /* CSS变量控制绘制参数 */\n    --checkerboard-size: 40px;\n    --checkerboard-color: #3498db;\n    width: 400px;\n    height: 300px;\n  }\n</style>\n\n<!-- ====== 使用方式 ====== -->\n<!-- 在HTML中加载Paint Worklet -->\n<script>\nif ('paintWorklet' in CSS) {\n  // 加载Paint Worklet模块\n  CSS.paintWorklet.addModule('/worklets/checkerboard.js');\n}\n</script>",
+          "explanation": "第4-28行：定义CheckerboardPainter类，inputProperties声明依赖的CSS变量，paint方法使用Canvas API绘制棋盘格图案。第33-41行：通过background-image:paint()调用自定义绘制，CSS变量控制参数。第47-51行：检测浏览器支持后通过CSS.paintWorklet.addModule加载Worklet。",
+          "key_points": ["Houdini扩展CSS引擎底层能力", "Paint API用Canvas绘制背景", "inputProperties声明CSS变量依赖", "Paint Worklet在独立线程运行"]
+        }
+      ]
+    }
+  }
+}

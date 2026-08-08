@@ -1,0 +1,328 @@
+{
+  "avalanche": {
+    "key_avalanche": {
+      "average": 49.96,
+      "target": 50.0,
+      "deviation": 0.04,
+      "samples": [
+        49.75961538461539,
+        51.28205128205128,
+        50.0,
+        50.0,
+        49.59935897435898
+      ],
+      "passed": true
+    },
+    "plaintext_avalanche": {
+      "average": 10.16,
+      "expected_behavior": "GCM模式下明文变化→密文1bit+标签~50%翻转，预期~10%",
+      "target": "~10.16% (1bit密文 + 64bit标签 / 640bit总)",
+      "deviation": 0.0,
+      "passed": true
+    },
+    "iv_avalanche": {
+      "average": 50.01,
+      "target": 50.0,
+      "deviation": 0.01,
+      "passed": true
+    }
+  },
+  "tag_sensitivity": {
+    "correct": "PASS",
+    "tampered_ciphertext": "PASS",
+    "wrong_key": "PASS",
+    "wrong_aad": "PASS"
+  },
+  "wycheproof": {
+    "aes_gcm": {
+      "total": 316,
+      "passed": 289,
+      "failed": 27,
+      "encrypt_decrypt": {
+        "total": 229,
+        "passed": 202,
+        "failed": 27
+      },
+      "tag_verification": {
+        "total": 87,
+        "passed": 87,
+        "failed": 0
+      },
+      "iv_handling": {
+        "total": 0,
+        "passed": 0,
+        "failed": 0
+      },
+      "details": [
+        {
+          "tcId": 268,
+          "type": "encrypt_decrypt",
+          "result": "FAIL",
+          "comment": "Nonce must be between 8 and 128 bytes | long IV size"
+        },
+        {
+          "tcId": 272,
+          "type": "encrypt_decrypt",
+          "result": "FAIL",
+          "comment": "Nonce must be between 8 and 128 bytes | long IV size"
+        },
+        {
+          "tcId": 276,
+          "type": "encrypt_decrypt",
+          "result": "FAIL",
+          "comment": "Nonce must be between 8 and 128 bytes | long IV size"
+        },
+        {
+          "tcId": 277,
+          "type": "encrypt_decrypt",
+          "result": "FAIL",
+          "comment": "Nonce must be between 8 and 128 bytes | small IV sizes"
+        },
+        {
+          "tcId": 278,
+          "type": "encrypt_decrypt",
+          "result": "FAIL",
+          "comment": "Nonce must be between 8 and 128 bytes | small IV sizes"
+        },
+        {
+          "tcId": 279,
+          "type": "encrypt_decrypt",
+          "result": "FAIL",
+          "comment": "Nonce must be between 8 and 128 bytes | small IV sizes"
+        },
+        {
+          "tcId": 280,
+          "type": "encrypt_decrypt",
+          "result": "FAIL",
+          "comment": "Nonce must be between 8 and 128 bytes | small IV sizes"
+        },
+        {
+          "tcId": 281,
+          "type": "encrypt_decrypt",
+          "result": "FAIL",
+          "comment": "Nonce must be between 8 and 128 bytes | small IV sizes"
+        },
+        {
+          "tcId": 282,
+          "type": "encrypt_decrypt",
+          "result": "FAIL",
+          "comment": "Nonce must be between 8 and 128 bytes | small IV sizes"
+        },
+        {
+          "tcId": 283,
+          "type": "encrypt_decrypt",
+          "result": "FAIL",
+          "comment": "Nonce must be between 8 and 128 bytes | small IV sizes"
+        },
+        {
+          "tcId": 284,
+          "type": "encrypt_decrypt",
+          "result": "FAIL",
+          "comment": "Nonce must be between 8 and 128 bytes | small IV sizes"
+        },
+        {
+          "tcId": 287,
+          "type": "encrypt_decrypt",
+          "result": "FAIL",
+          "comment": "Nonce must be between 8 and 128 bytes | small IV sizes"
+        },
+        {
+          "tcId": 288,
+          "type": "encrypt_decrypt",
+          "result": "FAIL",
+          "comment": "Nonce must be between 8 and 128 bytes | small IV sizes"
+        },
+        {
+          "tcId": 289,
+          "type": "encrypt_decrypt",
+          "result": "FAIL",
+          "comment": "Nonce must be between 8 and 128 bytes | small IV sizes"
+        },
+        {
+          "tcId": 290,
+          "type": "encrypt_decrypt",
+          "result": "FAIL",
+          "comment": "Nonce must be between 8 and 128 bytes | small IV sizes"
+        },
+        {
+          "tcId": 291,
+          "type": "encrypt_decrypt",
+          "result": "FAIL",
+          "comment": "Nonce must be between 8 and 128 bytes | small IV sizes"
+        },
+        {
+          "tcId": 292,
+          "type": "encrypt_decrypt",
+          "result": "FAIL",
+          "comment": "Nonce must be between 8 and 128 bytes | small IV sizes"
+        },
+        {
+          "tcId": 293,
+          "type": "encrypt_decrypt",
+          "result": "FAIL",
+          "comment": "Nonce must be between 8 and 128 bytes | small IV sizes"
+        },
+        {
+          "tcId": 294,
+          "type": "encrypt_decrypt",
+          "result": "FAIL",
+          "comment": "Nonce must be between 8 and 128 bytes | small IV sizes"
+        },
+        {
+          "tcId": 299,
+          "type": "encrypt_decrypt",
+          "result": "FAIL",
+          "comment": "Nonce must be between 8 and 128 bytes | small IV sizes"
+        },
+        {
+          "tcId": 300,
+          "type": "encrypt_decrypt",
+          "result": "FAIL",
+          "comment": "Nonce must be between 8 and 128 bytes | small IV sizes"
+        },
+        {
+          "tcId": 301,
+          "type": "encrypt_decrypt",
+          "result": "FAIL",
+          "comment": "Nonce must be between 8 and 128 bytes | small IV sizes"
+        },
+        {
+          "tcId": 302,
+          "type": "encrypt_decrypt",
+          "result": "FAIL",
+          "comment": "Nonce must be between 8 and 128 bytes | small IV sizes"
+        },
+        {
+          "tcId": 303,
+          "type": "encrypt_decrypt",
+          "result": "FAIL",
+          "comment": "Nonce must be between 8 and 128 bytes | small IV sizes"
+        },
+        {
+          "tcId": 304,
+          "type": "encrypt_decrypt",
+          "result": "FAIL",
+          "comment": "Nonce must be between 8 and 128 bytes | small IV sizes"
+        },
+        {
+          "tcId": 305,
+          "type": "encrypt_decrypt",
+          "result": "FAIL",
+          "comment": "Nonce must be between 8 and 128 bytes | small IV sizes"
+        },
+        {
+          "tcId": 306,
+          "type": "encrypt_decrypt",
+          "result": "FAIL",
+          "comment": "Nonce must be between 8 and 128 bytes | small IV sizes"
+        }
+      ]
+    },
+    "chacha20_poly1305": {
+      "total": 325,
+      "passed": 325,
+      "failed": 0,
+      "details": []
+    }
+  },
+  "nist_sts": [
+    {
+      "name": "Frequency (Monobit)",
+      "p_value": 0.706917,
+      "passed": true,
+      "description": "0/1 比例是否接近 1:1",
+      "test_number": 1
+    },
+    {
+      "name": "Frequency within Block",
+      "p_value": 0.08113,
+      "passed": true,
+      "description": "分块内 0/1 比例",
+      "test_number": 2
+    },
+    {
+      "name": "Runs",
+      "p_value": 0.62545,
+      "passed": true,
+      "description": "连续相同比特的游程分布",
+      "test_number": 3
+    },
+    {
+      "name": "Longest Run of Ones",
+      "p_value": 0.0,
+      "passed": false,
+      "description": "最长连续 1 的游程",
+      "test_number": 4
+    },
+    {
+      "name": "Binary Matrix Rank",
+      "p_value": 0.036325,
+      "passed": true,
+      "description": "矩阵秩的分布",
+      "test_number": 5
+    },
+    {
+      "name": "Discrete Fourier Transform",
+      "p_value": 0.016616,
+      "passed": true,
+      "description": "频域周期性检测",
+      "test_number": 6
+    },
+    {
+      "name": "Non-overlapping Template",
+      "p_value": 0.0,
+      "passed": false,
+      "description": "非重叠模板匹配",
+      "test_number": 7
+    },
+    {
+      "name": "Overlapping Template",
+      "p_value": 0.0,
+      "passed": false,
+      "description": "重叠模板匹配",
+      "test_number": 8
+    },
+    {
+      "name": "Maurer's Universal",
+      "p_value": 0.539155,
+      "passed": true,
+      "description": "压缩率（信息熵）",
+      "test_number": 9
+    },
+    {
+      "name": "Linear Complexity",
+      "p_value": 0.691619,
+      "passed": true,
+      "description": "线性复杂度（LFSR）",
+      "test_number": 10
+    },
+    {
+      "name": "Serial",
+      "p_value": 0.626812,
+      "passed": true,
+      "description": "子串频率分布",
+      "test_number": 11
+    },
+    {
+      "name": "Approximate Entropy",
+      "p_value": 0.478245,
+      "passed": true,
+      "description": "近似熵",
+      "test_number": 12
+    },
+    {
+      "name": "Cumulative Sums",
+      "p_value": 1.0,
+      "passed": true,
+      "description": "累积和游走",
+      "test_number": 13
+    },
+    {
+      "name": "Random Excursions",
+      "p_value": 0.0,
+      "passed": false,
+      "description": "随机游走偏离",
+      "test_number": 14
+    }
+  ]
+}

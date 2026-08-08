@@ -1,0 +1,38 @@
+[Unit]
+Description=BUG诊断机器人 - 飞书长连接事件服务
+Documentation=https://github.com/larksuite/lark-cli
+After=network.target network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/opt/bug-bot
+
+# 架构说明：
+#   lark-cli event consume (长连接接收飞书事件)
+#     ↓ stdout pipe (NDJSON)
+#   event_handler.py (TF-IDF搜索 + 卡片回复)
+#
+# stdin 保持打开：tail -f /dev/null 确保 lark-cli 不会因 stdin EOF 退出
+# 日志：event_handler.py 输出到 stderr，lark-cli 输出到 stderr，均进入 journal
+ExecStart=/bin/bash -c 'lark-cli event consume im.message.receive_v1 --as bot < <(tail -f /dev/null) | python3 /opt/bug-bot/event_handler.py'
+
+Restart=always
+RestartSec=10
+
+# 日志输出到 systemd journal（journalctl -u bug-bot -f 查看）
+StandardOutput=journal
+StandardError=journal
+
+# 环境变量
+Environment=PYTHONUNBUFFERED=1
+Environment=PATH=/usr/local/bin:/usr/bin:/bin:/root/.local/bin
+Environment=HOME=/root
+
+# 安全加固（lark-cli 需要在 /root/.lark-cli/ 下创建事件总线目录）
+NoNewPrivileges=yes
+ReadWritePaths=/opt/bug-bot /tmp /root/.lark-cli
+
+[Install]
+WantedBy=multi-user.target
