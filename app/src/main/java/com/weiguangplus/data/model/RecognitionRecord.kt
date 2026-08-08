@@ -44,8 +44,8 @@ import com.google.gson.annotations.SerializedName
 @Entity(
     tableName = "recognition_records",
     indices = [
-        androidx.room.Index(value = ["user_id"]),
-        androidx.room.Index(value = ["recognized_at"]),
+        androidx.room.Index(value = ["userId"]),
+        androidx.room.Index(value = ["recognizedAt"]),
         androidx.room.Index(value = ["status"])
     ]
 )

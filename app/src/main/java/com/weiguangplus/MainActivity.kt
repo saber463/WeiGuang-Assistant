@@ -16,7 +16,9 @@ import com.weiguangplus.ui.screen.home.MainScreen
 import com.weiguangplus.ui.screen.signlanguage.SignLanguageScreen
 import com.weiguangplus.ui.screen.sos.SosScreen
 import com.weiguangplus.ui.screen.alert.EmergencyContactScreen
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

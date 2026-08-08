@@ -6,9 +6,11 @@ import com.weiguangplus.core.call.CallStateManager
 import com.weiguangplus.core.call.CallTranscriber
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 data class CallAssistantState(
     val callState: CallState = CallState.IDLE,
@@ -25,7 +27,10 @@ data class CallAssistantState(
     )
 )
 
-class CallViewModel(application: Application) : AndroidViewModel(application) {
+@HiltViewModel
+class CallViewModel @Inject constructor(
+    application: Application
+) : AndroidViewModel(application) {
 
     private val _uiState = MutableStateFlow(CallAssistantState())
     val uiState: StateFlow<CallAssistantState> = _uiState
