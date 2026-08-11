@@ -505,8 +505,414 @@ footer .declaration strong{color:var(--primary)}
   .hero-text .stat .num{font-size:16px}
   .hero-text .stat.highlight .num{font-size:18px}
 }
+/* ═══════════════ 首页（主页面）样式 ═══════════════ */
+/* ── Hero 首屏 ── */
+.main-hero{
+  min-height:100vh;display:flex;align-items:center;justify-content:center;
+  padding:80px 20px 60px;position:relative;overflow:hidden;
+  background:linear-gradient(135deg,#0a0a1a 0%,#1a1a2e 30%,#16213e 60%,#0f3460 100%);
+}
+.main-hero::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at 20% 50%,rgba(255,111,0,0.12) 0%,transparent 50%),
+             radial-gradient(circle at 80% 20%,rgba(255,152,0,0.08) 0%,transparent 50%),
+             radial-gradient(circle at 50% 80%,rgba(255,111,0,0.06) 0%,transparent 50%);
+}
+/* 动态粒子背景 */
+.hero-particles{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.hero-particle{
+  position:absolute;width:3px;height:3px;background:rgba(255,152,0,0.6);
+  border-radius:50%;animation:heroFloat linear infinite;opacity:0;
+}
+@keyframes heroFloat{
+  0%{opacity:0;transform:translateY(100vh) scale(0)}
+  10%{opacity:1}
+  90%{opacity:1}
+  100%{opacity:0;transform:translateY(-100px) scale(1.5)}
+}
+.hero-inner{max-width:1200px;text-align:center;position:relative;z-index:1}
+.hero-badge{
+  display:inline-block;background:rgba(255,152,0,0.15);color:#FFB74D;
+  padding:8px 20px;border-radius:24px;font-size:13px;font-weight:600;
+  margin-bottom:20px;border:1px solid rgba(255,152,0,0.25);letter-spacing:2px;
+}
+.hero-inner h1{font-size:52px;font-weight:900;color:white;margin-bottom:12px;line-height:1.2}
+.hero-inner h1 .hl{color:#FF9800}
+.hero-inner h1 .hl2{background:linear-gradient(135deg,#FF9800,#FF6F00);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero-tagline{font-size:18px;color:rgba(255,255,255,0.7);margin-bottom:28px;max-width:600px;margin-left:auto;margin-right:auto}
+.hero-stats{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin-bottom:28px}
+.hero-stat{
+  background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);
+  border-radius:16px;padding:16px 24px;text-align:center;min-width:100px;
+  backdrop-filter:blur(10px);transition:all 0.3s;
+}
+.hero-stat:hover{transform:translateY(-4px);border-color:rgba(255,152,0,0.4);background:rgba(255,152,0,0.08)}
+.hero-stat .hs-num{font-size:28px;font-weight:900;color:#FF9800}
+.hero-stat .hs-label{font-size:11px;color:rgba(255,255,255,0.6);margin-top:4px}
+.hero-cta{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.hero-cta .cta-primary{
+  display:inline-flex;align-items:center;gap:8px;padding:14px 32px;
+  background:linear-gradient(135deg,#FF6F00,#FF9800);color:white;
+  border-radius:14px;font-size:15px;font-weight:700;text-decoration:none;
+  transition:all 0.3s;box-shadow:0 4px 20px rgba(255,111,0,0.3);
+}
+.hero-cta .cta-primary:hover{transform:translateY(-2px);box-shadow:0 6px 30px rgba(255,111,0,0.45)}
+.hero-cta .cta-secondary{
+  display:inline-flex;align-items:center;gap:8px;padding:14px 32px;
+  background:rgba(255,255,255,0.06);color:white;border:1px solid rgba(255,255,255,0.2);
+  border-radius:14px;font-size:15px;font-weight:600;text-decoration:none;
+  transition:all 0.3s;
+}
+.hero-cta .cta-secondary:hover{background:rgba(255,255,255,0.12);border-color:rgba(255,255,255,0.4)}
+
+/* ── 痛点卡片 ── */
+.pain-section{background:var(--bg);padding:80px 20px}
+.pain-section .section-header{text-align:center;margin-bottom:50px}
+.pain-section .section-header h2{font-size:32px;font-weight:900;color:var(--primary-dark);margin-bottom:8px}
+.pain-section .section-header p{font-size:15px;color:var(--text-light);max-width:500px;margin:0 auto}
+.pain-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;max-width:1200px;margin:0 auto}
+.pain-card{
+  background:white;border-radius:16px;padding:24px;box-shadow:0 2px 12px rgba(0,0,0,0.04);
+  transition:all 0.3s;border-left:4px solid transparent;display:flex;gap:14px;align-items:flex-start;
+}
+.pain-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,0.08)}
+.pain-card.level-high{border-left-color:var(--danger)}
+.pain-card.level-critical{border-left-color:#D32F2F;background:#FFF5F5}
+.pain-card.level-medium{border-left-color:var(--warning)}
+.pain-card .pain-icon{font-size:36px;min-width:44px;text-align:center}
+.pain-card .pain-info h4{font-size:15px;color:var(--text);margin-bottom:4px}
+.pain-card .pain-info p{font-size:12px;color:var(--text-light);line-height:1.6}
+.pain-card .pain-badge{font-size:10px;padding:2px 10px;border-radius:10px;font-weight:700;display:inline-block;margin-top:6px}
+.pain-badge.badge-critical{background:#FFEBEE;color:var(--danger)}
+.pain-badge.badge-high{background:#FFF3E0;color:var(--warning)}
+.pain-badge.badge-medium{background:#FFF8E1;color:#F57C00}
+
+/* ── 功能亮点 ── */
+.feature-section{background:white;padding:80px 20px}
+.feature-section .section-header{text-align:center;margin-bottom:50px}
+.feature-section .section-header h2{font-size:32px;font-weight:900;color:var(--primary-dark);margin-bottom:8px}
+.feature-section .section-header p{font-size:15px;color:var(--text-light);max-width:500px;margin:0 auto}
+.feature-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:20px;max-width:1200px;margin:0 auto}
+.feature-card{
+  background:var(--card-bg);border-radius:16px;padding:28px;
+  box-shadow:0 2px 12px rgba(0,0,0,0.04);transition:all 0.35s;
+  border:1px solid #f0f0f0;position:relative;overflow:hidden;
+}
+.feature-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:4px;
+  background:linear-gradient(90deg,var(--primary),var(--accent));
+  transform:scaleX(0);transition:transform 0.35s;
+}
+.feature-card:hover::before{transform:scaleX(1)}
+.feature-card:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(255,111,0,0.08)}
+.feature-card .fc-icon{font-size:40px;margin-bottom:12px}
+.feature-card h3{font-size:17px;color:var(--primary-dark);margin-bottom:6px}
+.feature-card p{font-size:13px;color:var(--text-light);line-height:1.7}
+.feature-card .fc-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
+.feature-card .fc-tag{
+  font-size:10px;padding:3px 10px;border-radius:10px;font-weight:600;
+  background:#FFF3E0;color:var(--primary);
+}
+
+/* ═══════════════ 3D 科技壁垒可视化 ═══════════════ */
+.tech-section{background:linear-gradient(180deg,#0a0a1a,#1a1a2e,#16213e);padding:80px 20px;position:relative;overflow:hidden}
+.tech-section .section-header{text-align:center;margin-bottom:50px;position:relative;z-index:1}
+.tech-section .section-header h2{font-size:32px;font-weight:900;color:white;margin-bottom:8px}
+.tech-section .section-header h2 span{color:#FF9800}
+.tech-section .section-header p{font-size:15px;color:rgba(255,255,255,0.6);max-width:500px;margin:0 auto}
+
+/* 3D场景容器：500px高度确保三层平台不重叠 */
+.tech-3d-scene{
+  position:relative;width:100%;max-width:700px;height:500px;
+  margin:0 auto 50px;perspective:1200px;perspective-origin:50% 40%;
+  z-index:1;
+}
+/* 背景光晕 */
+.tech-3d-scene::after{
+  content:'';position:absolute;top:50%;left:50%;width:300px;height:300px;
+  transform:translate(-50%,-50%);border-radius:50%;
+  background:radial-gradient(circle,rgba(255,152,0,0.05),transparent 70%);
+  pointer-events:none;
+}
+
+/* ── 3D层叠平台容器（460px高度，三层间距充足） ── */
+.tech-stack{
+  position:absolute;top:50%;left:50%;width:360px;height:460px;
+  margin:-230px 0 0 -180px;transform-style:preserve-3d;
+  animation:stackFloat 6s ease-in-out infinite;
+}
+@keyframes stackFloat{
+  0%,100%{transform:translateY(0) rotateY(0deg)}
+  33%{transform:translateY(-6px) rotateY(1.5deg)}
+  66%{transform:translateY(3px) rotateY(-1.5deg)}
+}
+
+/* ── 单个平台层 ── */
+.tech-platform{
+  position:absolute;left:50%;transform-style:preserve-3d;
+  transition:transform 0.3s ease;
+}
+/* 平台主体卡片 */
+.tech-platform .platform-face{
+  width:340px;padding:20px 24px;border-radius:14px;
+  background:rgba(18,22,40,0.95);border:1px solid rgba(255,255,255,0.08);
+  backdrop-filter:blur(12px);position:relative;overflow:hidden;
+  box-shadow:0 6px 28px rgba(0,0,0,0.3);
+}
+/* 顶部色条 */
+.tech-platform .platform-face::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+}
+/* 3D侧面 */
+.tech-platform .platform-side{
+  position:absolute;bottom:-6px;left:4px;right:4px;height:6px;
+  border-radius:0 0 10px 10px;opacity:0.4;
+}
+/* 底部投影 */
+.tech-platform .platform-shadow{
+  position:absolute;bottom:-16px;left:15%;right:15%;height:16px;
+  background:radial-gradient(ellipse at center,rgba(0,0,0,0.35),transparent 70%);
+}
+/* 悬停效果 */
+.tech-platform:hover .platform-face{
+  border-color:rgba(255,255,255,0.2);
+  box-shadow:0 10px 40px rgba(0,0,0,0.4);
+}
+
+/* ── 底层：数据存储（绿色系，最底部） ── */
+.tech-platform.platform-data{
+  bottom:0;transform:translateX(-50%) translateZ(0px);
+}
+.tech-platform.platform-data .platform-face::before{background:linear-gradient(90deg,#2E7D32,#66BB6A)}
+.tech-platform.platform-data .platform-side{background:linear-gradient(180deg,#1B5E20,#2E7D32)}
+.tech-platform.platform-data .platform-face{border-color:rgba(46,125,50,0.25)}
+
+/* ── 中层：AI推理（蓝色系，底部起150px） ── */
+.tech-platform.platform-ai{
+  bottom:150px;transform:translateX(-50%) translateZ(40px);
+}
+.tech-platform.platform-ai .platform-face::before{background:linear-gradient(90deg,#1565C0,#42A5F5)}
+.tech-platform.platform-ai .platform-side{background:linear-gradient(180deg,#0D47A1,#1565C0)}
+.tech-platform.platform-ai .platform-face{border-color:rgba(21,101,192,0.25)}
+
+/* ── 顶层：安全加密（橙色系，底部起290px） ── */
+.tech-platform.platform-secure{
+  bottom:290px;transform:translateX(-50%) translateZ(80px);
+}
+.tech-platform.platform-secure .platform-face::before{background:linear-gradient(90deg,#FF6F00,#FF9800)}
+.tech-platform.platform-secure .platform-side{background:linear-gradient(180deg,#BF360C,#E65100)}
+.tech-platform.platform-secure .platform-face{border-color:rgba(255,111,0,0.25)}
+
+/* ── 连接柱 ── */
+.tech-pillar{position:absolute;left:50%;width:2px;transform:translateX(-50%);
+  background:linear-gradient(180deg,rgba(255,152,0,0.5),rgba(66,165,245,0.5),rgba(46,125,50,0.5));
+  border-radius:1px;z-index:0;animation:pillarGlow 2.5s ease-in-out infinite;
+}
+.tech-pillar.pillar-1{bottom:100px;height:130px;animation-delay:0s}
+.tech-pillar.pillar-2{bottom:240px;height:120px;animation-delay:0.8s}
+@keyframes pillarGlow{
+  0%,100%{opacity:0.3;box-shadow:0 0 6px rgba(255,152,0,0.15)}
+  50%{opacity:0.8;box-shadow:0 0 16px rgba(255,152,0,0.4)}
+}
+
+/* ── 数据流粒子 ── */
+.tech-flow-dot{
+  position:absolute;left:50%;width:5px;height:5px;border-radius:50%;
+  background:#FF9800;transform:translateX(-50%);
+  animation:flowUp 3s ease-in-out infinite;
+  box-shadow:0 0 8px rgba(255,152,0,0.5);z-index:1;
+}
+.tech-flow-dot.dot-1{animation-delay:0s}
+.tech-flow-dot.dot-2{animation-delay:1s}
+.tech-flow-dot.dot-3{animation-delay:2s}
+@keyframes flowUp{
+  0%{top:420px;opacity:0;transform:translateX(-50%) scale(0.5)}
+  15%{opacity:1;transform:translateX(-50%) scale(1)}
+  85%{opacity:1;transform:translateX(-50%) scale(1)}
+  100%{top:60px;opacity:0;transform:translateX(-50%) scale(0.5)}
+}
+
+/* ── 平台内容 ── */
+.platform-content{display:flex;align-items:center;gap:14px;position:relative;z-index:1}
+.platform-content .pf-icon{font-size:28px;min-width:40px;text-align:center;line-height:1}
+.platform-content .pf-info h4{font-size:14px;font-weight:700;color:white;margin-bottom:4px}
+.platform-content .pf-info .pf-techs{display:flex;flex-wrap:wrap;gap:5px}
+.platform-content .pf-info .pf-techs span{
+  padding:3px 9px;border-radius:5px;font-weight:600;font-size:10px;
+  background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.06);
+}
+.platform-data .pf-techs span{color:#A5D6A7;border-color:rgba(46,125,50,0.2)}
+.platform-ai .pf-techs span{color:#90CAF9;border-color:rgba(21,101,192,0.2)}
+.platform-secure .pf-techs span{color:#FFB74D;border-color:rgba(255,111,0,0.2)}
+
+/* 技术卡片（3D场景下方） */
+.tech-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;max-width:1200px;margin:0 auto;position:relative;z-index:1}
+.tech-card{
+  background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);
+  border-radius:16px;padding:28px;transition:all 0.35s;
+  backdrop-filter:blur(10px);position:relative;overflow:hidden;
+}
+.tech-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  transition:transform 0.35s;
+}
+.tech-card:hover{transform:translateY(-4px);background:rgba(255,255,255,0.06);border-color:rgba(255,255,255,0.15)}
+.tech-card.card-ai::before{background:linear-gradient(90deg,#1565C0,#42A5F5)}
+.tech-card.card-secure::before{background:linear-gradient(90deg,#FF6F00,#FF9800)}
+.tech-card.card-data::before{background:linear-gradient(90deg,#2E7D32,#66BB6A)}
+.tech-card .tc-icon{font-size:36px;margin-bottom:12px}
+.tech-card h3{font-size:17px;color:white;margin-bottom:6px}
+.tech-card p{font-size:13px;color:rgba(255,255,255,0.6);line-height:1.7;margin-bottom:12px}
+.tech-card .tc-specs{display:flex;flex-wrap:wrap;gap:6px}
+.tech-card .tc-spec{
+  font-size:10px;padding:4px 10px;border-radius:8px;font-weight:600;
+  background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.7);
+  border:1px solid rgba(255,255,255,0.1);
+}
+.tech-card.card-ai .tc-spec{color:#90CAF9;border-color:rgba(66,165,245,0.2)}
+.tech-card.card-secure .tc-spec{color:#FFB74D;border-color:rgba(255,152,0,0.2)}
+.tech-card.card-data .tc-spec{color:#A5D6A7;border-color:rgba(46,125,50,0.2)}
+
+/* ── 社会价值 ── */
+.social-section{background:var(--bg);padding:80px 20px}
+.social-section .section-header{text-align:center;margin-bottom:50px}
+.social-section .section-header h2{font-size:32px;font-weight:900;color:var(--primary-dark);margin-bottom:8px}
+.social-section .section-header p{font-size:15px;color:var(--text-light);max-width:500px;margin:0 auto}
+.social-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;max-width:1000px;margin:0 auto}
+.social-card{
+  background:white;border-radius:16px;padding:28px;text-align:center;
+  box-shadow:0 2px 12px rgba(0,0,0,0.04);transition:all 0.3s;
+}
+.social-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(255,111,0,0.08)}
+.social-card .sc-icon{font-size:40px;margin-bottom:10px}
+.social-card .sc-num{font-size:32px;font-weight:900;color:var(--primary);margin-bottom:4px}
+.social-card .sc-label{font-size:13px;color:var(--text-light)}
+.social-card .sc-sub{font-size:11px;color:var(--text-light);margin-top:6px;line-height:1.5}
+
+/* ── 底部CTA ── */
+.cta-section{background:linear-gradient(135deg,var(--primary-dark),var(--primary));padding:60px 20px;text-align:center}
+.cta-section h2{font-size:28px;font-weight:900;color:white;margin-bottom:10px}
+.cta-section p{font-size:15px;color:rgba(255,255,255,0.8);margin-bottom:24px}
+.cta-buttons{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.cta-btn{
+  display:inline-flex;align-items:center;gap:8px;padding:14px 32px;
+  border-radius:14px;font-size:15px;font-weight:700;text-decoration:none;
+  transition:all 0.3s;cursor:pointer;
+}
+.cta-btn.primary{background:white;color:var(--primary)}
+.cta-btn.primary:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,0,0,0.2)}
+.cta-btn.secondary{background:rgba(255,255,255,0.15);color:white;border:2px solid rgba(255,255,255,0.3)}
+.cta-btn.secondary:hover{background:rgba(255,255,255,0.25)}
+
+/* ── 首页响应式 ── */
+@media(max-width:900px){
+  .hero-inner h1{font-size:36px}
+  .hero-tagline{font-size:15px}
+  .hero-stats{gap:12px}
+  .hero-stat{padding:12px 16px;min-width:80px}
+  .hero-stat .hs-num{font-size:22px}
+  .tech-3d-scene{height:460px}
+  .tech-stack{width:320px;height:420px;margin:-210px 0 0 -160px}
+  .tech-platform .platform-face{width:300px;padding:16px 20px}
+  .tech-platform.platform-ai{bottom:130px;transform:translateX(-50%) translateZ(35px)}
+  .tech-platform.platform-secure{bottom:250px;transform:translateX(-50%) translateZ(70px)}
+  .tech-pillar.pillar-1{bottom:85px;height:110px}
+  .tech-pillar.pillar-2{bottom:210px;height:100px}
+  @keyframes flowUp{0%{top:380px;opacity:0;transform:translateX(-50%) scale(0.5)}15%{opacity:1}85%{opacity:1}100%{top:50px;opacity:0}}
+}
+@media(max-width:768px){
+  .hero-inner h1{font-size:28px}
+  .hero-tagline{font-size:13px}
+  .hero-stats{gap:8px}
+  .hero-stat{padding:10px 12px;min-width:70px;border-radius:12px}
+  .hero-stat .hs-num{font-size:18px}
+  .hero-stat .hs-label{font-size:10px}
+  .hero-cta{flex-direction:column;align-items:center}
+  .hero-cta .cta-primary,.hero-cta .cta-secondary{width:100%;max-width:300px;justify-content:center}
+  .tech-3d-scene{height:380px}
+  .tech-stack{width:260px;height:340px;margin:-170px 0 0 -130px}
+  .tech-platform .platform-face{width:240px;padding:12px 16px}
+  .tech-platform.platform-ai{bottom:105px;transform:translateX(-50%) translateZ(30px)}
+  .tech-platform.platform-secure{bottom:200px;transform:translateX(-50%) translateZ(55px)}
+  .tech-pillar.pillar-1{bottom:70px;height:85px}
+  .tech-pillar.pillar-2{bottom:170px;height:80px}
+  @keyframes flowUp{0%{top:310px;opacity:0;transform:translateX(-50%) scale(0.5)}15%{opacity:1}85%{opacity:1}100%{top:45px;opacity:0}}
+  .tech-cards{grid-template-columns:1fr}
+  .pain-grid{grid-template-columns:1fr}
+  .feature-grid{grid-template-columns:1fr}
+  .social-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:480px){
+  .hero-inner h1{font-size:24px}
+  .hero-stat .hs-num{font-size:16px}
+  .tech-3d-scene{height:300px}
+  .tech-stack{width:200px;height:260px;margin:-130px 0 0 -100px}
+  .tech-platform .platform-face{width:180px;padding:10px 12px}
+  .tech-platform.platform-ai{bottom:80px;transform:translateX(-50%) translateZ(22px)}
+  .tech-platform.platform-secure{bottom:150px;transform:translateX(-50%) translateZ(42px)}
+  .tech-pillar.pillar-1{bottom:55px;height:65px}
+  .tech-pillar.pillar-2{bottom:130px;height:60px}
+  @keyframes flowUp{0%{top:235px;opacity:0;transform:translateX(-50%) scale(0.5)}15%{opacity:1}85%{opacity:1}100%{top:35px;opacity:0}}
+  .social-grid{grid-template-columns:1fr}
+}
+
 html{scroll-behavior:smooth}
 
+/* ═══════════════ 下载中心 ═══════════════ */
+.download-section{background:var(--bg);padding:80px 20px;min-height:100vh}
+.download-section .section-header{text-align:center;margin-bottom:50px}
+.download-section .section-header h2{font-size:32px;font-weight:900;color:var(--primary-dark);margin-bottom:8px}
+.download-section .section-header p{font-size:15px;color:var(--text-light);max-width:500px;margin:0 auto}
+/* 下载卡片网格 */
+.download-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;max-width:1100px;margin:0 auto}
+.download-card{
+  background:white;border-radius:16px;padding:28px;
+  box-shadow:0 2px 12px rgba(0,0,0,0.05);transition:all 0.35s;
+  border:1px solid #f0f0f0;display:flex;flex-direction:column;gap:12px;
+  position:relative;overflow:hidden;
+}
+.download-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:4px;
+  background:linear-gradient(90deg,var(--primary),var(--accent));
+  transform:scaleX(0);transition:transform 0.35s;
+}
+.download-card:hover::before{transform:scaleX(1)}
+.download-card:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(255,111,0,0.1)}
+.download-card .dc-icon{font-size:40px;line-height:1}
+.download-card .dc-type{
+  font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;
+  padding:3px 10px;border-radius:10px;display:inline-block;width:fit-content;
+}
+.download-card .dc-type.type-apk{background:#E8F5E9;color:#2E7D32}
+.download-card .dc-type.type-pdf{background:#FFF3E0;color:#E65100}
+.download-card .dc-type.type-doc{background:#E3F2FD;color:#1565C0}
+.download-card .dc-type.type-link{background:#F3E5F5;color:#7B1FA2}
+.download-card h3{font-size:17px;color:var(--primary-dark);margin:0}
+.download-card p{font-size:13px;color:var(--text-light);line-height:1.6;flex:1}
+.download-card .dc-meta{display:flex;gap:12px;font-size:11px;color:var(--text-light);align-items:center}
+.download-card .dc-meta span{display:flex;align-items:center;gap:4px}
+.download-card .dc-btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  padding:12px 24px;border-radius:12px;font-size:14px;font-weight:700;
+  text-decoration:none;transition:all 0.3s;cursor:pointer;border:none;
+  width:100%;
+}
+.download-card .dc-btn.primary{
+  background:linear-gradient(135deg,var(--primary),var(--accent));color:white;
+  box-shadow:0 4px 12px rgba(255,111,0,0.2);
+}
+.download-card .dc-btn.primary:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(255,111,0,0.35)}
+.download-card .dc-btn.secondary{
+  background:var(--bg);color:var(--primary);border:2px solid #FFE0B2;
+}
+.download-card .dc-btn.secondary:hover{background:#FFF3E0;border-color:var(--primary)}
+.download-card .dc-btn.coming-soon{
+  background:#f5f5f5;color:#999;cursor:not-allowed;pointer-events:none;
+}
+@media(max-width:768px){
+  .download-section{padding:60px 16px}
+  .download-grid{grid-template-columns:1fr}
+}
 /* ═══════════════ 加密算法可视化 ═══════════════ */
 .enc-viz-section{margin-top:40px}
 .enc-viz-section h3{font-size:20px;color:#FF9800;margin-bottom:16px;text-align:center}
@@ -516,14 +922,29 @@ html{scroll-behavior:smooth}
 .enc-arch-table td{padding:10px 12px;border-bottom:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.85)}
 .enc-arch-table tr:nth-child(even){background:rgba(255,255,255,0.03)}
 .enc-arch-table tr:hover{background:rgba(255,152,0,0.08)}
+/* 架构表格行淡入动画：逐行依次出现 */
+.enc-arch-table tbody tr{
+  opacity:0;transform:translateY(12px);
+  animation:encRowFadeIn 0.5s ease forwards;
+}
+.enc-arch-table tbody tr:nth-child(1){animation-delay:0.1s}
+.enc-arch-table tbody tr:nth-child(2){animation-delay:0.25s}
+.enc-arch-table tbody tr:nth-child(3){animation-delay:0.4s}
+@keyframes encRowFadeIn{
+  to{opacity:1;transform:translateY(0)}
+}
 
 /* 密钥生命周期可视化 */
 .key-lifecycle{display:flex;align-items:center;justify-content:center;gap:0;margin:20px 0;flex-wrap:wrap}
 .key-lifecycle .kl-stage{text-align:center;padding:14px 18px;border-radius:10px;font-size:11px;font-weight:700;min-width:80px;transition:all 0.3s;position:relative}
-.key-lifecycle .kl-stage.active{background:rgba(46,125,50,0.3);color:#66BB6A;border:2px solid #66BB6A}
-.key-lifecycle .kl-stage.expiring{background:rgba(245,124,0,0.3);color:#FFB74D;border:2px solid #FFB74D}
+.key-lifecycle .kl-stage.active{background:rgba(46,125,50,0.3);color:#66BB6A;border:2px solid #66BB6A;animation:klPulse 2s ease-in-out infinite}
+.key-lifecycle .kl-stage.expiring{background:rgba(245,124,0,0.3);color:#FFB74D;border:2px solid #FFB74D;animation:klPulse 2s ease-in-out 0.5s infinite}
 .key-lifecycle .kl-stage.expired{background:rgba(211,47,47,0.3);color:#EF5350;border:2px solid #EF5350}
 .key-lifecycle .kl-stage.destroyed{background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.4);border:2px solid rgba(255,255,255,0.2)}
+@keyframes klPulse{
+  0%,100%{box-shadow:0 0 0 0 rgba(102,187,106,0.4)}
+  50%{box-shadow:0 0 0 8px rgba(102,187,106,0)}
+}
 .key-lifecycle .kl-arrow{font-size:20px;color:rgba(255,255,255,0.5);margin:0 4px}
 .key-lifecycle .kl-time{font-size:10px;color:rgba(255,255,255,0.5);margin-top:4px}
 
@@ -543,7 +964,20 @@ html{scroll-behavior:smooth}
 .gcm-test-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:16px 0}
 .gcm-test-card{background:rgba(255,255,255,0.05);border-radius:10px;padding:16px;text-align:center;border:1px solid rgba(255,255,255,0.1);transition:all 0.3s}
 .gcm-test-card:hover{transform:translateY(-2px);border-color:rgba(255,152,0,0.3)}
-.gcm-test-card .gcm-icon{font-size:28px;margin-bottom:8px}
+/* GCM卡片入场动画：逐个弹出 */
+.gcm-test-card{
+  opacity:0;transform:translateY(16px);
+  animation:gcmPopIn 0.5s ease forwards;
+}
+.gcm-test-card:nth-child(1){animation-delay:0.1s}
+.gcm-test-card:nth-child(2){animation-delay:0.2s}
+.gcm-test-card:nth-child(3){animation-delay:0.3s}
+.gcm-test-card:nth-child(4){animation-delay:0.4s}
+@keyframes gcmPopIn{
+  to{opacity:1;transform:translateY(0)}
+}
+.gcm-test-card .gcm-icon{font-size:28px;margin-bottom:8px;transition:transform 0.3s}
+.gcm-test-card:hover .gcm-icon{transform:scale(1.3)}
 .gcm-test-card .gcm-result{font-size:13px;font-weight:700;margin:4px 0}
 .gcm-test-card .gcm-result.pass{color:#66BB6A}
 .gcm-test-card .gcm-result.fail{color:#EF5350}
@@ -551,16 +985,20 @@ html{scroll-behavior:smooth}
 
 /* 安全维度总结 */
 .security-summary-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:16px 0}
-.security-summary-card{background:rgba(255,255,255,0.05);border-radius:10px;padding:16px;text-align:center;border:1px solid rgba(255,255,255,0.1)}
-.security-summary-card .sec-icon{font-size:24px;margin-bottom:6px}
+.security-summary-card{background:rgba(255,255,255,0.05);border-radius:10px;padding:16px;text-align:center;border:1px solid rgba(255,255,255,0.1);transition:all 0.35s;cursor:default}
+.security-summary-card:hover{transform:translateY(-4px);border-color:rgba(255,152,0,0.4);box-shadow:0 6px 20px rgba(255,152,0,0.1)}
+.security-summary-card .sec-icon{font-size:24px;margin-bottom:6px;transition:transform 0.3s}
+.security-summary-card:hover .sec-icon{transform:scale(1.2)}
 .security-summary-card h5{font-size:13px;color:#FF9800;margin-bottom:4px}
 .security-summary-card .sec-mechanism{font-size:10px;color:rgba(255,255,255,0.6);margin-bottom:2px}
 .security-summary-card .sec-verify{font-size:10px;color:#66BB6A;font-weight:600}
 
 /* 轮换触发条件 */
 .rotation-triggers{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:16px 0}
-.rotation-trigger{background:rgba(255,255,255,0.05);border-radius:10px;padding:14px 16px;border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;gap:10px}
-.rotation-trigger .rt-icon{font-size:24px;min-width:32px;text-align:center}
+.rotation-trigger{background:rgba(255,255,255,0.05);border-radius:10px;padding:14px 16px;border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;gap:10px;transition:all 0.3s;cursor:default}
+.rotation-trigger:hover{transform:translateX(4px);border-color:rgba(255,152,0,0.4);background:rgba(255,152,0,0.06)}
+.rotation-trigger .rt-icon{font-size:24px;min-width:32px;text-align:center;transition:transform 0.3s}
+.rotation-trigger:hover .rt-icon{transform:scale(1.2)}
 .rotation-trigger .rt-info h6{font-size:12px;color:rgba(255,255,255,0.9);margin-bottom:2px}
 .rotation-trigger .rt-info p{font-size:10px;color:rgba(255,255,255,0.5)}
 
@@ -570,6 +1008,18 @@ html{scroll-behavior:smooth}
 .enc-compare-table td{padding:10px 12px;border-bottom:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.85)}
 .enc-compare-table tr:nth-child(even){background:rgba(255,255,255,0.03)}
 .enc-compare-table .highlight-cell{color:#66BB6A;font-weight:700}
+/* 对比表格行淡入 */
+.enc-compare-table tbody tr{
+  opacity:0;transform:translateX(-10px);
+  animation:compareRowIn 0.4s ease forwards;
+}
+.enc-compare-table tbody tr:nth-child(1){animation-delay:0.1s}
+.enc-compare-table tbody tr:nth-child(2){animation-delay:0.2s}
+.enc-compare-table tbody tr:nth-child(3){animation-delay:0.3s}
+.enc-compare-table tbody tr:nth-child(4){animation-delay:0.4s}
+@keyframes compareRowIn{
+  to{opacity:1;transform:translateX(0)}
+}
 
 /* 通用信息表格（浅色主题） */
 .info-table{width:100%;border-collapse:collapse;margin:16px 0;font-size:12px;border-radius:10px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,0.05)}
@@ -607,9 +1057,11 @@ html{scroll-behavior:smooth}
   <div class="nav-inner">
     <a class="brand" href="#" onclick="document.querySelector('#navTabs .tab[data-tab=\'1\']').click();return false">微光<span>同行</span></a>
     <ul class="tabs" id="navTabs">
-      <li class="tab active" data-tab="1">模拟演示</li>
-      <li class="tab" data-tab="2">项目详情</li>
-      <li class="tab" data-tab="3">团队</li>
+      <li class="tab active" data-tab="1">首页</li>
+      <li class="tab" data-tab="2">模拟演示</li>
+      <li class="tab" data-tab="3">项目详情</li>
+      <li class="tab" data-tab="4">团队</li>
+      <li class="tab" data-tab="5">下载中心</li>
     </ul>
   </div>
 </nav>
@@ -617,8 +1069,306 @@ html{scroll-behavior:smooth}
 <!-- ═══════════════ 内容区 ═══════════════ -->
 <div id="mainContent">
 
-  <!-- Tab1: 模拟演示 -->
+  <!-- Tab1: 首页（主页面） -->
   <div class="tab-panel active" id="tabPanel1">
+
+    <!-- ═══════════════ Hero 首屏 ═══════════════ -->
+    <section class="main-hero" id="mainHero">
+      <div class="hero-particles" id="heroParticles"></div>
+      <div class="hero-inner">
+        <div class="hero-badge">微光科技 · AI多模态无声安全预警系统</div>
+        <h1>以AI之<span class="hl">手</span>，搭建听障人士<br>与世界沟通的<span class="hl2">桥梁</span></h1>
+        <p class="hero-tagline">端侧AI · 离线优先 · 零知识加密 · 100%隐私保护 —— 为2700万听障人士打造的无声安全守护者</p>
+        <div class="hero-stats">
+          <div class="hero-stat"><div class="hs-num">2,700万+</div><div class="hs-label">听障人士</div></div>
+          <div class="hero-stat"><div class="hs-num">11</div><div class="hs-label">手势识别</div></div>
+          <div class="hero-stat"><div class="hs-num">99.6%</div><div class="hs-label">识别准确率</div></div>
+          <div class="hero-stat"><div class="hs-num">100%</div><div class="hs-label">端侧推理</div></div>
+          <div class="hero-stat"><div class="hs-num">7×24</div><div class="hs-label">全天候守护</div></div>
+        </div>
+        <div class="hero-cta">
+          <a href="javascript:void(0)" class="cta-primary" onclick="document.querySelector('#navTabs .tab[data-tab=\'2\']').click()">📱 体验模拟演示 <span style="margin-left:4px">→</span></a>
+          <a href="https://github.com/saber463/WeiGuang-Assistant" target="_blank" class="cta-secondary">🔗 GitHub 开源仓库</a>
+          <a href="mailto:weiguangtechnology@foxmail.com" class="cta-secondary">📧 联系我们</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════ 痛点场景 ═══════════════ -->
+    <section class="pain-section">
+      <div class="section-header">
+        <h2>他们在无声中面临什么？</h2>
+        <p>中国超过2700万听障人士，每天都在应对这些安全隐患</p>
+      </div>
+      <div class="pain-grid">
+        <div class="pain-card level-critical">
+          <div class="pain-icon">🔥</div>
+          <div class="pain-info">
+            <h4>听不见火灾警报</h4>
+            <p>火灾警报声无法被感知，生命安全受到严重威胁，错过黄金逃生时间</p>
+            <span class="pain-badge badge-critical">极高风险</span>
+          </div>
+        </div>
+        <div class="pain-card level-critical">
+          <div class="pain-icon">💨</div>
+          <div class="pain-info">
+            <h4>感知不到燃气泄漏</h4>
+            <p>燃气泄漏的嘶嘶声无法察觉，存在中毒和爆炸风险，独居时尤为危险</p>
+            <span class="pain-badge badge-critical">极高风险</span>
+          </div>
+        </div>
+        <div class="pain-card level-high">
+          <div class="pain-icon">🚪</div>
+          <div class="pain-info">
+            <h4>察觉不到异常敲门</h4>
+            <p>无法分辨正常敲门和急促砸门，居家安全存在隐患，缺乏安全感</p>
+            <span class="pain-badge badge-high">高风险</span>
+          </div>
+        </div>
+        <div class="pain-card level-high">
+          <div class="pain-icon">🆘</div>
+          <div class="pain-info">
+            <h4>跌倒后无法呼救</h4>
+            <p>听障人士跌倒后无法语音呼救，独居时错过黄金救援时间</p>
+            <span class="pain-badge badge-high">高风险</span>
+          </div>
+        </div>
+        <div class="pain-card level-medium">
+          <div class="pain-icon">⏰</div>
+          <div class="pain-info">
+            <h4>听不见闹钟</h4>
+            <p>传统声音闹钟完全无效，导致错过重要日程、就医、服药时间</p>
+            <span class="pain-badge badge-medium">中风险</span>
+          </div>
+        </div>
+        <div class="pain-card level-medium">
+          <div class="pain-icon">🩺</div>
+          <div class="pain-info">
+            <h4>健康监测缺失</h4>
+            <p>持续性病理性咳嗽难以自我评估，缺乏健康预警和就医提醒</p>
+            <span class="pain-badge badge-medium">中风险</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════ 核心功能 ═══════════════ -->
+    <section class="feature-section">
+      <div class="section-header">
+        <h2>六大核心功能，全方位守护</h2>
+        <p>端侧AI实时分析环境声音，无需网络，隐私数据不出设备</p>
+      </div>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="fc-icon">🔥</div>
+          <h3>火灾声纹预警</h3>
+          <p>CNN卷积神经网络实时识别火灾警报声，准确率>95%。全屏红色预警 + SOS振动 + 高频闪烁，10秒自动派发应急短信+电话+GPS定位</p>
+          <div class="fc-tags"><span class="fc-tag">离线AI</span><span class="fc-tag">7×24运行</span><span class="fc-tag">防误报</span></div>
+        </div>
+        <div class="feature-card">
+          <div class="fc-icon">💨</div>
+          <h3>燃气泄漏预警</h3>
+          <p>8kHz低采样率专注20-200Hz低频段，MFCC特征加权3倍增强。轻量CNN参数量&lt;500K，推理&lt;50ms。橙色预警 + 应急处置指导</p>
+          <div class="fc-tags"><span class="fc-tag">低频检测</span><span class="fc-tag">轻量模型</span><span class="fc-tag">处置指导</span></div>
+        </div>
+        <div class="feature-card">
+          <div class="fc-icon">🚪</div>
+          <h3>敲门安防预警</h3>
+          <p>三类区分：正常/急促/拍门砸门。3秒滑窗密度分析，七级安全状态精细评估。手语快捷沟通面板 + 一键呼叫社区安保</p>
+          <div class="fc-tags"><span class="fc-tag">密度分析</span><span class="fc-tag">七级评估</span><span class="fc-tag">IoT预留</span></div>
+        </div>
+        <div class="feature-card">
+          <div class="fc-icon">🆘</div>
+          <h3>跌倒检测</h3>
+          <p>传感器初筛 + 摄像头复核双重确认。30秒无响应计时自动派发应急。SMS+电话+GPS定位家属通知，防误报过滤躺着/弯腰/蹲下</p>
+          <div class="fc-tags"><span class="fc-tag">双重确认</span><span class="fc-tag">自动应急</span><span class="fc-tag">防误报</span></div>
+        </div>
+        <div class="feature-card">
+          <div class="fc-icon">✋</div>
+          <h3>手势识别</h3>
+          <p>11种手势实时识别，MediaPipe Hand Landmarker 21点手部关键点检测。GestureVectorDB余弦相似度匹配&lt;1ms。SOS手势自动TTS语音播报</p>
+          <div class="fc-tags"><span class="fc-tag">11种手势</span><span class="fc-tag">&lt;1ms匹配</span><span class="fc-tag">双向手语</span></div>
+        </div>
+        <div class="feature-card">
+          <div class="fc-icon">⏰</div>
+          <h3>触觉唤醒引擎</h3>
+          <p>三种振动模式：连续/脉冲/渐强。屏幕亮度闪烁辅助唤醒。长按3秒 + 数学题双重关闭验证。AlarmManager + WorkManager双保险</p>
+          <div class="fc-tags"><span class="fc-tag">振动唤醒</span><span class="fc-tag">双保险</span><span class="fc-tag">SOS联动</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════ 3D科技壁垒 ═══════════════ -->
+    <section class="tech-section" id="techSection">
+      <div class="section-header">
+        <h2>技术<span>壁垒</span> —— 我们的护城河</h2>
+        <p>自研WeiGuang-Secure端到端加密引擎 + 三层AI推理架构 + 离线优先设计</p>
+      </div>
+
+      <!-- 3D 层叠平台可视化：三层架构（数据存储→AI推理→安全加密） -->
+      <div class="tech-3d-scene" id="tech3dScene">
+        <div class="tech-stack" id="techStack">
+          <!-- 底层：数据存储层（绿色系） -->
+          <div class="tech-platform platform-data">
+            <div class="platform-face">
+              <div class="platform-content">
+                <div class="pf-icon">💾</div>
+                <div class="pf-info">
+                  <h4>数据存储层</h4>
+                  <div class="pf-techs">
+                    <span>Room</span><span>SQLite</span><span>离线优先</span><span>向量DB</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="platform-side"></div>
+            <div class="platform-shadow"></div>
+          </div>
+          <!-- 中层：AI推理层（蓝色系） -->
+          <div class="tech-platform platform-ai">
+            <div class="platform-face">
+              <div class="platform-content">
+                <div class="pf-icon">🧠</div>
+                <div class="pf-info">
+                  <h4>AI推理层</h4>
+                  <div class="pf-techs">
+                    <span>TFLite</span><span>ONNX</span><span>MediaPipe</span><span>CNN+RNN</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="platform-side"></div>
+            <div class="platform-shadow"></div>
+          </div>
+          <!-- 顶层：安全加密层（橙色系） -->
+          <div class="tech-platform platform-secure">
+            <div class="platform-face">
+              <div class="platform-content">
+                <div class="pf-icon">🔐</div>
+                <div class="pf-info">
+                  <h4>安全加密层</h4>
+                  <div class="pf-techs">
+                    <span>AES-256</span><span>RSA-2048</span><span>Keystore</span><span>GCM</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="platform-side"></div>
+            <div class="platform-shadow"></div>
+          </div>
+          <!-- 层间连接柱：表现数据在层间流转 -->
+          <div class="tech-pillar pillar-1"></div>
+          <div class="tech-pillar pillar-2"></div>
+          <!-- 数据流粒子：从底层向上流动的数据可视化 -->
+          <div class="tech-flow-dot dot-1"></div>
+          <div class="tech-flow-dot dot-2"></div>
+          <div class="tech-flow-dot dot-3"></div>
+        </div>
+      </div>
+
+      <!-- 技术卡片 -->
+      <div class="tech-cards">
+        <div class="tech-card card-ai">
+          <div class="tc-icon">🧠</div>
+          <h3>AI推理层</h3>
+          <p>TensorFlow Lite + ONNX双引擎端侧推理，INT8量化模型&lt;2MB。CNN/RNN多模型协同，离线运行无需网络，推理延迟&lt;50ms</p>
+          <div class="tc-specs">
+            <span class="tc-spec">TFLite INT8</span>
+            <span class="tc-spec">ONNX Runtime</span>
+            <span class="tc-spec">MediaPipe Hands</span>
+            <span class="tc-spec">CNN+RNN</span>
+            <span class="tc-spec">&lt;2MB模型</span>
+            <span class="tc-spec">&lt;50ms推理</span>
+          </div>
+        </div>
+        <div class="tech-card card-secure">
+          <div class="tc-icon">🔐</div>
+          <h3>安全加密层</h3>
+          <p>自研WeiGuang-Secure引擎：RSA-2048密钥交换 + AES-256-GCM数据加密 + Android Keystore TEE硬件保护。5分钟密钥轮换，零知识架构</p>
+          <div class="tc-specs">
+            <span class="tc-spec">AES-256-GCM</span>
+            <span class="tc-spec">RSA-2048</span>
+            <span class="tc-spec">Keystore TEE</span>
+            <span class="tc-spec">5min轮换</span>
+            <span class="tc-spec">零知识</span>
+            <span class="tc-spec">Apache 2.0</span>
+          </div>
+        </div>
+        <div class="tech-card card-data">
+          <div class="tc-icon">💾</div>
+          <h3>数据存储层</h3>
+          <p>Room + SQLite本地持久化，数据100%不出设备。GestureVectorDB离线手势匹配&lt;1ms。WiFi仅用于密文同步，隐私数据本地处理</p>
+          <div class="tc-specs">
+            <span class="tc-spec">Room</span>
+            <span class="tc-spec">SQLite</span>
+            <span class="tc-spec">离线优先</span>
+            <span class="tc-spec">向量DB</span>
+            <span class="tc-spec">&lt;1ms匹配</span>
+            <span class="tc-spec">100%本地</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════ 社会价值与影响力 ═══════════════ -->
+    <section class="social-section">
+      <div class="section-header">
+        <h2>社会价值与影响力</h2>
+        <p>不止于技术，更是一份社会责任</p>
+      </div>
+      <div class="social-grid">
+        <div class="social-card">
+          <div class="sc-icon">👥</div>
+          <div class="sc-num">2,700万+</div>
+          <div class="sc-label">潜在受益用户</div>
+          <div class="sc-sub">中国听障人士总量，覆盖全年龄段</div>
+        </div>
+        <div class="social-card">
+          <div class="sc-icon">🔓</div>
+          <div class="sc-num">Apache 2.0</div>
+          <div class="sc-label">核心算法开源</div>
+          <div class="sc-sub">接受第三方安全审计，共建开放生态</div>
+        </div>
+        <div class="social-card">
+          <div class="sc-icon">🏛️</div>
+          <div class="sc-num">残联/社区</div>
+          <div class="sc-label">合作推广</div>
+          <div class="sc-sub">与各地残联、社区服务中心合作推广</div>
+        </div>
+        <div class="social-card">
+          <div class="sc-icon">🔒</div>
+          <div class="sc-num">100%</div>
+          <div class="sc-label">隐私保护</div>
+          <div class="sc-sub">端侧推理，数据不出设备，服务端不可解密</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════ 底部CTA ═══════════════ -->
+    <section class="cta-section">
+      <h2>准备好体验了吗？</h2>
+      <p>点击下方按钮，体验完整的模拟演示，或查看我们的开源代码</p>
+      <div class="cta-buttons">
+        <a href="javascript:void(0)" class="cta-btn primary" onclick="document.querySelector('#navTabs .tab[data-tab=\'2\']').click()">📱 进入模拟演示</a>
+        <a href="https://github.com/saber463/WeiGuang-Assistant" target="_blank" class="cta-btn secondary">🔗 查看 GitHub 仓库</a>
+        <a href="docs/weiguangplus_测试报告.pdf" class="cta-btn secondary" download>📄 测试报告 PDF</a>
+      </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer>
+      <div>© 2026 微光科技 · 微光守护项目 · 用AI的微光，守护无声世界</div>
+      <div class="declaration">
+        <strong>项目原创性声明</strong><br>
+        本团队郑重承诺：提交的「微光守护——AI多模态无声安全健康预警系统」方案及全部成果均为本团队原创成果。项目核心技术——端到端加密算法（RSA-2048+AES-256-GCM零知识架构）系本团队自主研发，未侵犯任何第三方知识产权。<br><br>
+        <strong>开源声明：</strong>核心算法采用Apache 2.0许可证开源。<br>
+        <strong>联系邮箱：</strong>weiguangtechnology@foxmail.com
+      </div>
+    </footer>
+  </div>
+
+  <!-- Tab2: 模拟演示 -->
+  <div class="tab-panel" id="tabPanel2">
     <div class="hero-wrap">
       <div class="hero-text">
         <h1><span class="accent">微光同行</span><br>智能助残服务平台</h1>
@@ -742,8 +1492,8 @@ html{scroll-behavior:smooth}
     </div>
   </div>
 
-  <!-- Tab2: 项目详情 -->
-  <div class="tab-panel" id="tabPanel2">
+  <!-- Tab3: 项目详情 -->
+  <div class="tab-panel" id="tabPanel3">
     <section class="problem">
       <div class="container">
         <h2>我们解决什么问题</h2>
@@ -962,32 +1712,20 @@ html{scroll-behavior:smooth}
         </table>
       </div>
     </section>
-    <section class="download">
-      <div class="container">
-        <h2>演示与下载</h2>
-        <p class="section-desc">提供完整的演示APK、项目计划书、技术文档</p>
-        <div class="download-buttons">
-          <a href="#" class="download-btn primary" onclick="alert('即将上线，敬请期待！');return false">📱 下载演示 APK</a>
-          <a href="#" class="download-btn secondary" onclick="alert('即将上线，敬请期待！');return false">📄 项目计划书 PDF</a>
-          <a href="#" class="download-btn secondary" onclick="alert('即将上线，敬请期待！');return false">🔐 加密算法文档</a>
-        </div>
-      </div>
-    </section>
     <footer>
       <div>© 2026 微光科技 · 微光守护项目 · 用AI的微光，守护无声世界</div>
       <div class="declaration">
         <strong>项目原创性声明</strong><br>
         本团队郑重承诺：提交的「微光守护——AI多模态无声安全健康预警系统」方案及全部成果均为本团队原创成果。项目核心技术——端到端加密算法（RSA-2048+AES-256-GCM零知识架构）系本团队自主研发，未侵犯任何第三方知识产权。<br><br>
         <strong>开源声明：</strong>核心算法采用Apache 2.0许可证开源。<br>
-        <strong>合作单位：</strong>心融合公司（跌倒检测模块技术共创）<br>
         <strong>提交日期：</strong>2026年7月<br>
         <strong>联系邮箱：</strong>weiguangtechnology@foxmail.com
       </div>
     </footer>
   </div>
 
-  <!-- Tab3: 团队 -->
-  <div class="tab-panel" id="tabPanel3">
+  <!-- Tab4: 团队 -->
+  <div class="tab-panel" id="tabPanel4">
     <section class="team-section">
       <div class="container">
         <h2>团队介绍</h2>
@@ -1004,22 +1742,101 @@ html{scroll-behavior:smooth}
         
       </div>
     </section>
-    <section class="download">
-      <div class="container">
-        <h2>演示与下载</h2>
-        <p class="section-desc">提供完整的演示APK、项目计划书、技术文档</p>
-        <div class="download-buttons">
-          <a href="#" class="download-btn primary" onclick="alert('即将上线，敬请期待！');return false">📱 下载演示 APK</a>
-          <a href="#" class="download-btn secondary" onclick="alert('即将上线，敬请期待！');return false">📄 项目计划书 PDF</a>
-          <a href="#" class="download-btn secondary" onclick="alert('即将上线，敬请期待！');return false">🔐 加密算法文档</a>
+    <footer>
+      <div>© 2026 微光科技 · 微光守护项目 · 用AI的微光，守护无声世界</div>
+      <div class="declaration">
+        <strong>项目原创性声明</strong><br>
+        本团队郑重承诺：提交的「微光守护——AI多模态无声安全健康预警系统」方案及全部成果均为本团队原创成果。项目核心技术——端到端加密算法（RSA-2048+AES-256-GCM零知识架构）系本团队自主研发，未侵犯任何第三方知识产权。<br><br>
+        <strong>联系邮箱：</strong>weiguangtechnology@foxmail.com
+      </div>
+    </footer>
+  </div>
+
+  <!-- Tab5: 下载中心 -->
+  <div class="tab-panel" id="tabPanel5">
+    <section class="download-section">
+      <div class="section-header">
+        <h2>下载中心</h2>
+        <p>APK、测试报告、技术文档、加密算法资料一站式下载</p>
+      </div>
+      <div class="download-grid">
+        <!-- 演示APK -->
+        <div class="download-card">
+          <div class="dc-icon">📱</div>
+          <span class="dc-type type-apk">APK</span>
+          <h3>演示 APK</h3>
+          <p>微光守护 Android 应用安装包，支持手势识别、火灾预警、跌倒检测等全部核心功能</p>
+          <div class="dc-meta"><span>📦 v1.0</span><span>📅 2026年7月</span></div>
+          <a class="dc-btn coming-soon">🚧 即将上线，敬请期待</a>
+        </div>
+        <!-- 测试报告 -->
+        <div class="download-card">
+          <div class="dc-icon">📄</div>
+          <span class="dc-type type-pdf">PDF</span>
+          <h3>项目测试报告</h3>
+          <p>完整的功能测试、性能测试、安全测试报告，含NIST STS随机性、Wycheproof兼容性测试结果</p>
+          <div class="dc-meta"><span>📦 PDF</span><span>📅 2026年7月</span></div>
+          <a href="docs/weiguangplus_测试报告.pdf" class="dc-btn primary" download>⬇️ 下载测试报告</a>
+        </div>
+        <!-- 加密算法文档 -->
+        <div class="download-card">
+          <div class="dc-icon">🔐</div>
+          <span class="dc-type type-doc">文档</span>
+          <h3>加密算法权威测试报告</h3>
+          <p>FEN-SAFE v1.1 权威测试报告，含NIST STS随机性测试、Wycheproof兼容性验证、雪崩效应等完整测试数据</p>
+          <div class="dc-meta"><span>📦 Markdown</span><span>📅 2026年7月</span></div>
+          <a href="docs/加密算法_权威测试报告.md" class="dc-btn primary" target="_blank">📖 在线阅读</a>
+        </div>
+        <!-- 项目计划书 -->
+        <div class="download-card">
+          <div class="dc-icon">📋</div>
+          <span class="dc-type type-pdf">PDF</span>
+          <h3>项目完整文档</h3>
+          <p>微光守护项目完整文档，包含技术架构、功能设计、安全方案、测试报告等全量资料</p>
+          <div class="dc-meta"><span>📦 PDF</span><span>📅 2026年7月</span></div>
+          <a href="docs/微光守护_项目文档.pdf" class="dc-btn primary" download>⬇️ 下载项目文档</a>
+        </div>
+        <!-- 技术白皮书 -->
+        <div class="download-card">
+          <div class="dc-icon">📘</div>
+          <span class="dc-type type-doc">文档</span>
+          <h3>技术白皮书</h3>
+          <p>WeiGuang-Secure 加密引擎技术白皮书 Markdown 原文，可在线阅读或下载</p>
+          <div class="dc-meta"><span>📦 Markdown</span><span>📅 2026年7月</span></div>
+          <a href="docs/proofs/technical/WeiGuang-Secure_技术白皮书_v2.md" class="dc-btn secondary" target="_blank">📖 在线阅读</a>
+        </div>
+        <!-- 功能调研报告 -->
+        <div class="download-card">
+          <div class="dc-icon">📊</div>
+          <span class="dc-type type-doc">文档</span>
+          <h3>功能调研报告</h3>
+          <p>听障/言语障碍人群功能需求调研报告，含用户画像、痛点分析、竞品对比、功能优先级</p>
+          <div class="dc-meta"><span>📦 Markdown</span><span>📅 2026年7月</span></div>
+          <a href="docs/微光科技_听障言语障碍人群功能调研报告.md" class="dc-btn secondary" target="_blank">📖 在线阅读</a>
+        </div>
+        <!-- GitHub仓库 -->
+        <div class="download-card">
+          <div class="dc-icon">🔗</div>
+          <span class="dc-type type-link">链接</span>
+          <h3>GitHub 开源仓库</h3>
+          <p>全部源代码开源（Apache 2.0），含 Android 客户端、加密引擎、测试用例</p>
+          <div class="dc-meta"><span>⭐ Apache 2.0</span><span>🔄 持续更新</span></div>
+          <a href="https://github.com/saber463/WeiGuang-Assistant" target="_blank" class="dc-btn primary">🔗 访问 GitHub</a>
+        </div>
+        <!-- 加密算法可视化证明 -->
+        <div class="download-card">
+          <div class="dc-icon">🛡️</div>
+          <span class="dc-type type-doc">文档</span>
+          <h3>加密算法可视化证明</h3>
+          <p>NIST STS 随机性测试、Wycheproof 兼容性验证、雪崩效应、GCM 认证标签等完整测试图表</p>
+          <div class="dc-meta"><span>📦 在线查看</span><span>📅 2026年7月</span></div>
+          <a href="javascript:void(0)" class="dc-btn secondary" onclick="document.querySelector('#navTabs .tab[data-tab=\'3\']').click()">📖 查看项目详情</a>
         </div>
       </div>
     </section>
     <footer>
       <div>© 2026 微光科技 · 微光守护项目 · 用AI的微光，守护无声世界</div>
       <div class="declaration">
-        <strong>项目原创性声明</strong><br>
-        本团队郑重承诺：提交的「微光守护——AI多模态无声安全健康预警系统」方案及全部成果均为本团队原创成果。项目核心技术——端到端加密算法（RSA-2048+AES-256-GCM零知识架构）系本团队自主研发，未侵犯任何第三方知识产权。<br><br>
         <strong>联系邮箱：</strong>weiguangtechnology@foxmail.com
       </div>
     </footer>
@@ -1684,7 +2501,7 @@ function detectGestureFromLandmarks(landmarks){
   }
   window.addEventListener('scroll', animateBars);
   // 如果"项目详情"Tab被切换时也触发
-  var detailTab = document.querySelector('#navTabs .tab[data-tab="2"]');
+  var detailTab = document.querySelector('#navTabs .tab[data-tab="3"]');
   if(detailTab){
     detailTab.addEventListener('click', function(){
       animated = false;
@@ -1937,6 +2754,88 @@ document.addEventListener('click', function initAudio(){
       if(ac && ac.state === 'suspended') ac.resume();
     });
   });
+})();
+
+// ==================== 首页Hero粒子动画 ====================
+(function initHeroParticles(){
+  var container = document.getElementById('heroParticles');
+  if(!container) return;
+  var count = 40;
+  var frag = document.createDocumentFragment();
+  for(var i = 0; i < count; i++){
+    var p = document.createElement('div');
+    p.className = 'hero-particle';
+    p.style.left = Math.random() * 100 + '%';
+    p.style.animationDuration = (6 + Math.random() * 10) + 's';
+    p.style.animationDelay = Math.random() * 8 + 's';
+    p.style.width = (2 + Math.random() * 3) + 'px';
+    p.style.height = p.style.width;
+    frag.appendChild(p);
+  }
+  container.appendChild(frag);
+})();
+
+// ==================== 3D科技壁垒：层叠平台鼠标交互 ====================
+// 核心逻辑：鼠标悬停时暂停CSS动画，根据鼠标位置实时旋转3D视角
+(function initTech3DInteraction(){
+  var scene = document.getElementById('tech3dScene');
+  var stack = document.getElementById('techStack');
+  if(!scene || !stack) return;
+
+  var isHovering = false;
+  var targetRX = 0, targetRY = 0;
+  var currentRX = 0, currentRY = 0;
+
+  scene.addEventListener('mouseenter', function(){
+    isHovering = true;
+    stack.style.animation = 'none'; // 暂停自动浮动动画，进入交互模式
+  });
+
+  scene.addEventListener('mouseleave', function(){
+    isHovering = false;
+    stack.style.animation = 'stackFloat 6s ease-in-out infinite'; // 恢复自动浮动
+    targetRX = 0; targetRY = 0; // 重置目标角度
+  });
+
+  scene.addEventListener('mousemove', function(e){
+    if(!isHovering) return;
+    var rect = scene.getBoundingClientRect();
+    var cx = rect.left + rect.width / 2;
+    var cy = rect.top + rect.height / 2;
+    // 将鼠标位置映射为旋转角度（Y轴±30度，X轴±10度）
+    targetRY = ((e.clientX - cx) / (rect.width / 2)) * 30;
+    targetRX = -((e.clientY - cy) / (rect.height / 2)) * 10;
+  });
+
+  // 触摸支持：移动端手势交互
+  scene.addEventListener('touchmove', function(e){
+    isHovering = true;
+    stack.style.animation = 'none';
+    var rect = scene.getBoundingClientRect();
+    var cx = rect.left + rect.width / 2;
+    var cy = rect.top + rect.height / 2;
+    targetRY = ((e.touches[0].clientX - cx) / (rect.width / 2)) * 30;
+    targetRX = -((e.touches[0].clientY - cy) / (rect.height / 2)) * 10;
+  }, {passive: true});
+
+  scene.addEventListener('touchend', function(){
+    isHovering = false;
+    stack.style.animation = 'stackFloat 6s ease-in-out infinite';
+    targetRX = 0; targetRY = 0;
+  });
+
+  function animate(){
+    if(!isHovering && Math.abs(currentRX) < 0.1 && Math.abs(currentRY) < 0.1){
+      requestAnimationFrame(animate);
+      return;
+    }
+    // 平滑插值跟随鼠标/回归原位
+    currentRX += (targetRX - currentRX) * 0.06;
+    currentRY += (targetRY - currentRY) * 0.06;
+    stack.style.transform = 'translateY(0) rotateY(' + currentRY.toFixed(2) + 'deg) rotateX(' + currentRX.toFixed(2) + 'deg)';
+    requestAnimationFrame(animate);
+  }
+  animate();
 })();
 </script>
 </body>
