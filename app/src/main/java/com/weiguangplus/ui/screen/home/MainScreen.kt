@@ -63,6 +63,7 @@ private val features = listOf(
     FeatureCard("\uD83D\uDCC4", "转录历史", "回看转录与摘要", "transcript"),
     FeatureCard("\uD83D\uDCC7", "快捷短语", "常用语一键发送", "quickphrase"),
     FeatureCard("\uD83D\uDD0A", "无障碍朗读", "通知/选中文字朗读", "accessibility_read"),
+    FeatureCard("\uD83C\uDFE0", "家庭模式", "家人看护与绑定", "family"),
     FeatureCard("\uD83D\uDCAC", "聊天", "实时消息沟通", "chat"),
     FeatureCard("\uD83D\uDC64", "登录", "账号登录与注册", "login"),
     FeatureCard("", "设置", "个人信息与偏好", "settings")
