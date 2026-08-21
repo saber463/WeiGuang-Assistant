@@ -17,6 +17,7 @@ import com.weiguangplus.ui.screen.caption.CaptionSettingsScreen
 import com.weiguangplus.ui.screen.drug.DrugRecognitionScreen
 import com.weiguangplus.ui.screen.transcript.TranscriptHistoryScreen
 import com.weiguangplus.ui.screen.quickphrase.QuickPhraseManagerScreen
+import com.weiguangplus.ui.screen.accessibility.AccessibilityReadScreen
 import com.weiguangplus.ui.screen.perception.SoundWaveScreen
 import com.weiguangplus.ui.screen.rehab.RehabScreen
 import com.weiguangplus.ui.screen.home.MainScreen
@@ -60,6 +61,7 @@ class MainActivity : ComponentActivity() {
                 "caption" -> CaptionSettingsScreen(onBack = { currentScreen = "home" })
                 "sos" -> SosScreen(onBack = { currentScreen = "home" })
                 "transcript" -> TranscriptHistoryScreen(onBack = { currentScreen = "home" })
+                "accessibility_read" -> AccessibilityReadScreen(onBack = { currentScreen = "home" })
                 "quickphrase" -> QuickPhraseManagerScreen(onBack = { currentScreen = "home" })
                 "emergency_contacts" -> EmergencyContactScreen(onBack = { currentScreen = "alert" })
                 "login" -> LoginScreen(
