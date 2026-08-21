@@ -2,6 +2,7 @@ package com.weiguangplus
 
 import android.app.Application
 import com.weiguangplus.core.FlashlightController
+import com.weiguangplus.core.VibrationController
 import com.weiguangplus.core.call.CallStateManager
 import com.weiguangplus.core.perception.AmbientSoundMonitor
 import com.weiguangplus.core.tts.TtsController
@@ -17,6 +18,7 @@ class WeiguangApplication : Application() {
         TtsController.initialize(this)
         AmbientSoundMonitor.initialize(this)
         FlashlightController.init(this)
+        VibrationController.init(this)
         EmergencyContactManager.init(this)
         SosHistoryManager.init(this)
         CallStateManager(this).register()

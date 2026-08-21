@@ -45,12 +45,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
 import com.weiguangplus.core.FlashlightController
+import com.weiguangplus.core.VibrationController
+import com.weiguangplus.data.model.VibrationEvent
+import com.weiguangplus.data.model.VibrationPatterns
 
 private val Blue = Color(0xFF1565C0)
 private val Bg = Color(0xFFFAFAFA)
 private val T1 = Color(0xFF212121)
 private val T2 = Color(0xFF757575)
 private val White = Color.White
+private val VibrateColor = Color(0xFF6A1B9A) // 事件振动区域的强调色（紫罗兰）
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -132,13 +136,80 @@ fun AlertSettingsScreen(onNavigate: (String) -> Unit = {}) {
                         }
                         Spacer(Modifier.height(8.dp))
                         Button(
-                            onClick = { /* TODO: 测试震动 */ },
+                            onClick = {
+                                if (VibrationController.isVibratorAvailable) {
+                                    // 按当前强度档位构造测试波形：1~4 档 → 振幅 60/110/180/255
+                                    val amp = listOf(60, 110, 180, 255).getOrElse(vibrateLevel - 1) { 180 }
+                                    VibrationController.testPattern(
+                                        VibrationPatterns.forEvent(VibrationEvent.CUSTOM).copy(
+                                            amplitudes = intArrayOf(amp, 0, amp, 0)
+                                        )
+                                    )
+                                }
+                            },
+                            enabled = VibrationController.isVibratorAvailable,
                             modifier = Modifier.fillMaxWidth().height(40.dp),
                             shape = RoundedCornerShape(8.dp),
                             colors = ButtonDefaults.buttonColors(containerColor = Blue.copy(alpha = 0.1f), contentColor = Blue)
                         ) {
-                            Text("测试震动", fontSize = 13.sp)
+                            Text(
+                                if (VibrationController.isVibratorAvailable) "测试震动" else "设备不支持振动",
+                                fontSize = 13.sp
+                            )
                         }
+                    }
+                }
+            }
+
+            // ===== 事件振动模式 =====
+            // 为不同类型的声音事件（火灾/门铃/电话/婴儿哭）预设触感不同的振动波形，
+            // 让听障用户在静音场景下仅凭触觉即可区分事件紧急程度（G6）。
+            Card(
+                Modifier.fillMaxWidth(),
+                RoundedCornerShape(12.dp),
+                colors = CardDefaults.cardColors(containerColor = White)
+            ) {
+                Column(Modifier.padding(18.dp)) {
+                    Row(
+                        Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Column {
+                            Text("事件振动模式", fontSize = 16.sp, fontWeight = FontWeight.Bold, color = T1)
+                            Text("不同事件用不同振动节奏区分", fontSize = 12.sp, color = T2)
+                        }
+                    }
+                    Spacer(Modifier.height(8.dp))
+
+                    // 事件列表：火灾警报/门铃/电话铃声/婴儿哭声/自定义
+                    VibrationPatterns.ALL.forEach { pattern ->
+                        Row(
+                            Modifier.fillMaxWidth().padding(vertical = 6.dp),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(pattern.displayName, fontSize = 14.sp, color = T1)
+                            Button(
+                                onClick = { VibrationController.testPattern(pattern) },
+                                enabled = VibrationController.isVibratorAvailable,
+                                modifier = Modifier.height(34.dp),
+                                shape = RoundedCornerShape(8.dp),
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = VibrateColor.copy(alpha = 0.12f),
+                                    contentColor = VibrateColor
+                                )
+                            ) {
+                                Text("测试", fontSize = 12.sp)
+                            }
+                        }
+                    }
+
+                    if (!VibrationController.isVibratorAvailable) {
+                        Spacer(Modifier.height(4.dp))
+                        Text(
+                            "当前设备不支持振动，以上选项不可用",
+                            fontSize = 11.sp, color = T2
+                        )
                     }
                 }
             }

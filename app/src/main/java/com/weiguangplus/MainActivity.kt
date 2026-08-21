@@ -11,9 +11,17 @@ import com.weiguangplus.ui.screen.alert.AlertSettingsScreen
 import com.weiguangplus.ui.screen.call.CallAssistantScreen
 import com.weiguangplus.ui.screen.chat.ChatListScreen
 import com.weiguangplus.ui.screen.chat.ChatDetailScreen
+import com.weiguangplus.ui.screen.auth.LoginScreen
+import com.weiguangplus.ui.screen.auth.RegisterScreen
+import com.weiguangplus.ui.screen.caption.CaptionSettingsScreen
 import com.weiguangplus.ui.screen.drug.DrugRecognitionScreen
+import com.weiguangplus.ui.screen.transcript.TranscriptHistoryScreen
+import com.weiguangplus.ui.screen.quickphrase.QuickPhraseManagerScreen
+import com.weiguangplus.ui.screen.perception.SoundWaveScreen
+import com.weiguangplus.ui.screen.rehab.RehabScreen
 import com.weiguangplus.ui.screen.home.MainScreen
 import com.weiguangplus.ui.screen.signlanguage.SignLanguageScreen
+import com.weiguangplus.ui.screen.signlanguage.SignLearningScreen
 import com.weiguangplus.ui.screen.sos.SosScreen
 import com.weiguangplus.ui.screen.alert.EmergencyContactScreen
 import dagger.hilt.android.AndroidEntryPoint
@@ -44,10 +52,24 @@ class MainActivity : ComponentActivity() {
                 )
                 "drug" -> DrugRecognitionScreen()
                 "sign" -> SignLanguageScreen()
+                "sign_learn" -> SignLearningScreen(onBack = { currentScreen = "home" })
+                "rehab" -> RehabScreen(onBack = { currentScreen = "home" })
                 "call" -> CallAssistantScreen()
                 "alert" -> AlertSettingsScreen(onNavigate = { currentScreen = it })
+                "soundwave" -> SoundWaveScreen(onBack = { currentScreen = "home" })
+                "caption" -> CaptionSettingsScreen(onBack = { currentScreen = "home" })
                 "sos" -> SosScreen(onBack = { currentScreen = "home" })
+                "transcript" -> TranscriptHistoryScreen(onBack = { currentScreen = "home" })
+                "quickphrase" -> QuickPhraseManagerScreen(onBack = { currentScreen = "home" })
                 "emergency_contacts" -> EmergencyContactScreen(onBack = { currentScreen = "alert" })
+                "login" -> LoginScreen(
+                    onLoginSuccess = { currentScreen = "home" },
+                    onNavigateToRegister = { currentScreen = "register" }
+                )
+                "register" -> RegisterScreen(
+                    onRegisterSuccess = { currentScreen = "home" },
+                    onNavigateToLogin = { currentScreen = "login" }
+                )
                 "settings" -> MainScreen(onNavigate = { currentScreen = "home" })
                 else -> MainScreen(onNavigate = { currentScreen = "home" })
             }

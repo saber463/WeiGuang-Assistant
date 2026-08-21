@@ -1,4 +1,4 @@
-﻿package com.weiguangplus.ui.screen.home
+package com.weiguangplus.ui.screen.home
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -53,9 +53,17 @@ private data class FeatureCard(
 private val features = listOf(
     FeatureCard("\uD83D\uDC8A", "药品识别", "拍照识别药物信息", "drug"),
     FeatureCard("\uD83D\uDC4B", "手语识别", "手势翻译成文字", "sign"),
+    FeatureCard("\uD83D\uDCDD", "手语学习", "词典/课程/纠错练习", "sign_learn"),
+    FeatureCard("\uD83D\uDE02", "言语康复", "发音跟读/纠音训练", "rehab"),
     FeatureCard("\uD83D\uDCDE", "来电助手", "通话实时转文字", "call"),
     FeatureCard("\uD83D\uDD14", "提醒设置", "震动+闪光闹钟", "alert"),
+    FeatureCard("\uD83C\uDFB5", "声音波形", "可视化周围声音", "soundwave"),
+    FeatureCard("\uD83D\uDCFA", "字幕悬浮窗", "任意应用实时字幕", "caption"),
     FeatureCard("\uD83D\uDEA8", "一键求救", "SOS紧急求助", "sos"),
+    FeatureCard("\uD83D\uDCC4", "转录历史", "回看转录与摘要", "transcript"),
+    FeatureCard("\uD83D\uDCC7", "快捷短语", "常用语一键发送", "quickphrase"),
+    FeatureCard("\uD83D\uDCAC", "聊天", "实时消息沟通", "chat"),
+    FeatureCard("\uD83D\uDC64", "登录", "账号登录与注册", "login"),
     FeatureCard("", "设置", "个人信息与偏好", "settings")
 )
 

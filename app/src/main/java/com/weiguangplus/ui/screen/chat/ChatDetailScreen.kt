@@ -1,4 +1,4 @@
-﻿package com.weiguangplus.ui.screen.chat
+package com.weiguangplus.ui.screen.chat
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
@@ -49,7 +50,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.weiguangplus.data.model.ChatMessage
+import com.weiguangplus.data.model.QuickPhrase
 import com.weiguangplus.data.repository.ChatRepository
+import com.weiguangplus.data.repository.QuickPhraseRepository
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -79,11 +82,14 @@ fun ChatDetailScreen(
     var messages by remember { mutableStateOf<List<ChatMessage>>(emptyList()) }
     var inputText by remember { mutableStateOf("") }
     var isSending by remember { mutableStateOf(false) }
+    var quickPhrases by remember { mutableStateOf<List<QuickPhrase>>(emptyList()) }
     val listState = rememberLazyListState()
 
     LaunchedEffect(Unit) {
         repo.initDemoData()
         messages = repo.getMessages(conversationId)
+        // 加载统一快捷短语库（G12），供输入框上方短语栏使用
+        quickPhrases = QuickPhraseRepository(context).getAllPhrases()
     }
 
     // Auto scroll to bottom
@@ -174,6 +180,32 @@ fun ChatDetailScreen(
                         message = msg,
                         isSelf = msg.isSent
                     )
+                }
+            }
+
+            // 快捷短语栏（G12）：点击填入输入框，统一短语库
+            if (quickPhrases.isNotEmpty()) {
+                LazyRow(
+                    modifier = Modifier.fillMaxWidth()
+                        .background(White)
+                        .border(0.5.dp, Color(0xFFE0E0E0))
+                        .padding(horizontal = 8.dp, vertical = 6.dp),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    items(quickPhrases, key = { it.id }) { phrase ->
+                        Text(
+                            phrase.text,
+                            fontSize = 12.sp,
+                            color = GreenWeChat,
+                            modifier = Modifier
+                                .background(GreenLight, RoundedCornerShape(20.dp))
+                                .clickable {
+                                    if (inputText.isBlank()) inputText = phrase.text
+                                    else inputText = inputText + phrase.text
+                                }
+                                .padding(horizontal = 12.dp, vertical = 6.dp)
+                        )
+                    }
                 }
             }
 

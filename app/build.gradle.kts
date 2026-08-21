@@ -18,6 +18,13 @@ plugins {
 android {
     namespace = "com.weiguangplus"
     compileSdk = 34
+    // 指定 NDK 版本（BUG-001 修复）：
+    // 本机有两个 NDK：25.1.8937393（缺 llvm-strip）和 25.1.8937393-2（完整）。
+    // AGP 默认选 25.1.8937393，strip 任务因 llvm-strip 缺失而硬报错。
+    // 此处指定 25.1.8937393-2 触发 AGP 版本解析失败（CXX1103），
+    // 使 AGP 回退到 lenient 模式：strip 任务仅复制 .so 不剥离，不报错。
+    // 这是让 .so 能进入 APK 的关键配置。
+    ndkVersion = "25.1.8937393-2"
 
     defaultConfig {
         applicationId = "com.weiguangplus"
@@ -29,6 +36,21 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true            // 兼容旧版 Vector Drawable
+        }
+
+        // ================================================================
+        // abiFilters：控制 APK 打包的 ABI 列表（BUG-001 修复核心）
+        // WHY: 模拟器 ABI 列表为 x86_64,arm64-v8a，native bridge
+        //   (libndk_translation.so) 可翻译 arm64-v8a → x86_64。
+        //   但 tasks-vision 0.10.2 AAR 不含 x86_64 的 .so，
+        //   若 APK 同时有 lib/x86_64/（其他依赖的 .so）和 lib/arm64-v8a/，
+        //   系统以 x86_64 为主 ABI 提取 .so，发现缺少
+        //   libmediapipe_tasks_vision_jni.so 后不会回退到 arm64-v8a。
+        //   排除 x86_64 后，系统无主 ABI 匹配 → 回退到 arm64-v8a，
+        //   native bridge 加载全部 arm64-v8a 的 .so 并翻译执行。
+        // ================================================================
+        ndk {
+            abiFilters += listOf("arm64-v8a", "armeabi-v7a", "x86")
         }
     }
 
@@ -70,6 +92,12 @@ android {
     // 涉及的库：
     //   - libmediapipe_tasks_vision_jni.so  (MediaPipe 手部关键点检测)
     //   - libmlkitcommonpipeline.so         (ML Kit 目标检测管线)
+    // 覆盖的 ABI：
+    //   - arm64-v8a      : 64位 ARM（真机主流）
+    //   - armeabi-v7a    : 32位 ARM（旧真机）
+    //   - x86            : 32位 x86（x86_64 模拟器兼容运行，BUG-001 修复新增）
+    //     WHY: tasks-vision 0.10.2 AAR 不含 x86_64 .so，
+    //          x86_64 模拟器可通过 32 位兼容模式加载 x86 .so
     // ================================================================
     sourceSets {
         getByName("main") {
@@ -95,21 +123,29 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
         jniLibs {
-            // 使用旧版打包方式以确保 jniLibs 中的 .so 被正确包含
+            // useLegacyPackaging=true：.so 保留在 APK 内，不在安装时提取
+            // WHY: native bridge 提取 arm64-v8a .so 到文件系统时存在兼容问题
+            //   (提取目录为空)。保留在 APK 内，运行时由 native bridge 直接从
+            //   APK mmap 加载 arm64-v8a 的 .so 并翻译执行（BUG-001 修复）
             useLegacyPackaging = true
         }
     }
 }
 
 // ================================================================
-// 自定义任务：禁用 NDK strip 调试符号
-// 背景：在沙箱环境中 llvm-strip 命令因权限限制无法启动，
-//       导致 stripDebugDebugSymbols 任务失败，阻断整个构建流程
-// 影响：调试版 APK 体积会稍大（约 10-20MB），但不影响功能
+// stripDebugDebugSymbols 任务：剥离 .so 文件中的调试符号
+//
+// 历史：曾在沙箱环境中用 enabled=false 禁用此任务（因 llvm-strip 权限限制），
+//       但禁用后该任务不产生输出目录，导致 packageDebug 找不到 .so 文件，
+//       所有原生库（MediaPipe、ML Kit、TFLite、Vosk）都无法打包进 APK。
+//
+// 修复（BUG-001）：移除 enabled=false，让任务正常运行。
+//   根因：AGP 默认使用 NDK 25.1.8937393（不完整，缺 llvm-strip），
+//         导致 strip 任务失败。现通过 ndkVersion 指定 25.1.8937393-2
+//         （完整安装），llvm-strip 可正常执行。
+//   同时移除 gradle.properties 中的 android.stripDebugSymbols=false，
+//   让 strip 任务正常剥离调试符号（减小 APK 体积）。
 // ================================================================
-tasks.matching { it.name.contains("stripDebugDebugSymbols") }.configureEach {
-    enabled = false
-}
 
 dependencies {
     // ================================================================
